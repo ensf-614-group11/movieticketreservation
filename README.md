@@ -1,7 +1,7 @@
 
 # AcmePlex Movie Ticket Reservation System
 
-Welcome to the AcmePlex Movie Ticket Reservation System! This project is a Spring Boot application developed to provide movie theater ticket reservations. The application allows users to search for movies, select theaters and showtimes, choose seats, and complete ticket purchases online.
+Welcome to the AcmePlex Movie Ticket Reservation System! This project is an system to provide movie theater ticket reservations. The application allows users to search for movies, select theaters and showtimes, choose seats, and complete ticket purchases online.
 
 ## Table of Contents
 1. [Project Overview](#project-overview)
