@@ -1,0 +1,12 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+
+# Ignore IntelliJ IDEA settings
+.idea/
+
+# Ignore Maven target directory
+target/
+
+# Optional: Ignore sensitive configuration
+application.properties
