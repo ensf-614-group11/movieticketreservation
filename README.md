@@ -88,6 +88,46 @@ To stop the application:
 - Press **Ctrl + C** in the terminal where it’s running.
   - If this does not work, refer to the **Troubleshooting** section.
 
+## Logging Configuration
+
+This project uses SLF4J with Logback for logging. Logs are output to both the console and a file (\`logs/app.log\`) in the project root. Here’s a quick setup guide:
+
+### Configure Logging Levels
+
+In \`src/main/resources/application.properties\`:
+
+```properties
+logging.level.root=INFO
+logging.level.org.springframework=INFO
+logging.level.org.hibernate.SQL=DEBUG
+logging.level.org.hibernate.type.descriptor.sql.BasicBinder=TRACE
+logging.level.ensfgroup11.acmeplex=DEBUG
+logging.file.name=logs/app.log
+```
+
+### Using the Logger
+
+In your Java classes, use the logger as follows:
+
+```java
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class ExampleService {
+private static final Logger logger = LoggerFactory.getLogger(ExampleService.class);
+
+    public void exampleMethod() {
+        logger.info("Starting example method");
+        try {
+            // Business logic here
+            logger.debug("Executing logic...");
+        } catch (Exception e) {
+            logger.error("An error occurred", e);
+        }
+    }
+}
+```
+
 ## Introduction to Spring and Maven
 
 ### Spring Boot
