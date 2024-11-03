@@ -3,12 +3,13 @@ package ensfgroup11.acmeplex;
 
 // Import the HelloController from the controllers package.
 // This is the class that we are testing in this file.
-import controllers.HelloController;
+import ensfgroup11.acmeplex.controllers.HelloController;
 
 // Import statements for JUnit testing framework and Spring MVC testing utilities.
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -41,10 +42,9 @@ public class HelloControllerTest {
      * @throws Exception if an error occurs during request execution
      */
     @Test
+    @WithMockUser // This will simulate an authenticated user
     public void testHelloWorldEndpoint() throws Exception {
-        // Perform a GET request to the /api/hello endpoint.
         mockMvc.perform(MockMvcRequestBuilders.get("/api/hello"))
-                // Verify that the response status is 200 OK.
-                .andExpect(status().isOk());
+                .andExpect(status().isOk()); // Expect 200 OK
     }
 }

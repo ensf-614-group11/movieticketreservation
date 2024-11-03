@@ -1,5 +1,5 @@
 // Package declaration: Defines that this class belongs to the controllers package.
-package controllers;
+package ensfgroup11.acmeplex.controllers;
 
 // Import statements for SLF4J logging and Spring web annotations.
 import org.slf4j.Logger;
