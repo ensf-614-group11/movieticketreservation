@@ -1,4 +1,6 @@
-controllers\HelloController.class
-controllers\HomeController.class
-ensfgroup11\acmeplex\AcmeplexApplication.class
 ensfgroup11\acmeplex\config\SecurityConfig.class
+ensfgroup11\acmeplex\AcmeplexApplication.class
+ensfgroup11\acmeplex\controllers\HelloController.class
+ensfgroup11\acmeplex\controllers\HomeController.class
+ensfgroup11\acmeplex\model\User.class
+ensfgroup11\acmeplex\controllers\LoginController.class

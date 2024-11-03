@@ -18,7 +18,7 @@ import org.springframework.context.annotation.ComponentScan;
  * when database setup is deferred.
  */
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
-@ComponentScan({"ensfgroup11.acmeplex", "controllers"}) // Specifies additional packages to scan for components
+@ComponentScan({"ensfgroup11.acmeplex", "ensfgroup11/acmeplex/controllers"}) // Specifies additional packages to scan for components
 public class AcmeplexApplication {
 
 	/**
