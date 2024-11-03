@@ -70,6 +70,11 @@ cd AcmePlex
    - Ensure it shows JDK 17.
 
 2. **Run the Application with Maven Wrapper**:
+  - Run this command to install dependencies. You should only need to do this once, unless any dependencies change
+     ```bash
+     ./mvnw install
+     ```
+
    - Run the following command in the project directory:
      ```bash
      ./mvnw spring-boot:run
