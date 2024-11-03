@@ -40,7 +40,7 @@ git clone https://github.com/ensf-614-group11/AcmePlex.git
 ### 2. Navigate to the Project Directory
 
 ```bash
-cd AcmePlex
+cd AcmePlexSpring/AcmePlexApp
 ```
 
 ### Setup on Windows
