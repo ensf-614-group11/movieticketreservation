@@ -5,7 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2d415855-a115-43b2-9aea-3a719a1c1164" name="Changes" comment="Update folder directory structure">
-      <change beforePath="$PROJECT_DIR$/AcmePlexApp/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/AcmePlexApp/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AcmePlexApp/src/main/java/ensfgroup11/acmeplex/service/AuthenticationUserRetrievalService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AcmePlexApp/src/main/java/ensfgroup11/acmeplex/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/AcmePlexApp/src/main/java/ensfgroup11/acmeplex/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AcmePlexApp/src/main/java/ensfgroup11/acmeplex/controllers/HelloController.java" beforeDir="false" afterPath="$PROJECT_DIR$/AcmePlexApp/src/main/java/ensfgroup11/acmeplex/controller/HelloController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AcmePlexApp/src/main/java/ensfgroup11/acmeplex/controllers/HomeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/AcmePlexApp/src/main/java/ensfgroup11/acmeplex/controller/HomeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AcmePlexApp/src/main/java/ensfgroup11/acmeplex/controllers/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/AcmePlexApp/src/main/java/ensfgroup11/acmeplex/controller/LoginController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AcmePlexApp/src/main/resources/templates/logout-success.html" beforeDir="false" afterPath="$PROJECT_DIR$/AcmePlexApp/src/main/resources/templates/logout-success.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,13 +44,14 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/arkzs/OneDrive/Documents/GitHub/AcmePlexSpring"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\GitHub\AcmePlexSpring\AcmePlexApp" />
