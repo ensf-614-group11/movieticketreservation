@@ -1,26 +1,36 @@
+package ensfgroup11.acmeplex.service;
+
+import ensfgroup11.acmeplex.model.User; // Import the User model
+import ensfgroup11.acmeplex.repository.UserRepository; // Import the UserRepository
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
-public class CustomUserDetailsService implements UserDetailsService {
+public class AuthenticationUserRetrievalService implements UserDetailsService { // Ensure this matches the filename
 
     @Autowired
-    private UserRepository userRepository; // Assuming you have a UserRepository interface
+    private UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // Fetch the user by username (or email)
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+        Optional<User> optionalUser = userRepository.findByUsername(username);
 
-        // Convert your User entity to Spring Security's UserDetails
-        return org.springframework.security.core.userdetails.User
-                .withUsername(user.getUsername())
-                .password(user.getPassword())
-                .authorities("ROLE_USER") // Set user roles as needed
-                .build();
+        if (optionalUser.isEmpty()) {
+            throw new UsernameNotFoundException("User not found with username: " + username);
+        }
+
+        User user = optionalUser.get();
+        return new org.springframework.security.core.userdetails.User(
+                user.getUsername(),
+                user.getPassword(),
+                List.of(new SimpleGrantedAuthority("ROLE_USER"))
+        );
     }
 }
