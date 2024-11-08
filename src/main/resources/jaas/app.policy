@@ -1,0 +1,3 @@
+grant principal com.acmeplex.movieticketreservation.security.UserPrincipal "testuser" {
+    permission java.io.FilePermission "/sensitive-data/*", "read";
+};
