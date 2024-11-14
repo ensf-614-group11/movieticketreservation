@@ -30,11 +30,17 @@ public class StartupLogger implements CommandLineRunner {
      */
     @Override
     public void run(String... args) {
-        // Print a message to the console to confirm the server has started successfully
-        System.out.println("CommandLineRunner: Server started successfully!");
+        try {
+            // Print a message to the console to confirm the server has started successfully
+            System.out.println("CommandLineRunner: Server started successfully!");
 
-        // Log messages at the INFO level to indicate successful startup and the application URL
-        logger.info("Server started successfully!");
-        logger.info("Application is running at: http://localhost:" + serverPort);
+            // Log messages at the INFO level to indicate successful startup and the application URL
+            logger.info("Server started successfully!");
+            logger.info("Application is running at: http://localhost:" + serverPort);
+
+        } catch (Exception e) {
+            // Log any exceptions that occur during startup
+            logger.error("Error during startup: {}", e.getMessage(), e);
+        }
     }
 }
