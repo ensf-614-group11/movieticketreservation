@@ -4,56 +4,124 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Column;
 
+/**
+ * Represents a user in the AcmePlex movie ticket reservation system.
+ * Each user has a unique ID, email, password, first name, and last name.
+ */
 @Entity
 public class AcmePlexUser {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Automatically generated unique ID
     private Long id;
-    private String username;
+
+    @Column(nullable = false, unique = true) // Ensure email is unique and non-null
+    private String email;
+
     private String password;
-    private String roles;
+    private String firstName;
+    private String lastName;
 
-    // Constructor that takes username, password, and roles
-    public AcmePlexUser(String username, String password, String roles) {
-        this.username = username;
-        this.password = password;
-        this.roles = roles;
-    }
-
-    // Default constructor
+    /**
+     * Default constructor required by JPA.
+     */
     public AcmePlexUser() {}
 
-    // Getters and Setters
+    /**
+     * Constructs a new AcmePlexUser with the specified email, password, first name, and last name.
+     *
+     * @param email     the email of the user (must be unique)
+     * @param password  the encrypted password of the user
+     * @param firstName the first name of the user
+     * @param lastName  the last name of the user
+     */
+    public AcmePlexUser(String email, String password, String firstName, String lastName) {
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    /**
+     * Returns the user's unique identifier.
+     *
+     * @return the user's ID
+     */
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    /**
+     * Returns the user's email address.
+     *
+     * @return the user's email
+     */
+    public String getEmail() {
+        return email;
     }
 
-    public String getUsername() {
-        return username;
+    /**
+     * Sets the user's email address.
+     *
+     * @param email the email to set (must be unique)
+     */
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
+    /**
+     * Returns the user's encrypted password.
+     *
+     * @return the user's password
+     */
     public String getPassword() {
         return password;
     }
 
+    /**
+     * Sets the user's password.
+     *
+     * @param password the encrypted password to set
+     */
     public void setPassword(String password) {
         this.password = password;
     }
 
-    public String getRoles() {
-        return roles;
+    /**
+     * Returns the user's first name.
+     *
+     * @return the user's first name
+     */
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setRoles(String roles) {
-        this.roles = roles;
+    /**
+     * Sets the user's first name.
+     *
+     * @param firstName the first name to set
+     */
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    /**
+     * Returns the user's last name.
+     *
+     * @return the user's last name
+     */
+    public String getLastName() {
+        return lastName;
+    }
+
+    /**
+     * Sets the user's last name.
+     *
+     * @param lastName the last name to set
+     */
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }
