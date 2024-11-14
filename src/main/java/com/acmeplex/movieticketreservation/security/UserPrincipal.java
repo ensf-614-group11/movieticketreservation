@@ -1,67 +1,125 @@
 package com.acmeplex.movieticketreservation.security;
 
-import java.security.Principal;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.stereotype.Component;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 
 /**
- * UserPrincipal represents a user identity with a name, used for authentication purposes.
- * This class implements the Principal interface, which allows it to integrate with Java security APIs.
+ * Represents the authenticated user's identity, implementing {@link UserDetails} for integration with Spring Security.
+ * Contains essential user information such as id, email, first name, and last name.
  */
-public class UserPrincipal implements Principal {
+@Component
+public class UserPrincipal implements UserDetails {
 
-    private String name; // The name of the user (typically the username)
+    private static final Logger logger = LoggerFactory.getLogger(UserPrincipal.class); // Logger instance
+
+    private final Long id;
+    private final String email;
+    private final String password;
+    private final String firstName;
+    private final String lastName;
 
     /**
-     * Constructs a UserPrincipal with the specified name.
+     * Constructs a new {@code UserPrincipal} with the specified user details.
      *
-     * @param name the name of the user
+     * @param id          the unique identifier for the user
+     * @param email       the email address of the user, used as a unique identifier for authentication
+     * @param password    the encrypted password of the user
+     * @param firstName   the user's first name
+     * @param lastName    the user's last name
      */
-    public UserPrincipal(String name) {
-        this.name = name;
+    public UserPrincipal(Long id, String email, String password, String firstName, String lastName) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        logger.info("UserPrincipal object created for email: {}", email);
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
     /**
-     * Returns the name of this principal, which identifies the user.
+     * Returns a collection of authorities granted to the user.
      *
-     * @return the name of the user
+     * @return a collection of {@link GrantedAuthority} objects representing the user's authorities
      */
     @Override
-    public String getName() {
-        return name;
+    public List<GrantedAuthority> getAuthorities() {
+        // Assuming no roles for now, returning an empty list or you can add roles here
+        return Collections.singletonList(new SimpleGrantedAuthority("USER"));
     }
 
-    /**
-     * Returns a string representation of the UserPrincipal.
-     *
-     * @return the name of the user as a string
-     */
     @Override
     public String toString() {
-        return name;
+        return "UserPrincipal{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                '}';
     }
 
-    /**
-     * Compares this UserPrincipal to another object for equality.
-     * Two UserPrincipal objects are considered equal if they have the same name.
-     *
-     * @param obj the object to compare with
-     * @return true if both objects have the same name; false otherwise
-     */
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true; // Check for reference equality
-        if (obj == null || getClass() != obj.getClass()) return false; // Check for null or class mismatch
-        UserPrincipal that = (UserPrincipal) obj;
-        return name.equals(that.name); // Compare names for equality
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserPrincipal that = (UserPrincipal) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(email, that.email) &&
+                Objects.equals(firstName, that.firstName) &&
+                Objects.equals(lastName, that.lastName);
     }
 
-    /**
-     * Returns the hash code for this UserPrincipal, based on the name.
-     * This ensures consistent behavior when used in hashed collections.
-     *
-     * @return the hash code for the name of the user
-     */
     @Override
     public int hashCode() {
-        return name.hashCode();
+        return Objects.hash(id, email, firstName, lastName);
     }
 }
