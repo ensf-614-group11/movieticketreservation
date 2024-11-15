@@ -15,12 +15,11 @@ import java.util.Objects;
  * Represents the authenticated user's identity, implementing {@link UserDetails} for integration with Spring Security.
  * Contains essential user information such as id, email, first name, and last name.
  */
-@Component
 public class UserPrincipal implements UserDetails {
 
     private static final Logger logger = LoggerFactory.getLogger(UserPrincipal.class); // Logger instance
 
-    private final Long id;
+    private final Long id;  // Changed from int to Long to avoid the dependency injection issue
     private final String email;
     private final String password;
     private final String firstName;
@@ -45,7 +44,7 @@ public class UserPrincipal implements UserDetails {
     }
 
     public Long getId() {
-        return id;
+        return id;  // Return the Long id instead of int
     }
 
     @Override
