@@ -8,6 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import jakarta.servlet.FilterChain;
@@ -19,6 +20,7 @@ import jakarta.servlet.http.HttpServletResponse;
  * Filter to authenticate and validate users using JWT tokens.
  * It extracts the email from the JWT and sets the authentication in the security context if valid.
  */
+@Component
 public class AuthTokenFilterUtil extends OncePerRequestFilter {
 
     private static final Logger logger = LoggerFactory.getLogger(AuthTokenFilterUtil.class);
@@ -40,7 +42,7 @@ public class AuthTokenFilterUtil extends OncePerRequestFilter {
         try {
             if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
                 jwt = authorizationHeader.substring(7); // Remove "Bearer " prefix
-                email = authTokenUtil.extractUsername(jwt); // Extract email from the JWT
+                email = authTokenUtil.extractEmail(jwt); // Extract email from the JWT
 
                 logger.info("Extracted email from JWT: {}", email);
             }

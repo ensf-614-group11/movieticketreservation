@@ -91,7 +91,7 @@ public class AuthTokenUtil {
      * @param token the JWT token
      * @return the email as a String
      */
-    public String extractUsername(String token) {
+    public String extractEmail(String token) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY);
             DecodedJWT jwt = JWT.require(algorithm).build().verify(token);

@@ -1,10 +1,12 @@
 package com.acmeplex.movieticketreservation.config;
 
+import com.acmeplex.movieticketreservation.security.AuthTokenFilterUtil;
 import com.acmeplex.movieticketreservation.services.AcmeUserDetailsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -12,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -20,9 +23,12 @@ public class SecurityConfig {
     private static final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
 
     private final AcmeUserDetailsService userDetailsService;
+    private final AuthTokenFilterUtil authTokenFilterUtil;
 
-    public SecurityConfig(AcmeUserDetailsService userDetailsService) {
+    @Lazy
+    public SecurityConfig(AcmeUserDetailsService userDetailsService, AuthTokenFilterUtil authTokenFilterUtil) {
         this.userDetailsService = userDetailsService;
+        this.authTokenFilterUtil = authTokenFilterUtil;
     }
 
     /**
@@ -35,15 +41,14 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         try {
-            http.csrf(csrf -> csrf.disable())
-                    .authorizeHttpRequests(authorize -> authorize
-                            .requestMatchers("/auth/login", "/auth/register").permitAll()
+            http.csrf(csrf -> csrf.disable()) // Disables CSRF protection
+                    .headers().frameOptions().disable() // Disables frame options for H2 console
+                    .and()
+                    .authorizeRequests(authorize -> authorize
+                            .requestMatchers("/api/auth/login", "/api/auth/register", "/public/**", "/static/**", "/h2-console/**", "/favicon.ico", "/error/**").permitAll() // Allows access to these paths
                             .anyRequest().authenticated()
                     )
-                    .formLogin(form -> form
-                            .loginPage("/auth/login")
-                            .permitAll()
-                    );
+                    .addFilterBefore(authTokenFilterUtil, UsernamePasswordAuthenticationFilter.class); // Register JWT filter before UsernamePasswordAuthenticationFilter
 
             logger.info("Security filter chain configured successfully.");
             return http.build();
