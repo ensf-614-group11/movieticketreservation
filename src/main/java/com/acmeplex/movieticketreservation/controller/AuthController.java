@@ -93,12 +93,18 @@ public class AuthController {
      * @return a ResponseEntity containing an ApiResponse with a success message on successful registration
      */
     @PostMapping("/auth/register")
-    @CachePut(value = "userProfileCache", key = "#registerRequest.getEmail()") // Cache the newly registered user
+    @CachePut(value = "userProfileCache", key = "#registerRequest.getEmail()")
     public ResponseEntity<ApiResponse<String>> register(@RequestBody RegisterRequest registerRequest) {
         try {
+            // Register the user
             AcmePlexUser newUser = userService.registerUser(registerRequest);
             logger.info("User registered with email: {}", newUser.getEmail());
-            return ResponseEntity.ok(new ApiResponse<>(true, "User registered successfully"));
+
+            // Generate JWT token
+            String token = authTokenUtil.generateToken(newUser.getEmail());
+
+            // Return success response with token
+            return ResponseEntity.ok(new ApiResponse<>(true, "User registered successfully", token));
         } catch (IllegalArgumentException e) {
             logger.warn("Registration failed for email {}: {}", registerRequest.getEmail(), e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse<>(false, e.getMessage()));
@@ -107,6 +113,7 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse<>(false, "Internal server error"));
         }
     }
+
 
     /**
      * Checks if the input string contains disallowed characters.
