@@ -4,44 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2d415855-a115-43b2-9aea-3a719a1c1164" name="Changes" comment="Update folder directory structure">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/config/CacheConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/config/FilterConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/dto/request/RegisterRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/dto/response/ApiResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/dto/response/AuthenticationResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/dto/response/ErrorResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/dto/response/PaginationResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/dto/response/SuccessMessage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/dto/response/UserProfile.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/dto/response/ValidationErrorResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/exception/ErrorHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/filter/CustomHeaderFilter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/filter/RateLimitingFilter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/filter/RequestLoggingFilter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/services/AcmeUserDetailsService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/services/AuthTokenUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+    <list default="true" id="2d415855-a115-43b2-9aea-3a719a1c1164" name="Changes" comment="Set up project environment&#10;&#10;- Configured essential components: Cache, Security, and Filters&#10;- Implemented controller structure with AuthController and custom error handling&#10;- Set up DTOs for request and response models (LoginRequest, RegisterRequest, ApiResponse, etc.)&#10;- Established exception handling mechanism with centralized ErrorHandler&#10;- Added models, repository layer for database interaction (UserRepository, AcmePlexUser)&#10;- Included services for user authentication and token management (AcmeUserDetailsService, AuthTokenUtil)&#10;- Configured logging through StartupLogger for application initialization logging">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/favicon.ico" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/MavenWrapperDownloader.java" beforeDir="false" afterPath="$PROJECT_DIR$/.mvn/wrapper/MavenWrapperDownloader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mvnw.cmd" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/MovieticketreservationApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/MovieticketreservationApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/StartupLogger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/StartupLogger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/controller/AcmePlexErrorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/controller/AcmePlexErrorController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/controller/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/dto/LoginRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/dto/request/LoginRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/dto/RegisterRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/config/FilterConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/config/FilterConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/filter/CustomHeaderFilter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/filter/RateLimitingFilter.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/model/AcmePlexUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/model/AcmePlexUser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/repository/UserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/security/AcmePlexHttpFirewall.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/security/AllowEncodedNewlineFilter.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/security/AuthTokenFilterUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/security/AuthTokenFilterUtil.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/security/AuthTokenUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/security/AuthTokenUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/security/Authenticator.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/security/ConsoleCallbackHandler.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/security/InMemoryLoginModule.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/config/SecurityConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/security/UserPrincipal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/security/UserPrincipal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/service/AcmeUserDetailsService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/services/AuthTokenUtil.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -71,13 +51,6 @@
     &quot;accountId&quot;: &quot;60e1799a-d902-4351-a2fe-de4b2705fd76&quot;
   }
 }</component>
-  <component name="MavenImportPreferences">
-    <option name="generalSettings">
-      <MavenGeneralSettings>
-        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
-      </MavenGeneralSettings>
-    </option>
-  </component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
@@ -91,19 +64,24 @@
     <option name="showLibraryContents" value="true" />
     <option name="showVisibilityIcons" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/arkzs/Downloads/Spring-243.21565.129/Spring/lib/spring.jar",
-    "settings.editor.selected.configurable": "preferences.updates"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.MovieticketreservationApplication.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/arkzs/Downloads/Spring-243.21565.129/Spring/lib/spring.jar&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.importing&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\arkzs\AppData\GitHub Projects\movieticketreservation\src\main\resources\static" />
       <recent name="D:\GitHub\AcmePlexSpring\AcmePlexApp" />
     </key>
   </component>
@@ -139,11 +117,73 @@
       <option name="project" value="LOCAL" />
       <updated>1730609350350</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Set up project environment&#10;&#10;- Configured essential components: Cache, Security, and Filters&#10;- Implemented controller structure with AuthController and custom error handling&#10;- Set up DTOs for request and response models (LoginRequest, RegisterRequest, ApiResponse, etc.)&#10;- Established exception handling mechanism with centralized ErrorHandler&#10;- Added models, repository layer for database interaction (UserRepository, AcmePlexUser)&#10;- Included services for user authentication and token management (AcmeUserDetailsService, AuthTokenUtil)&#10;- Configured logging through StartupLogger for application initialization logging">
+      <option name="closed" value="true" />
+      <created>1731567723966</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1731567723966</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="OPEN_GENERIC_TABS">
+      <map>
+        <entry key="930f08be-6a74-40b6-ac12-b14ee7d25617" value="TOOL_WINDOW" />
+      </map>
+    </option>
+    <option name="TAB_STATES">
+      <map>
+        <entry key="930f08be-6a74-40b6-ac12-b14ee7d25617">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                  <entry key="structure">
+                    <value>
+                      <list>
+                        <option value="dir:C:/Users/arkzs/AppData/GitHub Projects/movieticketreservation/src/main/java/com/acmeplex/movieticketreservation/security" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+              <option name="SHOW_ONLY_AFFECTED_CHANGES" value="true" />
+            </State>
+          </value>
+        </entry>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="main" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Update folder directory structure" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update folder directory structure" />
+    <MESSAGE value="Set up project environment&#10;&#10;- Configured essential components: Cache, Security, and Filters&#10;- Implemented controller structure with AuthController and custom error handling&#10;- Set up DTOs for request and response models (LoginRequest, RegisterRequest, ApiResponse, etc.)&#10;- Established exception handling mechanism with centralized ErrorHandler&#10;- Added models, repository layer for database interaction (UserRepository, AcmePlexUser)&#10;- Included services for user authentication and token management (AcmeUserDetailsService, AuthTokenUtil)&#10;- Configured logging through StartupLogger for application initialization logging" />
+    <option name="LAST_COMMIT_MESSAGE" value="Set up project environment&#10;&#10;- Configured essential components: Cache, Security, and Filters&#10;- Implemented controller structure with AuthController and custom error handling&#10;- Set up DTOs for request and response models (LoginRequest, RegisterRequest, ApiResponse, etc.)&#10;- Established exception handling mechanism with centralized ErrorHandler&#10;- Added models, repository layer for database interaction (UserRepository, AcmePlexUser)&#10;- Included services for user authentication and token management (AcmeUserDetailsService, AuthTokenUtil)&#10;- Configured logging through StartupLogger for application initialization logging" />
   </component>
 </project>

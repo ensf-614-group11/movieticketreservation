@@ -19,7 +19,6 @@ public class AcmePlexUser {
 
     @Column(nullable = false, unique = true) // Ensure email is unique and non-null
     private String email;
-
     private String password;
     private String firstName;
     private String lastName;

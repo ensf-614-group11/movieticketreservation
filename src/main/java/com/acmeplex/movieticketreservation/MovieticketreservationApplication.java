@@ -14,7 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * The entry point of the Spring Boot application.
  * Initializes the database with sample users and starts the application.
  */
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.acmeplex.movieticketreservation")
 public class MovieticketreservationApplication {
 
 	// Logger instance for the application class
