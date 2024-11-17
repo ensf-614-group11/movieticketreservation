@@ -8,19 +8,34 @@ import java.util.Date;
 public class Payment {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private float amount;
     private Date datePaid;
     private String status;
     private String method;
 
+    @OneToOne
+    @JoinColumn(name = "ticket_id")
+    private Ticket ticket;
 
-    public Payment(float amount, Date datePaid, String status, String method) {
+    @OneToOne(mappedBy = "payment", cascade = CascadeType.ALL)
+    private Receipt receipt;
+
+    @OneToOne(mappedBy = "payment", cascade = CascadeType.ALL)
+    private Credit credit;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = true)
+    private AcmePlexUser acmePlexUser;
+
+    public Payment(float amount, Date datePaid, String status, String method, Ticket ticket, AcmePlexUser acmePlexUser) {
         this.amount = amount;
         this.datePaid = datePaid;
         this.status = status;
         this.method = method;
+        this.ticket = ticket;
+        this.acmePlexUser = acmePlexUser;
     }
 
     public Payment() {
@@ -62,5 +77,37 @@ public class Payment {
 
     public void setMethod(String method) {
         this.method = method;
+    }
+
+    public Ticket getTicket() {
+        return ticket;
+    }
+
+    public void setTicket(Ticket ticket) {
+        this.ticket = ticket;
+    }
+
+    public Receipt getReceipt() {
+        return receipt;
+    }
+
+    public void setReceipt(Receipt receipt) {
+        this.receipt = receipt;
+    }
+
+    public Credit getCredit() {
+        return credit;
+    }
+
+    public void setCredit(Credit credit) {
+        this.credit = credit;
+    }
+
+    public AcmePlexUser getAcmePlexUser() {
+        return acmePlexUser;
+    }
+
+    public void setAcmePlexUser(AcmePlexUser acmePlexUser) {
+        this.acmePlexUser = acmePlexUser;
     }
 }
