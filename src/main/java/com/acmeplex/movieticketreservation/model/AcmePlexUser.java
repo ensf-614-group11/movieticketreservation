@@ -1,10 +1,8 @@
 package com.acmeplex.movieticketreservation.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Column;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 /**
  * Represents a user in the AcmePlex movie ticket reservation system.
@@ -22,6 +20,18 @@ public class AcmePlexUser {
     private String password;
     private String firstName;
     private String lastName;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Notification> notifications;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Ticket> tickets;
+
+    @OneToMany(mappedBy = "acmePlexUser", cascade = CascadeType.ALL)
+    private List<Payment> payments;
+
+    @OneToMany(mappedBy = "acmePlexUser", cascade = CascadeType.ALL)
+    private List<Receipt> receipts;
 
     /**
      * Default constructor required by JPA.
@@ -122,5 +132,37 @@ public class AcmePlexUser {
      */
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public List<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(List<Notification> notifications) {
+        this.notifications = notifications;
+    }
+
+    public List<Ticket> getTickets() {
+        return tickets;
+    }
+
+    public void setTickets(List<Ticket> tickets) {
+        this.tickets = tickets;
+    }
+
+    public List<Payment> getPayments() {
+        return payments;
+    }
+
+    public void setPayments(List<Payment> payments) {
+        this.payments = payments;
+    }
+
+    public List<Receipt> getReceipts() {
+        return receipts;
+    }
+
+    public void setReceipts(List<Receipt> receipts) {
+        this.receipts = receipts;
     }
 }

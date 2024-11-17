@@ -1,23 +1,29 @@
 package com.acmeplex.movieticketreservation.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Seat {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private int rowNumber;
     private int seatNumber;
     private String status; //available or unavailable
 
-    public Seat(int rowNumber, int seatNumber, String status) {
+    @ManyToOne
+    @JoinColumn(name = "theatre_room_id")
+    private TheatreRoom theatreRoom;
+
+    @OneToOne(mappedBy = "seat")
+    private Ticket ticket;
+
+    public Seat(int rowNumber, int seatNumber, String status, TheatreRoom theatreRoom) {
         this.rowNumber = rowNumber;
         this.seatNumber = seatNumber;
         this.status = status;
+        this.theatreRoom = theatreRoom;
     }
 
     public Seat() {
@@ -49,4 +55,20 @@ public class Seat {
         return status;
     }
     public void setStatus(String status) { this.status = status; }
+
+    public TheatreRoom getTheatreRoom() {
+        return theatreRoom;
+    }
+
+    public void setTheatreRoom(TheatreRoom theatreRoom) {
+        this.theatreRoom = theatreRoom;
+    }
+    public Ticket getTicket() {
+        return ticket;
+    }
+
+    public void setTicket(Ticket ticket) {
+        this.ticket = ticket;
+    }
+
 }
