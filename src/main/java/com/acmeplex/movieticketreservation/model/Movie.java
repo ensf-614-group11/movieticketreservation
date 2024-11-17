@@ -1,18 +1,21 @@
 package com.acmeplex.movieticketreservation.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 public class Movie {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
     private int length;
     private String description;
+
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
+    private List<Showtime> showtimes;
 
 
     public Movie() {
@@ -51,5 +54,13 @@ public class Movie {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<Showtime> getShowtimes() {
+        return showtimes;
+    }
+
+    public void setShowtimes(List<Showtime> showtimes) {
+        this.showtimes = showtimes;
     }
 }

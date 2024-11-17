@@ -1,9 +1,7 @@
 package com.acmeplex.movieticketreservation.model;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.util.Date;
 
@@ -11,16 +9,30 @@ import java.util.Date;
 public class Notification {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Date dateSent;
     private String emailRecipient;
     private String message;
 
-    public Notification(Date dateSent, String emailRecipient, String message) {
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = true)
+    private AcmePlexUser user;
+
+    // Constructor for registered user
+    public Notification(Date dateSent, String message, AcmePlexUser user) {
+        this.dateSent = dateSent;
+        this.user = user;
+        this.message = message;
+        this.emailRecipient = null;
+    }
+
+    // Constructor for ordinary user
+    public Notification(Date dateSent, String message, String emailRecipient) {
         this.dateSent = dateSent;
         this.emailRecipient = emailRecipient;
         this.message = message;
+        this.user = null;
     }
 
     public Notification() {
@@ -54,5 +66,13 @@ public class Notification {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public AcmePlexUser getUser() {
+        return user;
+    }
+
+    public void setUser(AcmePlexUser user) {
+        this.user = user;
     }
 }

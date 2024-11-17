@@ -9,6 +9,16 @@
   <component name="ChangeListManager">
     <list default="true" id="2d415855-a115-43b2-9aea-3a719a1c1164" name="Changes" comment="Set up project environment&#10;&#10;- Configured essential components: Cache, Security, and Filters&#10;- Implemented controller structure with AuthController and custom error handling&#10;- Set up DTOs for request and response models (LoginRequest, RegisterRequest, ApiResponse, etc.)&#10;- Established exception handling mechanism with centralized ErrorHandler&#10;- Added models, repository layer for database interaction (UserRepository, AcmePlexUser)&#10;- Included services for user authentication and token management (AcmeUserDetailsService, AuthTokenUtil)&#10;- Configured logging through StartupLogger for application initialization logging">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/model/AcmePlexUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/model/AcmePlexUser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/model/Credit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/model/Credit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/model/Movie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/model/Movie.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/model/Notification.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/model/Notification.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/model/Payment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/model/Payment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/model/Receipt.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/model/Receipt.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/model/Seat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/model/Seat.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/model/Showtime.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/model/Showtime.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/model/Theatre.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/model/Theatre.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/model/TheatreRoom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/model/TheatreRoom.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,6 +28,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="AnnotationType" />
         <option value="Class" />
       </list>
     </option>
@@ -50,23 +61,26 @@
     <option name="showLibraryContents" value="true" />
     <option name="showVisibilityIcons" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.MovieticketreservationApplication.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "models",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/arkzs/Downloads/Spring-243.21565.129/Spring/lib/spring.jar",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.MovieticketreservationApplication.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;models&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/arkzs/Downloads/Spring-243.21565.129/Spring/lib/spring.jar&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.repository.indices&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.acmeplex.movieticketreservation.model" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\arkzs\AppData\GitHub Projects\movieticketreservation\src\main\resources\static" />
       <recent name="D:\GitHub\AcmePlexSpring\AcmePlexApp" />
