@@ -8,9 +8,14 @@ public class Seat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "`row_number`", columnDefinition = "INT NOT NULL")
     private int rowNumber;
+
+    @Column(name = "seat_number", columnDefinition = "INT NOT NULL")
     private int seatNumber;
-    private String status; //available or unavailable
+
+    private String status;
 
     @ManyToOne
     @JoinColumn(name = "theatre_room_id")
@@ -18,6 +23,7 @@ public class Seat {
 
     @OneToOne(mappedBy = "seat")
     private Ticket ticket;
+
 
     public Seat(int rowNumber, int seatNumber, String status, TheatreRoom theatreRoom) {
         this.rowNumber = rowNumber;
@@ -29,7 +35,6 @@ public class Seat {
     public Seat() {
 
     }
-
 
     public Long getId() {
         return id;
