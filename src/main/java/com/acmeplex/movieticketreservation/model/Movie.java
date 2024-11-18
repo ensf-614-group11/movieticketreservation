@@ -11,7 +11,7 @@ public class Movie {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
-    private int length;
+    private double length;
     private String description;
 
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
@@ -21,7 +21,7 @@ public class Movie {
     public Movie() {
     }
 
-    public Movie(String title, int length, String description) {
+    public Movie(String title, double length, String description) {
         this.title = title;
         this.length = length;
         this.description = description;
@@ -40,7 +40,7 @@ public class Movie {
         this.title = title;
     }
 
-    public int getLength() {
+    public double getLength() {
         return length;
     }
 
