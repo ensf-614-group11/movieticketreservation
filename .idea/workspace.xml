@@ -72,7 +72,7 @@
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Auste/OneDrive/Documents/ENSF614/Project/movieticketreservation2/movieticketreservation",
+    "last_opened_file_path": "C:/Users/Auste/OneDrive/Documents/ENSF614/Project/Nov19/movieticketreservation",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
@@ -135,6 +135,7 @@
       <option name="presentableId" value="Default" />
       <updated>1730608246821</updated>
       <workItem from="1731873836228" duration="15549000" />
+      <workItem from="1732047556267" duration="83000" />
     </task>
     <task id="LOCAL-00001" summary="Update folder directory structure">
       <option name="closed" value="true" />
