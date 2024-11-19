@@ -4,7 +4,7 @@ package com.acmeplex.movieticketreservation.model;
 import jakarta.persistence.*;
 
 @Entity
-public class Credit {
+public class AcmePlexCredit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,21 +16,19 @@ public class Credit {
     @JoinColumn(name = "payment_id")  // Foreign key to the payment table
     private Payment payment;
 
-    public Credit(String creditSecretCode, float amount, Payment payment) {
+    public AcmePlexCredit(String creditSecretCode, float amount, Payment payment) {
         this.creditSecretCode = creditSecretCode;
         this.amount = amount;
         this.payment = payment;
     }
 
-    public Credit() {
+    public AcmePlexCredit() {
 
     }
-
 
     public Long getId() {
         return id;
     }
-
 
     public Payment getPayment() {
         return payment;

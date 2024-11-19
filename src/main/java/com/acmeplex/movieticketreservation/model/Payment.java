@@ -23,7 +23,7 @@ public class Payment {
     private Receipt receipt;
 
     @OneToOne(mappedBy = "payment", cascade = CascadeType.ALL)
-    private Credit credit;
+    private AcmePlexCredit credit;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = true)
@@ -95,11 +95,11 @@ public class Payment {
         this.receipt = receipt;
     }
 
-    public Credit getCredit() {
+    public AcmePlexCredit getAcmePlexCredit() {
         return credit;
     }
 
-    public void setCredit(Credit credit) {
+    public void setCredit(AcmePlexCredit credit) {
         this.credit = credit;
     }
 
