@@ -81,17 +81,17 @@ public class DataInitializer {
 
             // Seats for Crowfoot Room 1
             for (int i = 1; i <= 108; i++) {
-                seatRepository.save(new Seat(i / 12 + 1, i % 12 == 0 ? 12 : i % 12, "available", crowfootRoom1));
+                seatRepository.save(new Seat(i / 12 + 1, i % 12 == 0 ? 12 : i % 12, crowfootRoom1));
             }
 
             // Seats for Crowfoot Room 2
             for (int i = 1; i <= 150; i++) {
-                seatRepository.save(new Seat(i / 15 + 1, i % 15 == 0 ? 15 : i % 15, "available", crowfootRoom2));
+                seatRepository.save(new Seat(i / 15 + 1, i % 15 == 0 ? 15 : i % 15, crowfootRoom2));
             }
 
             // Seats for Crowfoot Room 3
             for (int i = 1; i <= 120; i++) {
-                seatRepository.save(new Seat(i / 10 + 1, i % 10 == 0 ? 10 : i % 10, "available", crowfootRoom3));
+                seatRepository.save(new Seat(i / 10 + 1, i % 10 == 0 ? 10 : i % 10, crowfootRoom3));
             }
 
             logger.info("Theatre room seats have been added to the database.");
