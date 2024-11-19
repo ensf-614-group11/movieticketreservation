@@ -1,7 +1,6 @@
 package com.acmeplex.movieticketreservation.model;
 
 import jakarta.persistence.*;
-
 import java.util.List;
 
 /**
@@ -32,6 +31,14 @@ public class AcmePlexUser {
 
     @OneToMany(mappedBy = "acmePlexUser", cascade = CascadeType.ALL)
     private List<Receipt> receipts;
+
+    @OneToOne(cascade = CascadeType.ALL, optional = true)
+    @JoinColumn(name = "billing_address_id")
+    private Address savedBillingAddress;
+
+    @OneToOne(cascade = CascadeType.ALL, optional = true)
+    @JoinColumn(name = "saved_payment_type_id")
+    private PaymentType savedPaymentType;
 
     /**
      * Default constructor required by JPA.
@@ -164,5 +171,21 @@ public class AcmePlexUser {
 
     public void setReceipts(List<Receipt> receipts) {
         this.receipts = receipts;
+    }
+
+    public PaymentType getSavedPaymentType() {
+        return savedPaymentType;
+    }
+
+    public void setSavedPaymentType(PaymentType savedPaymentType) {
+        this.savedPaymentType = savedPaymentType;
+    }
+
+    public Address getBillingAddress() {
+        return savedBillingAddress;
+    }
+
+    public void Address(Address savedBillingAddress) {
+        this.savedBillingAddress = savedBillingAddress;
     }
 }
