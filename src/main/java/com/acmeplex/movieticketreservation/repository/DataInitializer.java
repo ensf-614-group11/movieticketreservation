@@ -16,7 +16,7 @@ public class DataInitializer {
     private static final Logger logger = LoggerFactory.getLogger(DataInitializer.class);
 
     private final MovieRepository movieRepository;
-    private final CreditRepository creditRepository;
+    private final AcmePlexCreditRepository creditRepository;
     private final UserRepository userRepository;
     private final NotificationRepository notificationRepository;
     private final PaymentRepository paymentRepository;
@@ -28,7 +28,7 @@ public class DataInitializer {
     private final TicketRepository ticketRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public DataInitializer(MovieRepository movieRepository, CreditRepository creditRepository,
+    public DataInitializer(MovieRepository movieRepository, AcmePlexCreditRepository creditRepository,
                            UserRepository userRepository, NotificationRepository notificationRepository,
                            PaymentRepository paymentRepository, ReceiptRepository receiptRepository,
                            SeatRepository seatRepository, ShowtimeRepository showtimeRepository,
@@ -129,7 +129,7 @@ public class DataInitializer {
             logger.info("Receipts have been added to the database.");
 
             // Credits
-            creditRepository.save(new Credit("CRED12345", 10.00f, payment1));
+            creditRepository.save(new AcmePlexCredit("CRED12345", 10.00f, payment1));
 
             logger.info("Credits have been added to the database.");
         } catch (Exception e) {
