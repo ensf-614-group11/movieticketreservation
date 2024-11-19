@@ -1,6 +1,7 @@
 package com.acmeplex.movieticketreservation.services;
 
 import com.acmeplex.movieticketreservation.dto.request.RegisterRequest;
+import com.acmeplex.movieticketreservation.dto.request.UpdateProfileRequest;
 import com.acmeplex.movieticketreservation.model.AcmePlexUser;
 import com.acmeplex.movieticketreservation.repository.UserRepository;
 import com.acmeplex.movieticketreservation.security.UserPrincipal;
@@ -14,6 +15,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 /**
  * Service that implements {@link UserDetailsService} to load user-specific data for authentication.
@@ -141,4 +144,66 @@ public class AcmeUserDetailsService implements UserDetailsService {
             logger.error("Error occurred while evicting user from cache: {}", email, e);
         }
     }
+
+    /**
+     * Retrieves a user by their email from the database.
+     *
+     * @param email the email identifying the user
+     * @return an Optional containing the AcmePlexUser if found, or empty if not found
+     */
+    public Optional<AcmePlexUser> getUserByEmail(String email) {
+        try {
+            return userRepository.findByEmail(email);
+        } catch (Exception e) {
+            logger.error("Error occurred while retrieving user by email: {}", email, e);
+            return Optional.empty(); // Return an empty Optional if an exception occurs
+        }
+    }
+
+    /**
+     * Updates the profile information of an existing user.
+     *
+     * @param email                 the email of the user to update
+     * @param updateProfileRequest  the request containing updated profile information
+     * @throws IllegalArgumentException if the user is not found
+     */
+    public void updateUserProfile(String email, UpdateProfileRequest updateProfileRequest) {
+        try {
+            // Fetch the user by email
+            AcmePlexUser user = userRepository.findByEmail(email)
+                    .orElseThrow(() -> new IllegalArgumentException("User not found with email: " + email));
+
+            // Update fields only if they are not null or empty in the request
+            if (updateProfileRequest.getFirstName() != null && !updateProfileRequest.getFirstName().isBlank()) {
+                user.setFirstName(updateProfileRequest.getFirstName());
+            }
+            if (updateProfileRequest.getLastName() != null && !updateProfileRequest.getLastName().isBlank()) {
+                user.setLastName(updateProfileRequest.getLastName());
+            }
+            if (updateProfileRequest.getEmail() != null && !updateProfileRequest.getEmail().isBlank()) {
+                // Check for email uniqueness
+                if (!user.getEmail().equals(updateProfileRequest.getEmail())
+                        && userRepository.findByEmail(updateProfileRequest.getEmail()).isPresent()) {
+                    throw new IllegalArgumentException("Email is already in use: " + updateProfileRequest.getEmail());
+                }
+                user.setEmail(updateProfileRequest.getEmail());
+            }
+            if (updateProfileRequest.getPassword() != null && !updateProfileRequest.getPassword().isBlank()) {
+                user.setPassword(passwordEncoder.encode(updateProfileRequest.getPassword()));
+            }
+
+            // Save the updated user to the repository
+            userRepository.save(user);
+
+            // Log the update operation
+            logger.info("User profile updated successfully for email: {}", email);
+        } catch (IllegalArgumentException e) {
+            logger.warn("Error updating user profile for email {}: {}", email, e.getMessage());
+            throw e;
+        } catch (Exception e) {
+            logger.error("Unexpected error updating user profile for email {}: {}", email, e.getMessage(), e);
+            throw new RuntimeException("Unexpected error occurred while updating user profile", e);
+        }
+    }
+
 }
