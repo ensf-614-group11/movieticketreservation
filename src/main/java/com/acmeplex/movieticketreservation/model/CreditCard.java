@@ -1,20 +1,19 @@
 package com.acmeplex.movieticketreservation.model;
 
 import jakarta.persistence.*;
-
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 public class CreditCard extends PaymentType {
 
     private String cardNumber;
     private String cardHolderName;
-    private Date expiryDate;
+    private LocalDate expiryDate;
 
     public CreditCard() {}
 
-    public CreditCard(float amount, String status, String method, AcmePlexUser acmePlexUser, String cardNumber, String cardHolderName, Date expiryDate) {
-        super(amount, status, method, acmePlexUser);
+    public CreditCard(float amount, String status, String method, AcmePlexUser acmePlexUser, String cardNumber, String cardHolderName, LocalDate expiryDate) {
+        super(status, method, acmePlexUser);
         this.cardNumber = cardNumber;
         this.cardHolderName = cardHolderName;
         this.expiryDate = expiryDate;
@@ -36,11 +35,11 @@ public class CreditCard extends PaymentType {
         this.cardHolderName = cardHolderName;
     }
 
-    public Date getExpiryDate() {
+    public LocalDate getExpiryDate() {
         return expiryDate;
     }
 
-    public void setExpiryDate(Date expiryDate) {
+    public void setExpiryDate(LocalDate expiryDate) {
         this.expiryDate = expiryDate;
     }
 }
