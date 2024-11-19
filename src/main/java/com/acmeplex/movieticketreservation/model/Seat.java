@@ -15,8 +15,6 @@ public class Seat {
     @Column(name = "seat_number", columnDefinition = "INT NOT NULL")
     private int seatNumber;
 
-    private String status;
-
     @ManyToOne
     @JoinColumn(name = "theatre_room_id")
     private TheatreRoom theatreRoom;
@@ -25,10 +23,9 @@ public class Seat {
     private Ticket ticket;
 
 
-    public Seat(int rowNumber, int seatNumber, String status, TheatreRoom theatreRoom) {
+    public Seat(int rowNumber, int seatNumber, TheatreRoom theatreRoom) {
         this.rowNumber = rowNumber;
         this.seatNumber = seatNumber;
-        this.status = status;
         this.theatreRoom = theatreRoom;
     }
 
@@ -55,11 +52,6 @@ public class Seat {
     public void setSeatNumber(int seatNumber) {
         this.seatNumber = seatNumber;
     }
-
-    public String getStatus() {
-        return status;
-    }
-    public void setStatus(String status) { this.status = status; }
 
     public TheatreRoom getTheatreRoom() {
         return theatreRoom;
