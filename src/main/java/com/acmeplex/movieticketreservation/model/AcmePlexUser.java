@@ -19,6 +19,7 @@ public class AcmePlexUser {
     private String password;
     private String firstName;
     private String lastName;
+    private boolean activeMembership;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Notification> notifications;
@@ -181,11 +182,23 @@ public class AcmePlexUser {
         this.savedPaymentType = savedPaymentType;
     }
 
-    public Address getBillingAddress() {
+    public Address getSavedBillingAddress() {
         return savedBillingAddress;
     }
 
-    public void Address(Address savedBillingAddress) {
+    public void setSavedBillingAddress(Address savedBillingAddress) {
         this.savedBillingAddress = savedBillingAddress;
+    }
+
+    public boolean isActiveMembership() {
+        return activeMembership;
+    }
+
+    public void activateMembership(){
+        this.activeMembership = true;
+    }
+
+    public void deactivateMembership(){
+        this.activeMembership = false;
     }
 }

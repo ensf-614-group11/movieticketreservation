@@ -8,6 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 
 @Service
@@ -22,6 +23,7 @@ public class DataInitializer {
     private final PaymentRepository paymentRepository;
     private final ReceiptRepository receiptRepository;
     private final SeatRepository seatRepository;
+    private final SeatAvailabilityRepository seatAvailabilityRepository;
     private final ShowtimeRepository showtimeRepository;
     private final TheatreRepository theatreRepository;
     private final TheatreRoomRepository theatreRoomRepository;
@@ -31,7 +33,8 @@ public class DataInitializer {
     public DataInitializer(MovieRepository movieRepository, AcmePlexCreditRepository creditRepository,
                            UserRepository userRepository, NotificationRepository notificationRepository,
                            PaymentRepository paymentRepository, ReceiptRepository receiptRepository,
-                           SeatRepository seatRepository, ShowtimeRepository showtimeRepository,
+                           SeatRepository seatRepository, SeatAvailabilityRepository seatAvailabilityRepository,
+                           ShowtimeRepository showtimeRepository,
                            TheatreRepository theatreRepository, TheatreRoomRepository theatreRoomRepository,
                            TicketRepository ticketRepository, PasswordEncoder passwordEncoder) {
         this.movieRepository = movieRepository;
@@ -41,6 +44,7 @@ public class DataInitializer {
         this.paymentRepository = paymentRepository;
         this.receiptRepository = receiptRepository;
         this.seatRepository = seatRepository;
+        this.seatAvailabilityRepository = seatAvailabilityRepository;
         this.showtimeRepository = showtimeRepository;
         this.theatreRepository = theatreRepository;
         this.theatreRoomRepository = theatreRoomRepository;
@@ -81,17 +85,17 @@ public class DataInitializer {
 
             // Seats for Crowfoot Room 1
             for (int i = 1; i <= 108; i++) {
-                seatRepository.save(new Seat(i / 12 + 1, i % 12 == 0 ? 12 : i % 12, "available", crowfootRoom1));
+                seatRepository.save(new Seat(i / 12 + 1, i % 12 == 0 ? 12 : i % 12, crowfootRoom1));
             }
 
             // Seats for Crowfoot Room 2
             for (int i = 1; i <= 150; i++) {
-                seatRepository.save(new Seat(i / 15 + 1, i % 15 == 0 ? 15 : i % 15, "available", crowfootRoom2));
+                seatRepository.save(new Seat(i / 15 + 1, i % 15 == 0 ? 15 : i % 15, crowfootRoom2));
             }
 
             // Seats for Crowfoot Room 3
             for (int i = 1; i <= 120; i++) {
-                seatRepository.save(new Seat(i / 10 + 1, i % 10 == 0 ? 10 : i % 10, "available", crowfootRoom3));
+                seatRepository.save(new Seat(i / 10 + 1, i % 10 == 0 ? 10 : i % 10, crowfootRoom3));
             }
 
             logger.info("Theatre room seats have been added to the database.");
@@ -103,6 +107,29 @@ public class DataInitializer {
             showtimeRepository.save(new Showtime(new Date(), true, crowfootRoom3, endgame));
 
             logger.info("Showtimes have been added to the database.");
+
+            // Initialize Seat Availability for each Showtime
+            List<Showtime> allShowtimes = showtimeRepository.findAll();
+
+            for (Showtime showtime : allShowtimes) {
+                // Get the TheatreRoom associated with the current Showtime
+                TheatreRoom theatreRoom = showtime.getTheatreRoom();
+
+                // Find all seats associated with this TheatreRoom
+                List<Seat> seatsInTheatreRoom = seatRepository.findByTheatreRoom(theatreRoom);
+
+                for (Seat seat : seatsInTheatreRoom) {
+                    // Create and save SeatAvailability for the seat and showtime
+                    SeatAvailability seatAvailability = new SeatAvailability();
+                    seatAvailability.setAvailable(true); // Initially, all seats are available
+                    seatAvailability.setShowtime(showtime);
+                    seatAvailability.setSeat(seat);
+                    seatAvailabilityRepository.save(seatAvailability);
+                }
+            }
+
+            logger.info("Seat availabilities have been initialized for all showtimes and their respective theatre room seats.");
+
 
             // Notifications
             notificationRepository.save(new Notification(new Date(), "Your ticket is confirmed", user1));

@@ -1,6 +1,5 @@
 package com.acmeplex.movieticketreservation.security;
 
-import com.acmeplex.movieticketreservation.services.AcmeUserDetailsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +28,7 @@ public class AuthTokenFilterUtil extends OncePerRequestFilter {
     private AuthTokenUtil authTokenUtil; // Your JWT utility class
 
     @Autowired
-    private AcmeUserDetailsService userDetailsService; // Your custom user details service
+    private AcmePlexUserDetailsService userDetailsService; // Your custom user details service
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
