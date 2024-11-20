@@ -1,17 +1,29 @@
 package com.acmeplex.movieticketreservation.dto.request;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 
 public class SavePaymentTypeRequest {
 
     @NotBlank(message = "Payment type cannot be blank")
     private String type; // E.g., "CREDIT_CARD" or "PAYPAL"
 
+    // Credit card-specific fields
     private String cardholderName;
-    private String cardNumber;     // Optional, for credit card
-    private String expirationDate; // Optional, for credit card
-    private String cvv;            // Optional, for credit card
-    private String email;          // Optional, for PayPal
+
+    @Pattern(regexp = "\\d{16}", message = "Card number must be 16 digits")
+    private String cardNumber;
+
+    @Pattern(regexp = "\\d{2}/\\d{2}", message = "Expiration date must be in MM/YY format")
+    private String expirationDate;
+
+    @Pattern(regexp = "\\d{3,4}", message = "CVV must be 3 or 4 digits")
+    private String cvv;
+
+    // PayPal-specific fields
+    @Email(message = "Invalid email format for PayPal")
+    private String email;
 
     // Getters and setters
     public String getType() {
