@@ -25,15 +25,11 @@ public class FilterConfig {
      */
     @Bean
     public FilterRegistrationBean<RequestLoggingFilter> loggingFilter() {
-        try {
-            FilterRegistrationBean<RequestLoggingFilter> registrationBean = new FilterRegistrationBean<>();
-            registrationBean.setFilter(new RequestLoggingFilter());
-            registrationBean.setOrder(1); // Order in which this filter will be applied
-            logger.info("RequestLoggingFilter has been registered with order 1");
-            return registrationBean;
-        } catch (Exception e) {
-            logger.error("Error occurred while registering RequestLoggingFilter", e);
-            throw e; // Rethrow exception for higher-level handling
-        }
+        FilterRegistrationBean<RequestLoggingFilter> registrationBean = new FilterRegistrationBean<>();
+        registrationBean.setFilter(new RequestLoggingFilter());
+        registrationBean.setOrder(1); // Ensure this filter is applied first
+        registrationBean.addUrlPatterns("/api/*"); // Apply only to API endpoints
+        logger.info("RequestLoggingFilter has been registered with order 1 and URL pattern /api/*");
+        return registrationBean;
     }
 }
