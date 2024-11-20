@@ -21,6 +21,10 @@ public class SaveBillingAddressRequest {
     @Size(max = 10, message = "Postal code must not exceed 10 characters")
     private String postalCode;
 
+    @NotBlank(message = "Country cannot be blank")
+    @Size(max = 50, message = "Country must not exceed 50 characters")
+    private String country;
+
     // Getters and setters
     public String getStreet() {
         return street;
@@ -52,5 +56,13 @@ public class SaveBillingAddressRequest {
 
     public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 }
