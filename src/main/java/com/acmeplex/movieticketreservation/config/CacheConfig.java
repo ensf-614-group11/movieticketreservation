@@ -10,8 +10,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Configuration class to enable and configure caching for the application.
- * It enables Spring's caching mechanism and defines the cache manager to be used.
- * Caching allows to store results of expensive method calls to improve performance.
+ * This uses an in-memory cache manager for performance optimization.
  */
 @Configuration
 @EnableCaching
@@ -21,27 +20,14 @@ public class CacheConfig {
     private static final Logger logger = LoggerFactory.getLogger(CacheConfig.class);
 
     /**
-     * Creates a {@link CacheManager} bean that manages caching for user profile data.
-     * This configuration uses a simple in-memory cache manager with a single cache named "userProfileCache".
+     * Configures a {@link CacheManager} bean with an in-memory cache.
+     * Caches user profile data to improve performance for repeated lookups.
      *
-     * @return a {@link CacheManager} configured for caching user profile data
+     * @return a {@link CacheManager} configured with named caches
      */
     @Bean
     public CacheManager cacheManager() {
-        try {
-            // Log cache manager initialization
-            logger.info("Initializing CacheManager with userProfileCache");
-
-            CacheManager cacheManager = new ConcurrentMapCacheManager("userProfileCache");
-
-            // Log success
-            logger.info("CacheManager initialized successfully with cache: userProfileCache");
-
-            return cacheManager;
-        } catch (Exception e) {
-            // Log any error that occurs during cache manager creation
-            logger.error("Error occurred while initializing CacheManager", e);
-            throw e; // Rethrow exception for higher-level handling
-        }
+        logger.info("Initializing CacheManager with cache: userProfileCache");
+        return new ConcurrentMapCacheManager("userProfileCache");
     }
 }
