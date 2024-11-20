@@ -1,72 +1,61 @@
 package com.acmeplex.movieticketreservation.controller;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.acmeplex.movieticketreservation.config.constants.Constants;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.http.HttpServletRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 
-/**
- * Custom error controller to handle various HTTP errors (e.g., 404, 500)
- * and return user-friendly error messages. Also logs errors for debugging.
- */
+import java.util.HashMap;
+import java.util.Map;
+
 @Controller
 public class AcmePlexErrorController {
 
     private static final Logger logger = LoggerFactory.getLogger(AcmePlexErrorController.class);
 
-    /**
-     * Handles errors based on the HTTP status code and logs the error.
-     *
-     * @param request the HTTP request containing error details
-     * @return a user-friendly error message
-     */
-    @GetMapping("/error")
-    @ResponseBody
-    public String handleError(HttpServletRequest request) {
-        // Get error status code
+    @GetMapping(Constants.Endpoints.API_ERROR)
+    public ResponseEntity<Map<String, Object>> handleError(HttpServletRequest request) {
         Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
-        String errorMessage;
+        Map<String, Object> response = new HashMap<>();
+        HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
 
-        // Log the request URI, client's IP address, and user-agent for better traceability
         String requestURI = (String) request.getAttribute(RequestDispatcher.ERROR_REQUEST_URI);
         String clientIP = request.getRemoteAddr();
         String userAgent = request.getHeader("User-Agent");
+
         logger.info("Error occurred while accessing URI: {} from IP: {} with User-Agent: {}", requestURI, clientIP, userAgent);
 
         if (status != null) {
             int statusCode = Integer.parseInt(status.toString());
+            httpStatus = HttpStatus.resolve(statusCode);
 
-            // Handle different status codes using HttpStatus enum constants
-            switch (HttpStatus.valueOf(statusCode)) {
-                case NOT_FOUND:
-                    errorMessage = "404 - Page Not Found";
-                    break;
-                case INTERNAL_SERVER_ERROR:
-                    errorMessage = "500 - Internal Server Error";
-                    break;
-                case FORBIDDEN:
-                    errorMessage = "403 - Forbidden";
-                    break;
-                case BAD_REQUEST:
-                    errorMessage = "400 - Bad Request";
-                    break;
-                default:
-                    errorMessage = "An unexpected error occurred.";
-            }
+            String errorMessage = switch (httpStatus) {
+                case NOT_FOUND -> Constants.Errors.NOT_FOUND;
+                case INTERNAL_SERVER_ERROR -> Constants.Errors.INTERNAL_SERVER_ERROR;
+                case FORBIDDEN -> Constants.Errors.FORBIDDEN;
+                case BAD_REQUEST -> Constants.Errors.BAD_REQUEST;
+                default -> "An unexpected error occurred.";
+            };
 
-            // Log the error with the status code and message
-            logger.error("Error occurred with status code: {} - {}", statusCode, errorMessage);
+            logger.error("Error occurred with status code: {} - {}", statusCode, httpStatus != null ? httpStatus.getReasonPhrase() : "Unknown");
+
+            response.put("status", statusCode);
+            response.put("error", httpStatus != null ? httpStatus.getReasonPhrase() : "Unknown Error");
+            response.put("message", errorMessage);
+            response.put("path", requestURI);
         } else {
-            // Default error message if no status code is found
-            errorMessage = "An error occurred. Please try again or contact support.";
+            response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
+            response.put("error", "Internal Server Error");
+            response.put("message", Constants.Errors.INTERNAL_SERVER_ERROR);
+            response.put("path", requestURI);
             logger.error("Error occurred with no status code provided.");
         }
 
-        return errorMessage;
+        return new ResponseEntity<>(response, httpStatus);
     }
 }
