@@ -4,6 +4,9 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
+/**
+ * DTO for updating user profile details.
+ */
 public class UpdateProfileRequest {
 
     @NotBlank(message = "First name cannot be blank")
@@ -19,10 +22,9 @@ public class UpdateProfileRequest {
     private String email;
 
     @Size(min = 8, max = 100, message = "Password must be between 8 and 100 characters")
-    private String password;
+    private String password; // Optional
 
-    public UpdateProfileRequest() {
-    }
+    public UpdateProfileRequest() {}
 
     public UpdateProfileRequest(String firstName, String lastName, String email, String password) {
         this.firstName = firstName;
@@ -31,6 +33,7 @@ public class UpdateProfileRequest {
         this.password = password;
     }
 
+    // Getters and setters
     public String getFirstName() {
         return firstName;
     }
