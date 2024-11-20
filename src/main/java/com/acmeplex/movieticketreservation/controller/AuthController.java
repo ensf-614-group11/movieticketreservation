@@ -1,12 +1,14 @@
 package com.acmeplex.movieticketreservation.controller;
 
 import com.acmeplex.movieticketreservation.config.constants.Constants;
+import com.acmeplex.movieticketreservation.dto.request.CreateBillingAddressRequest;
+import com.acmeplex.movieticketreservation.dto.request.CreatePaymentTypeRequest;
 import com.acmeplex.movieticketreservation.dto.request.LoginRequest;
 import com.acmeplex.movieticketreservation.dto.request.RegisterRequest;
 import com.acmeplex.movieticketreservation.dto.response.ApiResponse;
+import com.acmeplex.movieticketreservation.facade.RegistrationFacade;
 import com.acmeplex.movieticketreservation.model.AcmePlexUser;
 import com.acmeplex.movieticketreservation.security.AuthTokenUtil;
-import com.acmeplex.movieticketreservation.services.AcmePlexUserProfileService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,25 +31,25 @@ public class AuthController {
 
     private final AuthenticationManager authenticationManager;
     private final AuthTokenUtil authTokenUtil;
-    private final AcmePlexUserProfileService userProfileService;
+    private final RegistrationFacade registrationFacade;
 
     /**
      * Constructs the AuthController with required dependencies.
      *
      * @param authenticationManager the authentication manager for user authentication
      * @param authTokenUtil         utility for JWT token generation and validation
-     * @param userProfileService    the service handling user profile and registration logic
+     * @param registrationFacade    the facade handling the registration process
      */
-    public AuthController(AuthenticationManager authenticationManager, AuthTokenUtil authTokenUtil, AcmePlexUserProfileService userProfileService) {
+    public AuthController(AuthenticationManager authenticationManager, AuthTokenUtil authTokenUtil, RegistrationFacade registrationFacade) {
         this.authenticationManager = authenticationManager;
         this.authTokenUtil = authTokenUtil;
-        this.userProfileService = userProfileService;
+        this.registrationFacade = registrationFacade;
     }
 
     /**
      * Authenticates a user and generates a JWT token if successful.
      *
-     * @param loginRequest the login request containing username and password
+     * @param loginRequest the login request containing email and password
      * @return a ResponseEntity containing an ApiResponse with the JWT token on successful authentication
      */
     @PostMapping(Constants.Endpoints.API_AUTH_LOGIN)
@@ -77,18 +79,23 @@ public class AuthController {
     }
 
     /**
-     * Registers a new user if the email is not already in use.
+     * Registers a new user if all required data is valid.
      *
-     * @param registerRequest the registration request containing user details
-     * @return a ResponseEntity containing an ApiResponse with a success message on successful registration
+     * @param registerRequest        the registration request containing user details
+     * @param billingAddressRequest  the billing address details
+     * @param paymentTypeRequest     the payment type details
+     * @return a ResponseEntity containing an ApiResponse with a success message and a JWT token on successful registration
      */
     @PostMapping(Constants.Endpoints.API_AUTH_REGISTER)
-    public ResponseEntity<ApiResponse<String>> register(@RequestBody @Valid RegisterRequest registerRequest) {
+    public ResponseEntity<ApiResponse<String>> register(
+            @RequestBody @Valid RegisterRequest registerRequest,
+            @RequestBody @Valid CreateBillingAddressRequest billingAddressRequest,
+            @RequestBody @Valid CreatePaymentTypeRequest paymentTypeRequest) {
         try {
             logger.info("Registration attempt for email: {}", registerRequest.getEmail());
 
-            // Register the user using the user profile service
-            AcmePlexUser newUser = userProfileService.registerUser(registerRequest);
+            // Use RegistrationFacade to handle the entire flow
+            AcmePlexUser newUser = registrationFacade.registerUser(registerRequest, billingAddressRequest, paymentTypeRequest);
 
             // Generate JWT token for the new user
             String token = authTokenUtil.generateToken(newUser.getEmail());
