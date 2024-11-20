@@ -1,4 +1,4 @@
-package com.acmeplex.movieticketreservation.dto.response;
+package com.acmeplex.movieticketreservation.dto;
 
 /**
  * Represents the public profile information of a user.
