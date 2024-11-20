@@ -41,14 +41,26 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         try {
-            http.csrf(csrf -> csrf.disable()) // Disables CSRF protection
-                    .headers().frameOptions().disable() // Disables frame options for H2 console
-                    .and()
-                    .authorizeRequests(authorize -> authorize
-                            .requestMatchers("/api/auth/login", "/api/auth/register", "/public/**", "/static/**", "/h2-console/**", "/favicon.ico", "/error/**").permitAll() // Allows access to these paths
+            http.csrf(csrf -> csrf.disable()) // Disable CSRF for APIs
+                    .headers(headers -> headers.frameOptions().disable()) // Allow H2 console frames
+                    .authorizeHttpRequests(authorize -> authorize
+                            // Public endpoints
+                            .requestMatchers(
+                                    "/api/auth/login",
+                                    "/api/auth/register",
+                                    "/public/**",
+                                    "/static/**",
+                                    "/h2-console/**",
+                                    "/favicon.ico",
+                                    "/error/**"
+                            ).permitAll()
+                            // Protected endpoints
+                            .requestMatchers(
+                                    "/api/user/profile/**"
+                            ).authenticated()
                             .anyRequest().authenticated()
                     )
-                    .addFilterBefore(authTokenFilterUtil, UsernamePasswordAuthenticationFilter.class); // Register JWT filter before UsernamePasswordAuthenticationFilter
+                    .addFilterBefore(authTokenFilterUtil, UsernamePasswordAuthenticationFilter.class); // Add JWT filter before UsernamePasswordAuthenticationFilter
 
             logger.info("Security filter chain configured successfully.");
             return http.build();
