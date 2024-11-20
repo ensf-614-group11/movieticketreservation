@@ -43,4 +43,4 @@ build/
 
 
 ### Properties File ###
-.properties 
+*.properties
