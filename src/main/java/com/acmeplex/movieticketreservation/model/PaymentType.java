@@ -10,9 +10,8 @@ public abstract class PaymentType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private float amount;
-    private String status;
-    private String method;
+    private String status; // E.g., "Active" or "Inactive"
+    private String method; // E.g., "CreditCard", "PayPal"
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = true)
@@ -20,8 +19,7 @@ public abstract class PaymentType {
 
     public PaymentType() {}
 
-    public PaymentType(float amount, String status, String method, AcmePlexUser acmePlexUser) {
-        this.amount = amount;
+    public PaymentType(String status, String method, AcmePlexUser acmePlexUser) {
         this.status = status;
         this.method = method;
         this.acmePlexUser = acmePlexUser;
@@ -29,14 +27,6 @@ public abstract class PaymentType {
 
     public Long getId() {
         return id;
-    }
-
-    public float getAmount() {
-        return amount;
-    }
-
-    public void setAmount(float amount) {
-        this.amount = amount;
     }
 
     public String getStatus() {
