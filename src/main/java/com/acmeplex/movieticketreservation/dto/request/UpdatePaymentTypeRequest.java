@@ -1,13 +1,23 @@
 package com.acmeplex.movieticketreservation.dto.request;
 
+import com.acmeplex.movieticketreservation.validation.annotation.ValidPaymentType;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
-public class SavePaymentTypeRequest {
+@ValidPaymentType
+public class UpdatePaymentTypeRequest {
+
+    @NotNull(message = "Payment type ID cannot be null")
+    private Long id; // ID of the payment type to be updated
 
     @NotBlank(message = "Payment type cannot be blank")
     private String type; // E.g., "CREDIT_CARD" or "PAYPAL"
+
+    @NotBlank(message = "Status cannot be blank")
+    @Pattern(regexp = "Active|Inactive", message = "Status must be 'Active' or 'Inactive'")
+    private String status;
 
     // Credit card-specific fields
     private String cardholderName;
@@ -26,12 +36,28 @@ public class SavePaymentTypeRequest {
     private String email;
 
     // Getters and setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getType() {
         return type;
     }
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getCardholderName() {
