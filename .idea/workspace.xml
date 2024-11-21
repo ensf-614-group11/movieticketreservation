@@ -7,22 +7,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2d415855-a115-43b2-9aea-3a719a1c1164" name="Changes" comment="Set up project environment&#10;&#10;- Configured essential components: Cache, Security, and Filters&#10;- Implemented controller structure with AuthController and custom error handling&#10;- Set up DTOs for request and response models (LoginRequest, RegisterRequest, ApiResponse, etc.)&#10;- Established exception handling mechanism with centralized ErrorHandler&#10;- Added models, repository layer for database interaction (UserRepository, AcmePlexUser)&#10;- Included services for user authentication and token management (AcmeUserDetailsService, AuthTokenUtil)&#10;- Configured logging through StartupLogger for application initialization logging">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/controller/MakePaymentController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/controller/TicketController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/dto/request/PaymentRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/dto/response/PaymentResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/factory/PaymentStrategyFactory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/services/PaymentService.java" afterDir="false" />
+    <list default="true" id="2d415855-a115-43b2-9aea-3a719a1c1164" name="Changes" comment="Set up project environment&#10;&#10;- Configured essential components: Cache, Security, and Filters&#10;- Implemented controller structure with AuthController and custom error handling&#10;- Set up DTOs for request and response models (LoginRequest, RegisterRequest, ApiResponse, etc.)&#10;- Established exception handling mechanism with centralized ErrorHandler&#10;- Added models, repository layer for database interaction (UserRepository, AcmePlexUser)&#10;- Included services for user authentication and token management (AcmeUserDetailsService, AuthTokenUtil)&#10;- Configured logging through StartupLogger for application initialization logging&#10;- Added Payment and Ticket controllers">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/config/constants/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/config/constants/Constants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/controller/CreditCardPayment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/controller/CreditCardPayment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/controller/MakePayment.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/controller/PaymentStrategy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/controller/PaymentStrategy.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/model/Payment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/model/Payment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/model/Receipt.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/model/Receipt.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/repository/SeatRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/repository/SeatRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/repository/ShowtimeRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/repository/ShowtimeRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/services/PaymentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/services/PaymentService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -158,7 +145,7 @@
       <workItem from="1732047556267" duration="83000" />
       <workItem from="1732047719513" duration="4633000" />
       <workItem from="1732074584880" duration="10600000" />
-      <workItem from="1732127251462" duration="21891000" />
+      <workItem from="1732127251462" duration="22141000" />
     </task>
     <task id="LOCAL-00001" summary="Update folder directory structure">
       <option name="closed" value="true" />
@@ -224,7 +211,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732126425418</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Set up project environment&#10;&#10;- Configured essential components: Cache, Security, and Filters&#10;- Implemented controller structure with AuthController and custom error handling&#10;- Set up DTOs for request and response models (LoginRequest, RegisterRequest, ApiResponse, etc.)&#10;- Established exception handling mechanism with centralized ErrorHandler&#10;- Added models, repository layer for database interaction (UserRepository, AcmePlexUser)&#10;- Included services for user authentication and token management (AcmeUserDetailsService, AuthTokenUtil)&#10;- Configured logging through StartupLogger for application initialization logging&#10;- Added Payment and Ticket controllers">
+      <option name="closed" value="true" />
+      <created>1732176117427</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1732176117427</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -286,6 +281,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Update folder directory structure" />
     <MESSAGE value="Set up project environment&#10;&#10;- Configured essential components: Cache, Security, and Filters&#10;- Implemented controller structure with AuthController and custom error handling&#10;- Set up DTOs for request and response models (LoginRequest, RegisterRequest, ApiResponse, etc.)&#10;- Established exception handling mechanism with centralized ErrorHandler&#10;- Added models, repository layer for database interaction (UserRepository, AcmePlexUser)&#10;- Included services for user authentication and token management (AcmeUserDetailsService, AuthTokenUtil)&#10;- Configured logging through StartupLogger for application initialization logging" />
-    <option name="LAST_COMMIT_MESSAGE" value="Set up project environment&#10;&#10;- Configured essential components: Cache, Security, and Filters&#10;- Implemented controller structure with AuthController and custom error handling&#10;- Set up DTOs for request and response models (LoginRequest, RegisterRequest, ApiResponse, etc.)&#10;- Established exception handling mechanism with centralized ErrorHandler&#10;- Added models, repository layer for database interaction (UserRepository, AcmePlexUser)&#10;- Included services for user authentication and token management (AcmeUserDetailsService, AuthTokenUtil)&#10;- Configured logging through StartupLogger for application initialization logging" />
+    <MESSAGE value="Set up project environment&#10;&#10;- Configured essential components: Cache, Security, and Filters&#10;- Implemented controller structure with AuthController and custom error handling&#10;- Set up DTOs for request and response models (LoginRequest, RegisterRequest, ApiResponse, etc.)&#10;- Established exception handling mechanism with centralized ErrorHandler&#10;- Added models, repository layer for database interaction (UserRepository, AcmePlexUser)&#10;- Included services for user authentication and token management (AcmeUserDetailsService, AuthTokenUtil)&#10;- Configured logging through StartupLogger for application initialization logging&#10;- Added Payment and Ticket controllers" />
+    <option name="LAST_COMMIT_MESSAGE" value="Set up project environment&#10;&#10;- Configured essential components: Cache, Security, and Filters&#10;- Implemented controller structure with AuthController and custom error handling&#10;- Set up DTOs for request and response models (LoginRequest, RegisterRequest, ApiResponse, etc.)&#10;- Established exception handling mechanism with centralized ErrorHandler&#10;- Added models, repository layer for database interaction (UserRepository, AcmePlexUser)&#10;- Included services for user authentication and token management (AcmeUserDetailsService, AuthTokenUtil)&#10;- Configured logging through StartupLogger for application initialization logging&#10;- Added Payment and Ticket controllers" />
   </component>
 </project>
