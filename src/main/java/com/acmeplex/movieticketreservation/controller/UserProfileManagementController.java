@@ -1,8 +1,8 @@
 package com.acmeplex.movieticketreservation.controller;
 
 import com.acmeplex.movieticketreservation.config.constants.Constants;
+import com.acmeplex.movieticketreservation.dto.request.CreatePaymentTypeRequest;
 import com.acmeplex.movieticketreservation.dto.request.UpdateBillingAddressRequest;
-import com.acmeplex.movieticketreservation.dto.request.UpdatePaymentTypeRequest;
 import com.acmeplex.movieticketreservation.dto.request.UpdateProfileRequest;
 import com.acmeplex.movieticketreservation.dto.response.ApiResponse;
 import com.acmeplex.movieticketreservation.model.AcmePlexUser;
@@ -19,6 +19,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * Unified Controller for managing user profiles, including billing addresses and payment types.
@@ -91,15 +93,37 @@ public class UserProfileManagementController {
     }
 
     /**
-     * Updates or creates the user's payment type.
+     * Adds a new payment type for the user.
      */
-    @PutMapping(Constants.Endpoints.API_PAYMENT_TYPE_UPDATE)
-    public ResponseEntity<ApiResponse<PaymentType>> updateOrCreatePaymentType(
-            @RequestBody @Valid UpdatePaymentTypeRequest request) {
+    @PostMapping(Constants.Endpoints.API_PAYMENT_TYPE_CREATE)
+    public ResponseEntity<ApiResponse<PaymentType>> addPaymentType(
+            @RequestBody @Valid CreatePaymentTypeRequest request) {
         String email = getAuthenticatedUserEmail();
-        logger.info("Updating or creating payment type for user: {}", email);
-        PaymentType paymentType = paymentTypeService.updateOrCreatePaymentType(email, request);
+        logger.info("Adding new payment type for user: {}", email);
+        PaymentType paymentType = paymentTypeService.createPaymentType(email, request);
+        return ResponseEntity.ok(new ApiResponse<>(true, Constants.Success.PAYMENT_TYPE_CREATED, paymentType));
+    }
+
+    /**
+     * Sets the specified payment type as the active one for the user.
+     */
+    @PutMapping(Constants.Endpoints.API_PAYMENT_TYPE_SET_ACTIVE)
+    public ResponseEntity<ApiResponse<PaymentType>> setActivePaymentType(@RequestParam Long paymentTypeId) {
+        String email = getAuthenticatedUserEmail();
+        logger.info("Setting payment type ID {} as active for user: {}", paymentTypeId, email);
+        PaymentType paymentType = paymentTypeService.setActivePaymentType(email, paymentTypeId);
         return ResponseEntity.ok(new ApiResponse<>(true, Constants.Success.PAYMENT_TYPE_UPDATED, paymentType));
+    }
+
+    /**
+     * Retrieves all payment types for the authenticated user.
+     */
+    @GetMapping(Constants.Endpoints.API_PAYMENT_TYPE_GET)
+    public ResponseEntity<ApiResponse<List<PaymentType>>> getAllPaymentTypes() {
+        String email = getAuthenticatedUserEmail();
+        logger.info("Fetching all payment types for user: {}", email);
+        List<PaymentType> paymentTypes = paymentTypeService.getPaymentTypesByUser(email);
+        return ResponseEntity.ok(new ApiResponse<>(true, Constants.Success.PAYMENT_TYPES_FETCHED, paymentTypes));
     }
 
 }

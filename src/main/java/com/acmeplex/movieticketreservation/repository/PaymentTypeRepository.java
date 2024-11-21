@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -33,4 +34,12 @@ public interface PaymentTypeRepository extends JpaRepository<PaymentType, Long> 
                                                  @Param("type") String type,
                                                  @Param("cardNumber") String cardNumber);
 
+    /**
+     * Finds all payment types for a given user ID.
+     *
+     * @param userId the ID of the user
+     * @return a list of {@link PaymentType} associated with the user
+     */
+    @Query("SELECT p FROM PaymentType p WHERE p.acmePlexUser.id = :userId")
+    List<PaymentType> findAllByAcmePlexUserId(@Param("userId") Long userId);
 }
