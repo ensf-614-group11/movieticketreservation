@@ -13,6 +13,8 @@ public final class Constants {
      * API Endpoints grouped by functional areas.
      */
     public static final class Endpoints {
+
+
         private Endpoints() {
             // Private constructor to prevent instantiation
         }
@@ -33,7 +35,10 @@ public final class Constants {
 
         // Payment Type Endpoints
         public static final String API_PAYMENT_TYPE = API_USER_PROFILE + "/payment-type";
-        public static final String API_PAYMENT_TYPE_UPDATE = API_PAYMENT_TYPE; // PUT /api/user/profile/payment-type
+        public static final String API_PAYMENT_TYPE_CREATE = API_PAYMENT_TYPE; // POST /api/user/profile/payment-type
+        public static final String API_PAYMENT_TYPE_SET_ACTIVE = API_PAYMENT_TYPE + "/set-active"; // PUT /api/user/profile/payment-type/set-active
+        public static final String API_PAYMENT_TYPE_GET = API_PAYMENT_TYPE + "/list"; // GET /api/user/profile/payment-type/list
+
 
         // Error Endpoints
         public static final String API_ERROR = "/error";
@@ -61,6 +66,8 @@ public final class Constants {
      * Success message constants.
      */
     public static final class Success {
+
+
         private Success() {
             // Private constructor to prevent instantiation
         }
@@ -71,5 +78,6 @@ public final class Constants {
         public static final String PAYMENT_TYPE_CREATED = "Payment type created successfully";
         public static final String PAYMENT_TYPE_UPDATED = "Payment type updated successfully";
         public static final String BILLING_ADDRESS_UPDATED = "Billing address updated successfully";
+        public static final String PAYMENT_TYPES_FETCHED = "User payment types retrieved successfully";;
     }
 }
