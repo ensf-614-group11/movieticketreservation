@@ -3,6 +3,8 @@ package com.acmeplex.movieticketreservation.controller;
 import com.acmeplex.movieticketreservation.services.TheatreService;
 import com.acmeplex.movieticketreservation.services.SeatAvailabilityService;
 import com.acmeplex.movieticketreservation.services.ShowtimeService;
+import com.acmeplex.movieticketreservation.config.constants.Constants;
+import com.acmeplex.movieticketreservation.dto.response.TheatreResponse;
 import com.acmeplex.movieticketreservation.model.Movie;
 import com.acmeplex.movieticketreservation.model.SeatAvailability;
 import com.acmeplex.movieticketreservation.model.Showtime;
@@ -16,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/theatres")
+@RequestMapping(Constants.Endpoints.API_THEATRES)
 public class TheatreController {
 
   private final MovieService movieService;
@@ -34,15 +36,10 @@ public class TheatreController {
 
   /**
    * Endpoint to fetch all movies from the system.
-   * <p>
-   * This method retrieves a list of all movies available in the system, which
-   * includes movie details such as titles, descriptions, and other relevant
-   * information.
-   * </p>
    *
    * @return a list of all movies
    */
-  @GetMapping("/movies")
+  @GetMapping(Constants.Endpoints.API_THEATRES_MOVIES)
   public List<Movie> getMovies() {
     return movieService.getAllMovies();
   }
@@ -54,7 +51,7 @@ public class TheatreController {
    */
 
   @GetMapping
-  public List<Theatre> getTheatres() {
+  public List<TheatreResponse> getTheatres() {
     return theatreService.getAllTheatres();
   }
 
