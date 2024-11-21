@@ -20,7 +20,6 @@ public class PaymentService {
     private final ReceiptRepository receiptRepository;
     private final SeatRepository seatRepository;
     private final ShowtimeRepository showtimeRepository;
-    private final UserRepository userRepository;
 
     public PaymentService(
             PaymentStrategyFactory paymentStrategyFactory,
@@ -37,7 +36,6 @@ public class PaymentService {
         this.receiptRepository = receiptRepository;
         this.seatRepository = seatRepository;
         this.showtimeRepository = showtimeRepository;
-        this.userRepository = userRepository;
     }
 
     public PaymentResponse processPayment(PaymentRequest paymentRequest) {
