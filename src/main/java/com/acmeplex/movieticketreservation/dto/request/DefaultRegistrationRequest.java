@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 /**
  * Data transfer object for user registration requests.
  */
-public class RegisterRequest {
+public class DefaultRegistrationRequest {
 
     @NotBlank(message = "Email is required.")
     @Email(message = "Invalid email format.")
@@ -21,8 +21,8 @@ public class RegisterRequest {
     @NotBlank(message = "Last name is required.")
     private String lastName;
 
-    private SavePaymentTypeRequest paymentType; // Optional field for payment type
-    private SaveBillingAddressRequest billingAddress; // Optional field for billing address
+    private CreatePaymentTypeRequest paymentType; // Optional field for payment type
+    private UpdateBillingAddressRequest billingAddress; // Optional field for billing address
 
     // Getters and setters
     public String getEmail() {
@@ -57,19 +57,19 @@ public class RegisterRequest {
         this.lastName = lastName;
     }
 
-    public SavePaymentTypeRequest getPaymentType() {
+    public CreatePaymentTypeRequest getPaymentType() {
         return paymentType;
     }
 
-    public void setPaymentType(SavePaymentTypeRequest paymentType) {
+    public void setPaymentType(CreatePaymentTypeRequest paymentType) {
         this.paymentType = paymentType;
     }
 
-    public SaveBillingAddressRequest getBillingAddress() {
+    public UpdateBillingAddressRequest getBillingAddress() {
         return billingAddress;
     }
 
-    public void setBillingAddress(SaveBillingAddressRequest billingAddress) {
+    public void setBillingAddress(UpdateBillingAddressRequest billingAddress) {
         this.billingAddress = billingAddress;
     }
 }

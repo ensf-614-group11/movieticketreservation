@@ -1,10 +1,12 @@
 package com.acmeplex.movieticketreservation.dto.request;
 
+import com.acmeplex.movieticketreservation.validation.annotation.ValidPaymentType;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
-public class SavePaymentTypeRequest {
+@ValidPaymentType
+public class CreatePaymentTypeRequest {
 
     @NotBlank(message = "Payment type cannot be blank")
     private String type; // E.g., "CREDIT_CARD" or "PAYPAL"
@@ -24,6 +26,18 @@ public class SavePaymentTypeRequest {
     // PayPal-specific fields
     @Email(message = "Invalid email format for PayPal")
     private String email;
+
+    // Default constructor
+    public CreatePaymentTypeRequest() {
+    }
+
+    // Constructor for PaymentTypeService
+    public CreatePaymentTypeRequest(String type, String cardNumber, String cardholderName, String expirationDate) {
+        this.type = type;
+        this.cardNumber = cardNumber;
+        this.cardholderName = cardholderName;
+        this.expirationDate = expirationDate;
+    }
 
     // Getters and setters
     public String getType() {

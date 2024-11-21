@@ -8,12 +8,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import java.util.List;
 
 import static com.acmeplex.movieticketreservation.config.security.EndpointSecurityConfig.*;
 
@@ -49,7 +52,16 @@ public class SecurityConfig {
      */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.disable()) // Disable CSRF for stateless APIs
+        http
+                .cors(cors -> cors.configurationSource(request -> {
+                    var corsConfig = new org.springframework.web.cors.CorsConfiguration();
+                    corsConfig.setAllowedOrigins(List.of("http://localhost:5173")); // Your frontend origin
+                    corsConfig.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS")); // Include OPTIONS
+                    corsConfig.setAllowedHeaders(List.of("*")); // Allow all headers
+                    corsConfig.setAllowCredentials(true); // Allow cookies/auth tokens
+                    return corsConfig;
+                }))
+                .csrf(csrf -> csrf.disable()) // Disable CSRF for stateless APIs
                 .authorizeHttpRequests(auth -> auth
                         // Allow public endpoints
                         .requestMatchers(PUBLIC_ENDPOINTS.toArray(new String[0])).permitAll()
@@ -57,9 +69,10 @@ public class SecurityConfig {
                         .requestMatchers(PROTECTED_ENDPOINTS.toArray(new String[0])).authenticated()
                         .anyRequest().authenticated()
                 )
+                .authenticationProvider(daoAuthenticationProvider()) // Use custom UserDetailsService
                 .addFilterBefore(authTokenFilterUtil, UsernamePasswordAuthenticationFilter.class); // Add JWT filter
 
-        logger.info("Security filter chain configured.");
+        logger.info("Security filter chain configured with CORS.");
         return http.build();
     }
 
@@ -83,5 +96,18 @@ public class SecurityConfig {
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
+    }
+
+    /**
+     * Configures a DaoAuthenticationProvider using the custom UserDetailsService and PasswordEncoder.
+     *
+     * @return a configured DaoAuthenticationProvider
+     */
+    @Bean
+    public DaoAuthenticationProvider daoAuthenticationProvider() {
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setUserDetailsService(userDetailsService);
+        provider.setPasswordEncoder(passwordEncoder());
+        return provider;
     }
 }
