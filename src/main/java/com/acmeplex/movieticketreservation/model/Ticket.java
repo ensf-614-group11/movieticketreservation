@@ -85,4 +85,8 @@ public class Ticket {
     public void setPayment(Payment payment) {
         this.payment = payment;
     }
+
+    public AcmePlexUser getUser() {return user;}
+
+    public void setUser(AcmePlexUser user) {this.user = user;}
 }
