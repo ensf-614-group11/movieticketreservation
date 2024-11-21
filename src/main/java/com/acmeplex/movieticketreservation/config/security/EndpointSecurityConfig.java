@@ -19,16 +19,18 @@ public class EndpointSecurityConfig {
     public static final List<String> PUBLIC_ENDPOINTS = List.of(
             Endpoints.API_AUTH_LOGIN,
             Endpoints.API_AUTH_REGISTER,
-            "/public/**",     // Static files and public resources
+            "/public/**", // Static files and public resources
             "/static/**",
             "/favicon.ico",
-            Endpoints.API_ERROR
-    );
+            Endpoints.API_ERROR,
+            Endpoints.API_THEATRES,
+            Endpoints.API_THEATRES_MOVIES);
 
     /**
      * Protected endpoints that require authentication.
      */
     public static final List<String> PROTECTED_ENDPOINTS = List.of(
-            Endpoints.API_USER_PROFILE + "/**" // All subpaths under user profile
+            Endpoints.API_USER_PROFILE + "/**", // All subpaths under user profile
+            Endpoints.API_SHARED_PAGE // Shared page endpoint
     );
 }

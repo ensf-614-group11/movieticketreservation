@@ -20,8 +20,11 @@ import java.util.List;
 
 import static com.acmeplex.movieticketreservation.config.security.EndpointSecurityConfig.*;
 
+import java.util.List;
+
 /**
- * Configures application security, including public and protected endpoints, password encoding, and authentication.
+ * Configures application security, including public and protected endpoints,
+ * password encoding, and authentication.
  */
 @Configuration
 public class SecurityConfig {
@@ -34,7 +37,7 @@ public class SecurityConfig {
     /**
      * Constructor to inject dependencies.
      *
-     * @param userDetailsService the custom UserDetailsService implementation
+     * @param userDetailsService  the custom UserDetailsService implementation
      * @param authTokenFilterUtil the JWT authentication filter
      */
     @Lazy
@@ -44,7 +47,8 @@ public class SecurityConfig {
     }
 
     /**
-     * Configures the security filter chain, defining public and protected endpoints.
+     * Configures the security filter chain, defining public and protected
+     * endpoints.
      *
      * @param http the HttpSecurity instance
      * @return the configured SecurityFilterChain
@@ -67,9 +71,7 @@ public class SecurityConfig {
                         .requestMatchers(PUBLIC_ENDPOINTS.toArray(new String[0])).permitAll()
                         // Authenticate protected endpoints
                         .requestMatchers(PROTECTED_ENDPOINTS.toArray(new String[0])).authenticated()
-                        .anyRequest().authenticated()
-                )
-                .authenticationProvider(daoAuthenticationProvider()) // Use custom UserDetailsService
+                        .anyRequest().authenticated())
                 .addFilterBefore(authTokenFilterUtil, UsernamePasswordAuthenticationFilter.class); // Add JWT filter
 
         logger.info("Security filter chain configured with CORS.");
@@ -94,12 +96,14 @@ public class SecurityConfig {
      * @throws Exception if an error occurs creating the AuthenticationManager
      */
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+            throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
     /**
-     * Configures a DaoAuthenticationProvider using the custom UserDetailsService and PasswordEncoder.
+     * Configures a DaoAuthenticationProvider using the custom UserDetailsService
+     * and PasswordEncoder.
      *
      * @return a configured DaoAuthenticationProvider
      */
