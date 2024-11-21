@@ -38,6 +38,8 @@ public final class Constants {
         public static final String API_PAYMENT_TYPE_CREATE = API_PAYMENT_TYPE; // POST /api/user/profile/payment-type
         public static final String API_PAYMENT_TYPE_SET_ACTIVE = API_PAYMENT_TYPE + "/set-active"; // PUT /api/user/profile/payment-type/set-active
         public static final String API_PAYMENT_TYPE_GET = API_PAYMENT_TYPE + "/list"; // GET /api/user/profile/payment-type/list
+        public static final String API_PAYMENT_TYPE_MANAGE = API_USER_PROFILE + "/payment-type/manage"; // PUT /api/user/profile/payment-type/manage
+
 
 
         // Error Endpoints
