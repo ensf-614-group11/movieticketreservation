@@ -32,6 +32,12 @@ public final class Constants {
 
         // Error Endpoint
         public static final String API_ERROR = "/error";
+
+        // Payment Endpoint
+        public static final String API_PAYMENT = "/api/payment";
+
+        // Ticket Endpoint
+        public static final String API_TICKET = "/api/ticket";
     }
 
     /**

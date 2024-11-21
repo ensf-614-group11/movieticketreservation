@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AnalysisUIOptions">
+    <option name="SCOPE_TYPE" value="3" />
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="2d415855-a115-43b2-9aea-3a719a1c1164" name="Changes" comment="Set up project environment&#10;&#10;- Configured essential components: Cache, Security, and Filters&#10;- Implemented controller structure with AuthController and custom error handling&#10;- Set up DTOs for request and response models (LoginRequest, RegisterRequest, ApiResponse, etc.)&#10;- Established exception handling mechanism with centralized ErrorHandler&#10;- Added models, repository layer for database interaction (UserRepository, AcmePlexUser)&#10;- Included services for user authentication and token management (AcmeUserDetailsService, AuthTokenUtil)&#10;- Configured logging through StartupLogger for application initialization logging">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/controller/MakePaymentController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/controller/TicketController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/dto/request/PaymentRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/dto/response/PaymentResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/factory/PaymentStrategyFactory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/services/PaymentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/config/constants/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/config/constants/Constants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/controller/CreditCardPayment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/controller/CreditCardPayment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/controller/MakePayment.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/controller/PaymentStrategy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/controller/PaymentStrategy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/model/Payment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/model/Payment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/model/Receipt.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/model/Receipt.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/repository/SeatRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/repository/SeatRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/repository/ShowtimeRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/repository/ShowtimeRepository.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="AnnotationType" />
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;stevenhcau&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/ensf-614-group11/movieticketreservation.git&quot;,
+    &quot;accountId&quot;: &quot;32cb23e0-fd00-4bb2-882f-04451ff9b312&quot;
+  }
+}</component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="2oKBAjoIkxYARYpXjzIAys8UOaf" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="openDirectoriesWithSingleClick" value="true" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showVisibilityIcons" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.MovieticketreservationApplication.executor&quot;: &quot;Run&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;Spring Boot.MovieticketreservationApplication.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;7-makepayment-implement&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Auste/OneDrive/Documents/ENSF614/Project/Nov19_2/movieticketreservation&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.repository.indices&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.acmeplex.movieticketreservation.model" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\arkzs\AppData\GitHub Projects\movieticketreservation\src\main\resources\static" />
+      <recent name="D:\GitHub\AcmePlexSpring\AcmePlexApp" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.acmeplex.movieticketreservation.dto.request" />
+      <recent name="com.acmeplex.movieticketreservation.repository" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="AcmePlexSpring" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="AcmePlexSpring" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MovieticketreservationApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="movieticketreservation" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.acmeplex.movieticketreservation.MovieticketreservationApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.23726.103" />
+        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.23726.103" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2d415855-a115-43b2-9aea-3a719a1c1164" name="Changes" comment="" />
+      <created>1730608246821</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1730608246821</updated>
+      <workItem from="1731873836228" duration="15549000" />
+      <workItem from="1732047556267" duration="83000" />
+      <workItem from="1732047719513" duration="4633000" />
+      <workItem from="1732074584880" duration="10600000" />
+      <workItem from="1732127251462" duration="21891000" />
+    </task>
+    <task id="LOCAL-00001" summary="Update folder directory structure">
+      <option name="closed" value="true" />
+      <created>1730609350350</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1730609350350</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Set up project environment&#10;&#10;- Configured essential components: Cache, Security, and Filters&#10;- Implemented controller structure with AuthController and custom error handling&#10;- Set up DTOs for request and response models (LoginRequest, RegisterRequest, ApiResponse, etc.)&#10;- Established exception handling mechanism with centralized ErrorHandler&#10;- Added models, repository layer for database interaction (UserRepository, AcmePlexUser)&#10;- Included services for user authentication and token management (AcmeUserDetailsService, AuthTokenUtil)&#10;- Configured logging through StartupLogger for application initialization logging">
+      <option name="closed" value="true" />
+      <created>1731567723966</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1731567723966</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Set up project environment&#10;&#10;- Configured essential components: Cache, Security, and Filters&#10;- Implemented controller structure with AuthController and custom error handling&#10;- Set up DTOs for request and response models (LoginRequest, RegisterRequest, ApiResponse, etc.)&#10;- Established exception handling mechanism with centralized ErrorHandler&#10;- Added models, repository layer for database interaction (UserRepository, AcmePlexUser)&#10;- Included services for user authentication and token management (AcmeUserDetailsService, AuthTokenUtil)&#10;- Configured logging through StartupLogger for application initialization logging">
+      <option name="closed" value="true" />
+      <created>1731909233595</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1731909233595</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Set up project environment&#10;&#10;- Configured essential components: Cache, Security, and Filters&#10;- Implemented controller structure with AuthController and custom error handling&#10;- Set up DTOs for request and response models (LoginRequest, RegisterRequest, ApiResponse, etc.)&#10;- Established exception handling mechanism with centralized ErrorHandler&#10;- Added models, repository layer for database interaction (UserRepository, AcmePlexUser)&#10;- Included services for user authentication and token management (AcmeUserDetailsService, AuthTokenUtil)&#10;- Configured logging through StartupLogger for application initialization logging">
+      <option name="closed" value="true" />
+      <created>1732047763933</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1732047763933</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Set up project environment&#10;&#10;- Configured essential components: Cache, Security, and Filters&#10;- Implemented controller structure with AuthController and custom error handling&#10;- Set up DTOs for request and response models (LoginRequest, RegisterRequest, ApiResponse, etc.)&#10;- Established exception handling mechanism with centralized ErrorHandler&#10;- Added models, repository layer for database interaction (UserRepository, AcmePlexUser)&#10;- Included services for user authentication and token management (AcmeUserDetailsService, AuthTokenUtil)&#10;- Configured logging through StartupLogger for application initialization logging">
+      <option name="closed" value="true" />
+      <created>1732047947360</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1732047947360</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Set up project environment&#10;&#10;- Configured essential components: Cache, Security, and Filters&#10;- Implemented controller structure with AuthController and custom error handling&#10;- Set up DTOs for request and response models (LoginRequest, RegisterRequest, ApiResponse, etc.)&#10;- Established exception handling mechanism with centralized ErrorHandler&#10;- Added models, repository layer for database interaction (UserRepository, AcmePlexUser)&#10;- Included services for user authentication and token management (AcmeUserDetailsService, AuthTokenUtil)&#10;- Configured logging through StartupLogger for application initialization logging">
+      <option name="closed" value="true" />
+      <created>1732068376695</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1732068376695</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Set up project environment&#10;&#10;- Configured essential components: Cache, Security, and Filters&#10;- Implemented controller structure with AuthController and custom error handling&#10;- Set up DTOs for request and response models (LoginRequest, RegisterRequest, ApiResponse, etc.)&#10;- Established exception handling mechanism with centralized ErrorHandler&#10;- Added models, repository layer for database interaction (UserRepository, AcmePlexUser)&#10;- Included services for user authentication and token management (AcmeUserDetailsService, AuthTokenUtil)&#10;- Configured logging through StartupLogger for application initialization logging">
+      <option name="closed" value="true" />
+      <created>1732068474220</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1732068474220</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Set up project environment&#10;&#10;- Configured essential components: Cache, Security, and Filters&#10;- Implemented controller structure with AuthController and custom error handling&#10;- Set up DTOs for request and response models (LoginRequest, RegisterRequest, ApiResponse, etc.)&#10;- Established exception handling mechanism with centralized ErrorHandler&#10;- Added models, repository layer for database interaction (UserRepository, AcmePlexUser)&#10;- Included services for user authentication and token management (AcmeUserDetailsService, AuthTokenUtil)&#10;- Configured logging through StartupLogger for application initialization logging">
+      <option name="closed" value="true" />
+      <created>1732126425418</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1732126425418</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="OPEN_GENERIC_TABS">
+      <map>
+        <entry key="930f08be-6a74-40b6-ac12-b14ee7d25617" value="TOOL_WINDOW" />
+      </map>
+    </option>
+    <option name="TAB_STATES">
+      <map>
+        <entry key="930f08be-6a74-40b6-ac12-b14ee7d25617">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                  <entry key="structure">
+                    <value>
+                      <list>
+                        <option value="dir:C:/Users/arkzs/AppData/GitHub Projects/movieticketreservation/src/main/java/com/acmeplex/movieticketreservation/security" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+              <option name="SHOW_ONLY_AFFECTED_CHANGES" value="true" />
+            </State>
+          </value>
+        </entry>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="7-makepayment-implement" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Update folder directory structure" />
+    <MESSAGE value="Set up project environment&#10;&#10;- Configured essential components: Cache, Security, and Filters&#10;- Implemented controller structure with AuthController and custom error handling&#10;- Set up DTOs for request and response models (LoginRequest, RegisterRequest, ApiResponse, etc.)&#10;- Established exception handling mechanism with centralized ErrorHandler&#10;- Added models, repository layer for database interaction (UserRepository, AcmePlexUser)&#10;- Included services for user authentication and token management (AcmeUserDetailsService, AuthTokenUtil)&#10;- Configured logging through StartupLogger for application initialization logging" />
+    <option name="LAST_COMMIT_MESSAGE" value="Set up project environment&#10;&#10;- Configured essential components: Cache, Security, and Filters&#10;- Implemented controller structure with AuthController and custom error handling&#10;- Set up DTOs for request and response models (LoginRequest, RegisterRequest, ApiResponse, etc.)&#10;- Established exception handling mechanism with centralized ErrorHandler&#10;- Added models, repository layer for database interaction (UserRepository, AcmePlexUser)&#10;- Included services for user authentication and token management (AcmeUserDetailsService, AuthTokenUtil)&#10;- Configured logging through StartupLogger for application initialization logging" />
+  </component>
+</project>
