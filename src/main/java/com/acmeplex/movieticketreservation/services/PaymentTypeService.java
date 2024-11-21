@@ -35,17 +35,43 @@ public class PaymentTypeService {
     }
 
     /**
-     * Deactivates any existing active payment type for a user.
+     * Deactivates any existing active payment type for a user, ensuring that the user always has at least one active payment type.
      *
      * @param userId The ID of the user.
+     * @throws IllegalStateException if the user has no other payment types to activate.
      */
     private void deactivateExistingActivePayment(Long userId) {
-        paymentTypeRepository.findActivePaymentTypeByUserId(userId)
-                .ifPresent(existingActivePayment -> {
-                    existingActivePayment.setStatus("Inactive");
-                    paymentTypeRepository.save(existingActivePayment);
-                });
+        var activePaymentOpt = paymentTypeRepository.findActivePaymentTypeByUserId(userId);
+
+        // If no active payment exists, there's nothing to deactivate
+        if (activePaymentOpt.isEmpty()) {
+            return;
+        }
+
+        PaymentType activePayment = activePaymentOpt.get();
+
+        // Check if there are other payment types for the user
+        var allPayments = paymentTypeRepository.findAllByUserId(userId);
+
+        // If there's only one payment type, keep it active
+        if (allPayments.size() <= 1) {
+            throw new IllegalStateException("User must have at least one active payment type.");
+        }
+
+        // Find another payment type to activate
+        PaymentType alternativePayment = allPayments.stream()
+                .filter(payment -> !payment.equals(activePayment))
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("No alternative payment types available for activation."));
+
+        // Deactivate the current active payment and activate the alternative
+        activePayment.setStatus("Inactive");
+        alternativePayment.setStatus("Active");
+
+        paymentTypeRepository.save(activePayment);
+        paymentTypeRepository.save(alternativePayment);
     }
+
 
     /**
      * Creates a new payment type for a user.

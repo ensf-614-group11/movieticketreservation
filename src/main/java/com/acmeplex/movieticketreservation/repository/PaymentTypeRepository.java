@@ -42,4 +42,14 @@ public interface PaymentTypeRepository extends JpaRepository<PaymentType, Long> 
      */
     @Query("SELECT p FROM PaymentType p WHERE p.acmePlexUser.id = :userId")
     List<PaymentType> findAllByAcmePlexUserId(@Param("userId") Long userId);
+
+    /**
+     * Finds all payment types for a user by their ID.
+     *
+     * @param userId The ID of the user.
+     * @return A list of payment types associated with the user.
+     */
+    @Query("SELECT p FROM PaymentType p WHERE p.acmePlexUser.id = :userId")
+    List<PaymentType> findAllByUserId(@Param("userId") Long userId);
+
 }
