@@ -1,12 +1,7 @@
 package com.acmeplex.movieticketreservation;
 
 import com.acmeplex.movieticketreservation.model.AcmePlexUser;
-import com.acmeplex.movieticketreservation.model.Theatre;
 import com.acmeplex.movieticketreservation.repository.UserRepository;
-import com.acmeplex.movieticketreservation.repository.TheatreRepository;
-
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -25,9 +20,5 @@ public class MovieticketreservationApplication {
 	public static void main(String[] args) {
 		// Run the Spring Boot application
 		SpringApplication.run(MovieticketreservationApplication.class, args);
-		// TheatreRepository theatreRepository;
-		// List<Theatre> theatres = theatreRepository.findAll();
-		// System.out.println(theatres);
-
 	}
 }
