@@ -1,7 +1,7 @@
 package com.acmeplex.movieticketreservation.auth.strategy;
 
 import com.acmeplex.movieticketreservation.config.constants.Constants;
-import com.acmeplex.movieticketreservation.dto.request.LoginRequest;
+import com.acmeplex.movieticketreservation.dto.request.DefaultLoginRequest;
 import com.acmeplex.movieticketreservation.dto.response.ApiResponse;
 import com.acmeplex.movieticketreservation.security.AuthTokenUtil;
 import org.slf4j.Logger;
@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
  * Strategy for handling user login.
  */
 @Component
-public class DefaultLoginStrategy implements AuthStrategy<LoginRequest> {
+public class DefaultLoginStrategy implements AuthStrategy<DefaultLoginRequest> {
 
     private static final Logger logger = LoggerFactory.getLogger(DefaultLoginStrategy.class);
 
@@ -31,7 +31,7 @@ public class DefaultLoginStrategy implements AuthStrategy<LoginRequest> {
     }
 
     @Override
-    public ResponseEntity<ApiResponse<String>> execute(LoginRequest loginRequest) {
+    public ResponseEntity<ApiResponse<String>> execute(DefaultLoginRequest loginRequest) {
         try {
             logger.info("Login attempt for email: {}", loginRequest.getEmail());
 

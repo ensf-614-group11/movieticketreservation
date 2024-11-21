@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 /**
  * Data transfer object for user registration requests.
  */
-public class RegisterRequest {
+public class DefaultRegistrationRequest {
 
     @NotBlank(message = "Email is required.")
     @Email(message = "Invalid email format.")
