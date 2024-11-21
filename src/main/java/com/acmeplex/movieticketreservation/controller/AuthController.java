@@ -32,8 +32,8 @@ public class AuthController {
      */
     @PostMapping(Constants.Endpoints.API_AUTH_LOGIN)
     public ResponseEntity<ApiResponse<String>> login(@RequestParam String strategyType,
-                                                     @RequestBody @Valid LoginRequest request) {
-        AuthStrategy<LoginRequest> strategy = strategyContext.getStrategy(strategyType);
+                                                     @RequestBody @Valid DefaultLoginRequest request) {
+        AuthStrategy<DefaultLoginRequest> strategy = strategyContext.getStrategy(strategyType);
         return strategy.execute(request);
     }
 

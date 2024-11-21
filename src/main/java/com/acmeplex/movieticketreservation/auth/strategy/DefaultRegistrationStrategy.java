@@ -3,7 +3,7 @@ package com.acmeplex.movieticketreservation.auth.strategy;
 import com.acmeplex.movieticketreservation.config.constants.Constants;
 import com.acmeplex.movieticketreservation.dto.request.CreateBillingAddressRequest;
 import com.acmeplex.movieticketreservation.dto.request.CreatePaymentTypeRequest;
-import com.acmeplex.movieticketreservation.dto.request.RegisterRequest;
+import com.acmeplex.movieticketreservation.dto.request.DefaultRegistrationRequest;
 import com.acmeplex.movieticketreservation.dto.response.ApiResponse;
 import com.acmeplex.movieticketreservation.facade.RegistrationFacade;
 import com.acmeplex.movieticketreservation.model.AcmePlexUser;
@@ -52,7 +52,7 @@ public class DefaultRegistrationStrategy implements AuthStrategy<Object[]> {
      *
      * @param requests an array of request objects:
      *                 <ul>
-     *                     <li>requests[0] - a {@link RegisterRequest} containing user details</li>
+     *                     <li>requests[0] - a {@link DefaultRegistrationRequest} containing user details</li>
      *                     <li>requests[1] - a {@link CreateBillingAddressRequest} for the user's billing address</li>
      *                     <li>requests[2] - a {@link CreatePaymentTypeRequest} for the user's payment type</li>
      *                 </ul>
@@ -61,7 +61,7 @@ public class DefaultRegistrationStrategy implements AuthStrategy<Object[]> {
      */
     @Override
     public ResponseEntity<ApiResponse<String>> execute(Object[] requests) {
-        RegisterRequest registerRequest = (RegisterRequest) requests[0];
+        DefaultRegistrationRequest registerRequest = (DefaultRegistrationRequest) requests[0];
         CreateBillingAddressRequest billingAddressRequest = (CreateBillingAddressRequest) requests[1];
         CreatePaymentTypeRequest paymentTypeRequest = (CreatePaymentTypeRequest) requests[2];
 

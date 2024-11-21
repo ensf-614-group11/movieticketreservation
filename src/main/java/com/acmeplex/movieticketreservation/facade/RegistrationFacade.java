@@ -1,6 +1,6 @@
 package com.acmeplex.movieticketreservation.facade;
 
-import com.acmeplex.movieticketreservation.dto.request.RegisterRequest;
+import com.acmeplex.movieticketreservation.dto.request.DefaultRegistrationRequest;
 import com.acmeplex.movieticketreservation.dto.request.CreateBillingAddressRequest;
 import com.acmeplex.movieticketreservation.dto.request.CreatePaymentTypeRequest;
 import com.acmeplex.movieticketreservation.model.AcmePlexUser;
@@ -44,7 +44,7 @@ public class RegistrationFacade {
      * @return The registered AcmePlexUser.
      */
     @Transactional
-    public AcmePlexUser registerUser(RegisterRequest registerRequest,
+    public AcmePlexUser registerUser(DefaultRegistrationRequest registerRequest,
                                      CreateBillingAddressRequest billingAddressRequest,
                                      CreatePaymentTypeRequest paymentTypeRequest) {
 
