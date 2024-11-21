@@ -1,6 +1,6 @@
 package com.acmeplex.movieticketreservation.services;
 
-import com.acmeplex.movieticketreservation.dto.request.RegisterRequest;
+import com.acmeplex.movieticketreservation.dto.request.DefaultRegistrationRequest;
 import com.acmeplex.movieticketreservation.dto.request.UpdateProfileRequest;
 import com.acmeplex.movieticketreservation.model.AcmePlexUser;
 import com.acmeplex.movieticketreservation.repository.UserRepository;
@@ -52,7 +52,7 @@ public class AcmePlexUserProfileService {
      * @return the newly created AcmePlexUser
      */
     @Transactional
-    public AcmePlexUser registerUser(RegisterRequest registerRequest) {
+    public AcmePlexUser registerUser(DefaultRegistrationRequest registerRequest) {
         if (registerRequest == null || registerRequest.getEmail() == null || registerRequest.getPassword() == null) {
             throw new IllegalArgumentException("Registration details must not be null.");
         }
