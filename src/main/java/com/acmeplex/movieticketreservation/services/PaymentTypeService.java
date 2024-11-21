@@ -55,7 +55,8 @@ public class PaymentTypeService {
 
         // If there's only one payment type, keep it active
         if (allPayments.size() <= 1) {
-            throw new IllegalStateException("User must have at least one active payment type.");
+            logger.info("Only one payment type exists for the user. Skipping deactivation.");
+            return;
         }
 
         // Find another payment type to activate
