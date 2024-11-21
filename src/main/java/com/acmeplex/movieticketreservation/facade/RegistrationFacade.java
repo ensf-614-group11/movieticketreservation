@@ -50,18 +50,21 @@ public class RegistrationFacade {
 
         logger.info("Starting registration process for user: {}", registerRequest.getEmail());
 
-        // Register the user
+        // Step 1: Register the user
         AcmePlexUser user = userProfileService.registerUser(registerRequest);
 
-        // Validate and save billing address
+        // Step 2: Validate and save billing address
         Address billingAddress = addressService.createBillingAddress(user.getEmail(), billingAddressRequest);
         user.setSavedBillingAddress(billingAddress);
 
-        // Validate and save payment type
+        // Step 3: Validate and save the first payment type
         PaymentType paymentType = paymentTypeService.createPaymentType(user.getEmail(), paymentTypeRequest);
-        user.setSavedPaymentType(paymentType);
+
+        // Step 4: Automatically set the first payment type as active
+        paymentTypeService.setActivePaymentType(user.getEmail(), paymentType.getId());
 
         logger.info("Registration process completed successfully for user: {}", registerRequest.getEmail());
         return user;
     }
 }
+

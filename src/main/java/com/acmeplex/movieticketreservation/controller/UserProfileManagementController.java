@@ -125,5 +125,4 @@ public class UserProfileManagementController {
         List<PaymentType> paymentTypes = paymentTypeService.getPaymentTypesByUser(email);
         return ResponseEntity.ok(new ApiResponse<>(true, Constants.Success.PAYMENT_TYPES_FETCHED, paymentTypes));
     }
-
 }

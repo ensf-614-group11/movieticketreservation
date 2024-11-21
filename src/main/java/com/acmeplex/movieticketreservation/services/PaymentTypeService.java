@@ -59,13 +59,12 @@ public class PaymentTypeService {
         var user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UserNotFoundException("User not found with email: " + email));
 
-        deactivateExistingActivePayment(user.getId());
-
         PaymentType paymentType = paymentTypeFactory.createPaymentType(request);
         paymentType.setAcmePlexUser(user);
-        paymentType.setStatus("Active");
+        paymentType.setStatus("Inactive"); // Default to inactive; activation is handled separately
         paymentType.setMethod(request.getType());
 
+        logger.info("Created new payment type for user: {}", email);
         return paymentTypeRepository.save(paymentType);
     }
 
