@@ -138,4 +138,45 @@ public class PaymentTypeService {
 
         return paymentTypeRepository.findAllByAcmePlexUserId(user.getId());
     }
+
+    /**
+     * Updates or creates a payment type based on user input, and sets it as active.
+     *
+     * @param email   The email of the user.
+     * @param request The payment type details submitted by the user.
+     * @return The active {@link PaymentType}.
+     */
+    @Transactional
+    public PaymentType updateOrCreateAndSetActive(String email, CreatePaymentTypeRequest request) {
+        var user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException("User not found with email: " + email));
+
+        // Check if an existing payment type matches the details in the request
+        var matchingPaymentTypeOpt = paymentTypeRepository.findByUserIdAndDetails(
+                user.getId(),
+                request.getType(),
+                request.getCardNumber()
+        );
+
+        PaymentType paymentType;
+
+        if (matchingPaymentTypeOpt.isPresent()) {
+            // If a matching payment type exists, set it as active
+            paymentType = matchingPaymentTypeOpt.get();
+            logger.info("Found matching payment type. Setting it as active for user: {}", email);
+        } else {
+            // If no match, create a new payment type
+            paymentType = paymentTypeFactory.createPaymentType(request);
+            paymentType.setAcmePlexUser(user);
+            paymentType.setStatus("Inactive"); // Set to inactive initially
+            paymentTypeRepository.save(paymentType);
+            logger.info("Created new payment type for user: {}", email);
+        }
+
+        // Set the payment type as active
+        deactivateExistingActivePayment(user.getId());
+        paymentType.setStatus("Active");
+
+        return paymentTypeRepository.save(paymentType);
+    }
 }

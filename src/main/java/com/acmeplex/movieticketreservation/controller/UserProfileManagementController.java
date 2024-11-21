@@ -125,4 +125,21 @@ public class UserProfileManagementController {
         List<PaymentType> paymentTypes = paymentTypeService.getPaymentTypesByUser(email);
         return ResponseEntity.ok(new ApiResponse<>(true, Constants.Success.PAYMENT_TYPES_FETCHED, paymentTypes));
     }
+
+    /**
+     * Manages the user's payment type, either updating the existing one or creating a new one.
+     *
+     * @param request The payment type details from the form.
+     * @return The active {@link PaymentType}.
+     */
+    @PutMapping(Constants.Endpoints.API_PAYMENT_TYPE_MANAGE)
+    public ResponseEntity<ApiResponse<PaymentType>> managePaymentType(@RequestBody @Valid CreatePaymentTypeRequest request) {
+        String email = getAuthenticatedUserEmail();
+        logger.info("Managing payment type for user: {}", email);
+
+        PaymentType paymentType = paymentTypeService.updateOrCreateAndSetActive(email, request);
+
+        return ResponseEntity.ok(new ApiResponse<>(true, Constants.Success.PAYMENT_TYPE_UPDATED, paymentType));
+    }
+
 }
