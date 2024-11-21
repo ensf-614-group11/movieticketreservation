@@ -1,24 +1,22 @@
 package com.acmeplex.movieticketreservation.controller;
 
-import com.acmeplex.movieticketreservation.model.AcmePlexUser;
-import com.acmeplex.movieticketreservation.model.CreditCard;
+import com.acmeplex.movieticketreservation.dto.request.PaymentRequest;
 import org.springframework.stereotype.Component;
 
-@Component
-public class CreditCardPayment implements PaymentStrategy{
-
-    private CreditCard creditCard;
-
-    public CreditCardPayment(CreditCard creditCard) {
-        this.creditCard = creditCard;
-    }
+@Component("creditCardPayment")
+public class CreditCardPayment implements PaymentStrategy {
 
     @Override
-    public boolean pay(double amount, AcmePlexUser user){
+    public boolean pay(PaymentRequest paymentRequest){
+        String cardNumber = paymentRequest.getCreditCardNumber();
+        String cardHolderName = paymentRequest.getFirstName() + " " + paymentRequest.getLastName();
+        float amount = paymentRequest.getAmount();
+
         System.out.println("Processing credit card payment of $" + amount +
-                "\nCard Number: " + creditCard.getCardNumber() +
-                "\nCard Holder Name: " + creditCard.getCardHolderName());
+                "\nCard Number: " + cardNumber +
+                "\nCard Holder Name: " + cardHolderName);
         return true;
     }
 
 }
+

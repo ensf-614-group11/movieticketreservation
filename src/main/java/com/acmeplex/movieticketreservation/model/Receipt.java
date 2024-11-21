@@ -24,6 +24,10 @@ public class Receipt {
 
     }
 
+    public Receipt(Payment payment) {
+        this.payment = payment;
+    }
+
     public Receipt() {
 
     }
