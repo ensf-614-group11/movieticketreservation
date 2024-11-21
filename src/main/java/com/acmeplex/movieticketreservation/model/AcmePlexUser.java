@@ -37,9 +37,8 @@ public class AcmePlexUser {
     @JoinColumn(name = "billing_address_id")
     private Address savedBillingAddress;
 
-    @OneToOne(cascade = CascadeType.ALL, optional = true)
-    @JoinColumn(name = "saved_payment_type_id")
-    private PaymentType savedPaymentType;
+    @OneToMany(mappedBy = "acmePlexUser", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = false)
+    private List<PaymentType> paymentTypes;
 
     /**
      * Default constructor required by JPA.
@@ -174,12 +173,12 @@ public class AcmePlexUser {
         this.receipts = receipts;
     }
 
-    public PaymentType getSavedPaymentType() {
-        return savedPaymentType;
+    public List<PaymentType> getPaymentTypes() {
+        return paymentTypes;
     }
 
-    public void setSavedPaymentType(PaymentType savedPaymentType) {
-        this.savedPaymentType = savedPaymentType;
+    public void setPaymentTypes(List<PaymentType> paymentTypes) {
+        this.paymentTypes = paymentTypes;
     }
 
     public Address getSavedBillingAddress() {

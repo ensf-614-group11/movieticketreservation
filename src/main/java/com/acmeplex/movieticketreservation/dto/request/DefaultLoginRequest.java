@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 /**
  * Represents a login request containing user email and password for authentication.
  */
-public class LoginRequest {
+public class DefaultLoginRequest {
 
     @NotBlank(message = "Email is required.")
     @Email(message = "Invalid email format.")
@@ -18,7 +18,7 @@ public class LoginRequest {
     /**
      * Default constructor for LoginRequest.
      */
-    public LoginRequest() {
+    public DefaultLoginRequest() {
     }
 
     /**
@@ -27,7 +27,7 @@ public class LoginRequest {
      * @param email    the user's email
      * @param password the user's password
      */
-    public LoginRequest(String email, String password) {
+    public DefaultLoginRequest(String email, String password) {
         this.email = email;
         this.password = password;
     }
