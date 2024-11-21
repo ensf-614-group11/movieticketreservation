@@ -156,7 +156,7 @@ public class DataInitializer {
             logger.info("Receipts have been added to the database.");
 
             // Credits
-            creditRepository.save(new AcmePlexCredit("CRED12345", 10.00f, payment1));
+            creditRepository.save(new AcmePlexCredit("CRED12345", 10.00f, payment1, new Date()));
 
             logger.info("Credits have been added to the database.");
         } catch (Exception e) {

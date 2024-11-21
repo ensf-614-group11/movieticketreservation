@@ -1,6 +1,10 @@
 package com.acmeplex.movieticketreservation.model;
 
+import com.acmeplex.movieticketreservation.observer.Observer;
+import com.acmeplex.movieticketreservation.services.EmailService;
 import jakarta.persistence.*;
+
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -8,7 +12,7 @@ import java.util.List;
  * Each user has a unique ID, email, password, first name, and last name.
  */
 @Entity
-public class AcmePlexUser {
+public class AcmePlexUser implements Observer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Automatically generated unique ID
@@ -20,6 +24,7 @@ public class AcmePlexUser {
     private String firstName;
     private String lastName;
     private boolean activeMembership;
+    private Date dateRegistered;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Notification> notifications;
@@ -40,6 +45,9 @@ public class AcmePlexUser {
     @OneToMany(mappedBy = "acmePlexUser", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = false)
     private List<PaymentType> paymentTypes;
 
+    @OneToMany(mappedBy = "acmePlexUser", cascade = CascadeType.ALL)
+    private List<AcmePlexCredit> credits;
+
     /**
      * Default constructor required by JPA.
      */
@@ -58,6 +66,7 @@ public class AcmePlexUser {
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
+        dateRegistered = new Date();
     }
 
     /**
@@ -200,4 +209,54 @@ public class AcmePlexUser {
     public void deactivateMembership(){
         this.activeMembership = false;
     }
+
+    public void addNotification(Notification notification) {
+        notifications.add(notification);
+        notification.setUser(this);
+    }
+
+    public List<AcmePlexCredit> getCredits() {
+        return credits;
+    }
+
+    public void setCredits(List<AcmePlexCredit> credits) {
+        this.credits = credits;
+    }
+
+    public void addCredit(AcmePlexCredit credit) {
+        credits.add(credit);
+        credit.setAcmePlexUser(this); // Set the user on the credit
+    }
+
+    public void removeCredit(AcmePlexCredit credit) {
+        credits.remove(credit);
+        credit.setAcmePlexUser(null); // Optionally nullify the user reference
+    }
+
+    // Method to remove the oldest credit from the list, to be used for payment processing
+    public AcmePlexCredit removeOldestCredit() {
+        if (credits != null && !credits.isEmpty()) {
+            AcmePlexCredit oldestCredit = credits.getFirst();  // Get the first credit (oldest)
+            credits.removeFirst();  // Remove the first credit from the list
+            oldestCredit.setAcmePlexUser(null);  // Nullify the user reference
+            return oldestCredit;  // Return the removed credit
+        }
+        return null;  // Return null if the list is empty
+    }
+    public double getTotalCredits() {
+        return credits.stream().mapToDouble(AcmePlexCredit::getAmount).sum();
+    }
+
+
+    @Override
+    public void update(String message) {
+        // When a user receives a new message with movie news, send an email and save it to their notifications
+        EmailService emailService = new EmailService();
+        emailService.sendSimpleMessage(this.email, "AcmePlex Movie News", message);
+        Notification notification = new Notification(new Date(), message, this.email);
+        addNotification(notification);
+    }
+
+
+    public Date getDateRegistered() {return dateRegistered;}
 }
