@@ -1,6 +1,6 @@
 package com.acmeplex.movieticketreservation.services;
 
-import com.acmeplex.movieticketreservation.dto.request.DefaultRegistrationRequest;
+import com.acmeplex.movieticketreservation.dto.request.CreateUserRequest;
 import com.acmeplex.movieticketreservation.dto.request.UpdateProfileRequest;
 import com.acmeplex.movieticketreservation.model.AcmePlexUser;
 import com.acmeplex.movieticketreservation.repository.UserRepository;
@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Service layer for managing user profile operations such as registration, profile updates,
  * and billing address management.
  */
+
 @Service
 public class AcmePlexUserProfileService {
 
@@ -25,19 +26,11 @@ public class AcmePlexUserProfileService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public AcmePlexUserProfileService(
-            UserRepository userRepository,
-            PasswordEncoder passwordEncoder) {
+    public AcmePlexUserProfileService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
-    /**
-     * Fetches a user by their email address.
-     *
-     * @param email the email of the user
-     * @return the AcmePlexUser object
-     */
     @Cacheable(value = "userProfileCache", key = "#email")
     @Transactional(readOnly = true)
     public AcmePlexUser getUserByEmail(String email) {
@@ -45,67 +38,54 @@ public class AcmePlexUserProfileService {
                 .orElseThrow(() -> new UserNotFoundException("User not found with email: " + email));
     }
 
-    /**
-     * Registers a new user.
-     *
-     * @param registerRequest the registration details
-     * @return the newly created AcmePlexUser
-     */
     @Transactional
-    public AcmePlexUser registerUser(DefaultRegistrationRequest registerRequest) {
-        if (registerRequest == null || registerRequest.getEmail() == null || registerRequest.getPassword() == null) {
-            throw new IllegalArgumentException("Registration details must not be null.");
-        }
-
-        if (userRepository.findByEmail(registerRequest.getEmail()).isPresent()) {
-            throw new IllegalArgumentException("Email already in use: " + registerRequest.getEmail());
-        }
-
+    public AcmePlexUser registerUser(CreateUserRequest registerRequest) {
+        validateRegistrationRequest(registerRequest);
+        checkIfEmailExists(registerRequest.getEmail());
         AcmePlexUser newUser = new AcmePlexUser(
                 registerRequest.getEmail(),
                 passwordEncoder.encode(registerRequest.getPassword()),
                 registerRequest.getFirstName(),
                 registerRequest.getLastName()
         );
-
         logger.info("Registering new user with email: {}", registerRequest.getEmail());
         return userRepository.save(newUser);
     }
 
-    /**
-     * Updates user profile details.
-     *
-     * @param email   the email of the user
-     * @param request the profile update request
-     * @return the updated AcmePlexUser object
-     */
+    private void validateRegistrationRequest(CreateUserRequest registerRequest) {
+        if (registerRequest == null || registerRequest.getEmail() == null || registerRequest.getPassword() == null) {
+            throw new IllegalArgumentException("Registration details must not be null.");
+        }
+        logger.debug("Validated registration request for email: {}", registerRequest.getEmail());
+    }
+
+    private void checkIfEmailExists(String email) {
+        userRepository.findByEmail(email).ifPresent(existing -> {
+            throw new IllegalArgumentException("Email already in use: " + email);
+        });
+        logger.debug("Email is available: {}", email);
+    }
+
     @Transactional
     @CacheEvict(value = "userProfileCache", key = "#email")
     public AcmePlexUser updateUserProfile(String email, UpdateProfileRequest request) {
-        if (request == null) {
-            throw new IllegalArgumentException("Update request must not be null.");
-        }
 
         AcmePlexUser user = getUserByEmail(email);
 
-        if (request.getFirstName() != null && !request.getFirstName().isBlank()) {
-            user.setFirstName(request.getFirstName());
-        }
-        if (request.getLastName() != null && !request.getLastName().isBlank()) {
-            user.setLastName(request.getLastName());
-        }
-        if (request.getEmail() != null && !request.getEmail().equals(user.getEmail())) {
-            if (userRepository.findByEmail(request.getEmail()).isPresent()) {
-                throw new IllegalArgumentException("Email already in use: " + request.getEmail());
-            }
+        user.setFirstName(request.getFirstName());
+        user.setLastName(request.getLastName());
+
+        if (!request.getEmail().equals(user.getEmail())) {
+            checkIfEmailExists(request.getEmail());
             user.setEmail(request.getEmail());
-        }
-        if (request.getPassword() != null && !request.getPassword().isBlank()) {
-            user.setPassword(passwordEncoder.encode(request.getPassword()));
         }
 
         AcmePlexUser updatedUser = userRepository.save(user);
         logger.info("User profile updated successfully for email: {}", email);
         return updatedUser;
+    }
+
+    private boolean isNotBlank(String value) {
+        return value != null && !value.isBlank();
     }
 }

@@ -1,53 +1,67 @@
 package com.acmeplex.movieticketreservation.controller;
 
-import com.acmeplex.movieticketreservation.auth.context.AuthStrategyContext;
-import com.acmeplex.movieticketreservation.auth.strategy.AuthStrategy;
-import com.acmeplex.movieticketreservation.config.constants.Constants;
-import com.acmeplex.movieticketreservation.dto.request.*;
-import com.acmeplex.movieticketreservation.dto.response.ApiResponse;
+import com.acmeplex.movieticketreservation.dto.request.DefaultLoginRequest;
+import com.acmeplex.movieticketreservation.dto.request.DefaultRegistrationRequest;
+import com.acmeplex.movieticketreservation.dto.response.*;
+import com.acmeplex.movieticketreservation.facade.RegistrationFacade;
+import com.acmeplex.movieticketreservation.model.AcmePlexUser;
+import com.acmeplex.movieticketreservation.security.AuthTokenUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.validation.Valid;
-
-/**
- * Controller for handling authentication and registration using strategy patterns.
- */
 @RestController
-@RequestMapping(Constants.Endpoints.API_AUTH)
+@RequestMapping("/api/auth")
 public class AuthController {
 
-    private final AuthStrategyContext strategyContext;
+    private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 
-    public AuthController(AuthStrategyContext strategyContext) {
-        this.strategyContext = strategyContext;
+    private final AuthenticationManager authenticationManager;
+    private final AuthTokenUtil authTokenUtil;
+    private final RegistrationFacade registrationFacade;
+
+    public AuthController(AuthenticationManager authenticationManager, AuthTokenUtil authTokenUtil, RegistrationFacade registrationFacade) {
+        this.authenticationManager = authenticationManager;
+        this.authTokenUtil = authTokenUtil;
+        this.registrationFacade = registrationFacade;
     }
 
-    /**
-     * Handles user login with a specific authentication strategy.
-     *
-     * @param strategyType the type of strategy to use for login
-     * @param request      the login request containing user credentials
-     * @return a ResponseEntity containing the login result
-     */
-    @PostMapping(Constants.Endpoints.API_AUTH_LOGIN)
-    public ResponseEntity<ApiResponse<String>> login(@RequestParam String strategyType,
-                                                     @RequestBody @Valid DefaultLoginRequest request) {
-        AuthStrategy<DefaultLoginRequest> strategy = strategyContext.getStrategy(strategyType);
-        return strategy.execute(request);
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody DefaultLoginRequest request) {
+        logger.info("Login request received for email: {}", request.getEmail());
+
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getEmail(),
+                        request.getPassword()
+                )
+        );
+
+        String token = authTokenUtil.generateToken(request.getEmail());
+        logger.info("User {} authenticated successfully.", request.getEmail());
+
+        AuthenticationResponse response = new AuthenticationResponse(token, request.getEmail());
+        return ResponseEntity.ok(new ApiResponse<>(true, "Login successful", response));
     }
 
-    /**
-     * Handles user registration with a specific registration strategy.
-     *
-     * @param strategyType the type of strategy to use for registration
-     * @param requests     an array of request objects needed for registration
-     * @return a ResponseEntity containing the registration result
-     */
-    @PostMapping(Constants.Endpoints.API_AUTH_REGISTER)
-    public ResponseEntity<ApiResponse<String>> register(@RequestParam String strategyType,
-                                                        @RequestBody @Valid Object[] requests) {
-        AuthStrategy<Object[]> strategy = strategyContext.getStrategy(strategyType);
-        return strategy.execute(requests);
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@RequestBody DefaultRegistrationRequest request) {
+        logger.info("Registration request received for email: {}", request.getUser().getEmail());
+
+        AcmePlexUser newUser = registrationFacade.registerUser(
+                request.getUser(),
+                request.getBillingAddress(),
+                request.getPaymentType()
+        );
+
+        String token = authTokenUtil.generateToken(newUser.getEmail());
+        logger.info("User {} registered successfully.", request.getUser().getEmail());
+
+        AuthenticationResponse response = new AuthenticationResponse(token, newUser.getEmail());
+        return ResponseEntity.ok(new ApiResponse<>(true, "User registered successfully", response));
     }
 }

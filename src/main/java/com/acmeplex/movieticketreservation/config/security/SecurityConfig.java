@@ -18,11 +18,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import java.util.List;
 
-import static com.acmeplex.movieticketreservation.config.security.EndpointSecurityConfig.*;
-
-/**
- * Configures application security, including public and protected endpoints, password encoding, and authentication.
- */
 @Configuration
 public class SecurityConfig {
 
@@ -52,6 +47,24 @@ public class SecurityConfig {
      */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+        // Define public and protected endpoints directly here
+        List<String> publicEndpoints = List.of(
+                "/api/auth/login/**",
+                "/api/auth/register/**",
+                "/public/**",     // Static files and public resources
+                "/static/**",
+                "/favicon.ico",
+                "/error"
+        );
+
+        List<String> protectedEndpoints = List.of(
+                "/api/user/profile/**",
+                "/api/user/profile/billing-address/**",
+                "/api/user/profile/payment-type/**",
+                "/api/user/profile/payment-type/manage/**"
+        );
+
         http
                 .cors(cors -> cors.configurationSource(request -> {
                     var corsConfig = new org.springframework.web.cors.CorsConfiguration();
@@ -63,10 +76,11 @@ public class SecurityConfig {
                 }))
                 .csrf(csrf -> csrf.disable()) // Disable CSRF for stateless APIs
                 .authorizeHttpRequests(auth -> auth
-                        // Allow public endpoints
-                        .requestMatchers(PUBLIC_ENDPOINTS.toArray(new String[0])).permitAll()
-                        // Authenticate protected endpoints
-                        .requestMatchers(PROTECTED_ENDPOINTS.toArray(new String[0])).authenticated()
+                        // Permit all requests to public endpoints
+                        .requestMatchers(publicEndpoints.toArray(new String[0])).permitAll()
+                        // Require authentication for protected endpoints
+                        .requestMatchers(protectedEndpoints.toArray(new String[0])).authenticated()
+                        // Require authentication for any other requests
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(daoAuthenticationProvider()) // Use custom UserDetailsService
