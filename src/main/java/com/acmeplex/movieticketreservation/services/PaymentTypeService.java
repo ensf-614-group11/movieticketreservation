@@ -221,4 +221,26 @@ public class PaymentTypeService {
         return activePaymentType.orElseThrow(() ->
                 new IllegalArgumentException("No active payment type found for user with ID: " + userId));
     }
+
+    /**
+     * Retrieves the active payment type for a user by their user ID and casts it to the specified type.
+     *
+     * @param userId The ID of the user.
+     * @param type   The expected type of the active {@link PaymentType}.
+     * @param <T>    The specific type of {@link PaymentType} to cast to.
+     * @return The active payment type cast to the specified type.
+     * @throws IllegalArgumentException if no active payment type is found for the user or
+     *                                  if the active payment type is not of the expected type.
+     */
+    public <T extends PaymentType> T getActivePaymentTypeAs(Long userId, Class<T> type) {
+        PaymentType activePaymentType = findActivePaymentTypeByUserId(userId);
+
+        if (type.isInstance(activePaymentType)) {
+            return type.cast(activePaymentType);
+        } else {
+            throw new IllegalArgumentException(
+                    "Active payment type is not of the expected type: " + type.getSimpleName());
+        }
+    }
+
 }
