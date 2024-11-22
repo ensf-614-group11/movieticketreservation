@@ -8,11 +8,11 @@ public class CreditCard extends PaymentType {
 
     private String cardNumber;
     private String cardHolderName;
-    private LocalDate expiryDate;
+    private String expiryDate;
 
     public CreditCard() {}
 
-    public CreditCard(float amount, String status, String method, AcmePlexUser acmePlexUser, String cardNumber, String cardHolderName, LocalDate expiryDate) {
+    public CreditCard(float amount, String status, String method, AcmePlexUser acmePlexUser, String cardNumber, String cardHolderName, String expiryDate) {
         super(status, method, acmePlexUser);
         this.cardNumber = cardNumber;
         this.cardHolderName = cardHolderName;
@@ -35,11 +35,11 @@ public class CreditCard extends PaymentType {
         this.cardHolderName = cardHolderName;
     }
 
-    public LocalDate getExpiryDate() {
+    public String getExpiryDate() {
         return expiryDate;
     }
 
-    public void setExpiryDate(LocalDate expiryDate) {
+    public void setExpiryDate(String expiryDate) {
         this.expiryDate = expiryDate;
     }
 }

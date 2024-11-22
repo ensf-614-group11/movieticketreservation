@@ -1,5 +1,6 @@
 package com.acmeplex.movieticketreservation.facade;
 
+import com.acmeplex.movieticketreservation.dto.request.CreateUserRequest;
 import com.acmeplex.movieticketreservation.dto.request.DefaultRegistrationRequest;
 import com.acmeplex.movieticketreservation.dto.request.CreateBillingAddressRequest;
 import com.acmeplex.movieticketreservation.dto.request.CreatePaymentTypeRequest;
@@ -38,33 +39,38 @@ public class RegistrationFacade {
     /**
      * Handles the complete registration process.
      *
-     * @param registerRequest        The registration request with user details.
+     * @param createUserRequest      The registration request with user details.
      * @param billingAddressRequest  The billing address details.
      * @param paymentTypeRequest     The payment type details.
      * @return The registered AcmePlexUser.
      */
     @Transactional
-    public AcmePlexUser registerUser(DefaultRegistrationRequest registerRequest,
+    public AcmePlexUser registerUser(CreateUserRequest createUserRequest,
                                      CreateBillingAddressRequest billingAddressRequest,
                                      CreatePaymentTypeRequest paymentTypeRequest) {
+        try {
+            logger.info("Starting user registration for email: {}", createUserRequest.getEmail());
 
-        logger.info("Starting registration process for user: {}", registerRequest.getEmail());
+            // Step 1: Register the user
+            AcmePlexUser user = userProfileService.registerUser(createUserRequest);
+            logger.debug("User registered successfully: {}", user.getEmail());
 
-        // Step 1: Register the user
-        AcmePlexUser user = userProfileService.registerUser(registerRequest);
+            // Step 2: Create billing address
+            Address billingAddress = addressService.createBillingAddress(user.getEmail(), billingAddressRequest);
+            user.setSavedBillingAddress(billingAddress);
+            logger.debug("Billing address saved: {}", billingAddress.getStreet());
 
-        // Step 2: Validate and save billing address
-        Address billingAddress = addressService.createBillingAddress(user.getEmail(), billingAddressRequest);
-        user.setSavedBillingAddress(billingAddress);
+            // Step 3: Create payment type
+            PaymentType paymentType = paymentTypeService.createPaymentType(user.getEmail(), paymentTypeRequest);
+            paymentTypeService.setActivePaymentType(user.getEmail(), paymentType.getId());
+            logger.debug("Payment type saved: {}", paymentType.getType());
 
-        // Step 3: Validate and save the first payment type
-        PaymentType paymentType = paymentTypeService.createPaymentType(user.getEmail(), paymentTypeRequest);
-
-        // Step 4: Automatically set the first payment type as active
-        paymentTypeService.setActivePaymentType(user.getEmail(), paymentType.getId());
-
-        logger.info("Registration process completed successfully for user: {}", registerRequest.getEmail());
-        return user;
+            logger.info("Registration process completed successfully for user: {}", createUserRequest.getEmail());
+            return user;
+        } catch (Exception ex) {
+            logger.error("Error during registration workflow for user: {}", createUserRequest.getEmail(), ex);
+            throw ex; // Re-throw to be handled by the caller
+        }
     }
-}
 
+}
