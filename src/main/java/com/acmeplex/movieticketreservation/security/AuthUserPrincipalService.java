@@ -34,6 +34,20 @@ public class AuthUserPrincipalService {
     }
 
     /**
+     * Checks if the provided email matches the currently authenticated user's email.
+     *
+     * @param email the email to check
+     * @return true if the provided email matches the authenticated user's email, false otherwise
+     */
+    public boolean checkAuthenticationByEmail(String email) {
+        UserPrincipal currentUser = getCurrentUserPrincipal();
+        if (currentUser == null) {
+            return false; // No user is authenticated
+        }
+        return currentUser.getUsername().equalsIgnoreCase(email);
+    }
+
+    /**
      * Helper method to check if the authentication principal is a {@link UserPrincipal}.
      *
      * @param auth the {@link Authentication} object
