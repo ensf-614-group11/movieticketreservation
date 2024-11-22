@@ -17,6 +17,10 @@ public abstract class PaymentType {
     @JoinColumn(name = "user_id", nullable = true)
     private AcmePlexUser acmePlexUser;
 
+    @OneToOne
+    @JoinColumn(name = "card_number")
+    private CreditCard creditCard;
+
     public PaymentType() {}
 
     public PaymentType(String status, String method, AcmePlexUser acmePlexUser) {
@@ -51,5 +55,8 @@ public abstract class PaymentType {
 
     public void setAcmePlexUser(AcmePlexUser acmePlexUser) {
         this.acmePlexUser = acmePlexUser;
+    }
+
+    public Object getCardNumber() {
     }
 }

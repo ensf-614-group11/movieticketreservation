@@ -8,8 +8,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2d415855-a115-43b2-9aea-3a719a1c1164" name="Changes" comment="Set up project environment&#10;&#10;- Configured essential components: Cache, Security, and Filters&#10;- Implemented controller structure with AuthController and custom error handling&#10;- Set up DTOs for request and response models (LoginRequest, RegisterRequest, ApiResponse, etc.)&#10;- Established exception handling mechanism with centralized ErrorHandler&#10;- Added models, repository layer for database interaction (UserRepository, AcmePlexUser)&#10;- Included services for user authentication and token management (AcmeUserDetailsService, AuthTokenUtil)&#10;- Configured logging through StartupLogger for application initialization logging&#10;- Added Payment and Ticket controllers">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/controller/CreditValidation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/dto/request/CreditValidationResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/dto/request/RegisteredUserPaymentRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/dto/request/UnregisteredUserPaymentRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/dto/response/CreditValidationRequest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/config/constants/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/config/constants/Constants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/controller/CreditCardPayment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/controller/CreditCardPayment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/controller/MakePaymentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/controller/MakePayment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/controller/PaymentStrategy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/controller/PaymentStrategy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/dto/request/PaymentRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/dto/request/PaymentRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/factory/PaymentStrategyFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/factory/PaymentStrategyFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/model/AcmePlexCredit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/model/AcmePlexCredit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/model/PaymentType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/model/PaymentType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/repository/AcmePlexCreditRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/repository/AcmePlexCreditRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/repository/CreditCardRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/repository/CreditCardRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/services/PaymentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/acmeplex/movieticketreservation/services/PaymentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -145,7 +161,8 @@
       <workItem from="1732047556267" duration="83000" />
       <workItem from="1732047719513" duration="4633000" />
       <workItem from="1732074584880" duration="10600000" />
-      <workItem from="1732127251462" duration="22141000" />
+      <workItem from="1732127251462" duration="48635000" />
+      <workItem from="1732263782062" duration="28000" />
     </task>
     <task id="LOCAL-00001" summary="Update folder directory structure">
       <option name="closed" value="true" />
@@ -219,7 +236,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732176117427</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Set up project environment&#10;&#10;- Configured essential components: Cache, Security, and Filters&#10;- Implemented controller structure with AuthController and custom error handling&#10;- Set up DTOs for request and response models (LoginRequest, RegisterRequest, ApiResponse, etc.)&#10;- Established exception handling mechanism with centralized ErrorHandler&#10;- Added models, repository layer for database interaction (UserRepository, AcmePlexUser)&#10;- Included services for user authentication and token management (AcmeUserDetailsService, AuthTokenUtil)&#10;- Configured logging through StartupLogger for application initialization logging&#10;- Added Payment and Ticket controllers">
+      <option name="closed" value="true" />
+      <created>1732176335786</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1732176335786</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
