@@ -52,4 +52,9 @@ public abstract class PaymentType {
     public void setAcmePlexUser(AcmePlexUser acmePlexUser) {
         this.acmePlexUser = acmePlexUser;
     }
+
+    public String getType() {
+        return this.method;
+    }
+
 }

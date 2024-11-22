@@ -2,6 +2,7 @@ package com.acmeplex.movieticketreservation.config.security;
 
 import com.acmeplex.movieticketreservation.security.AuthTokenFilterUtil;
 import com.acmeplex.movieticketreservation.security.AcmePlexUserDetailsService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -18,11 +19,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import java.util.List;
 
-import static com.acmeplex.movieticketreservation.config.security.EndpointSecurityConfig.*;
-
-/**
- * Configures application security, including public and protected endpoints, password encoding, and authentication.
- */
 @Configuration
 public class SecurityConfig {
 
@@ -52,6 +48,24 @@ public class SecurityConfig {
      */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+        // Define public and protected endpoints directly here
+        List<String> publicEndpoints = List.of(
+                "/api/auth/login/**",
+                "/api/auth/register/**",
+                "/public/**",     // Static files and public resources
+                "/static/**",
+                "/favicon.ico",
+                "/error"
+        );
+
+        List<String> protectedEndpoints = List.of(
+                "/api/user/profile/**",
+                "/api/user/profile/billing-address/**",
+                "/api/user/profile/payment-type/**",
+                "/api/user/profile/payment-type/manage/**"
+        );
+
         http
                 .cors(cors -> cors.configurationSource(request -> {
                     var corsConfig = new org.springframework.web.cors.CorsConfiguration();
@@ -63,11 +77,22 @@ public class SecurityConfig {
                 }))
                 .csrf(csrf -> csrf.disable()) // Disable CSRF for stateless APIs
                 .authorizeHttpRequests(auth -> auth
-                        // Allow public endpoints
-                        .requestMatchers(PUBLIC_ENDPOINTS.toArray(new String[0])).permitAll()
-                        // Authenticate protected endpoints
-                        .requestMatchers(PROTECTED_ENDPOINTS.toArray(new String[0])).authenticated()
+                        // Permit all requests to public endpoints
+                        .requestMatchers(publicEndpoints.toArray(new String[0])).permitAll()
+                        // Require authentication for protected endpoints
+                        .requestMatchers(protectedEndpoints.toArray(new String[0])).authenticated()
+                        // Require authentication for any other requests
                         .anyRequest().authenticated()
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/api/auth/logout") // Define the logout endpoint
+                        .logoutSuccessHandler((request, response, authentication) -> {
+                            logger.info("User logged out successfully: {}", authentication != null ? authentication.getName() : "Anonymous");
+                            response.setStatus(HttpServletResponse.SC_OK);
+                            response.getWriter().write("Logout successful");
+                        })
+                        .invalidateHttpSession(true) // Invalidate the user's session
+                        .deleteCookies("JSESSIONID") // Delete session cookies (if any)
                 )
                 .authenticationProvider(daoAuthenticationProvider()) // Use custom UserDetailsService
                 .addFilterBefore(authTokenFilterUtil, UsernamePasswordAuthenticationFilter.class); // Add JWT filter

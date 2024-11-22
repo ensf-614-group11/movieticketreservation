@@ -3,7 +3,6 @@ package com.acmeplex.movieticketreservation.factory;
 import com.acmeplex.movieticketreservation.dto.request.CreatePaymentTypeRequest;
 import com.acmeplex.movieticketreservation.model.CreditCard;
 import com.acmeplex.movieticketreservation.model.PaymentType;
-import com.acmeplex.movieticketreservation.utils.PaymentTypeDateUtil;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -23,7 +22,7 @@ public class PaymentTypeFactory {
         CreditCard creditCard = new CreditCard();
         creditCard.setCardHolderName(request.getCardholderName());
         creditCard.setCardNumber(request.getCardNumber());
-        creditCard.setExpiryDate(PaymentTypeDateUtil.parseMMYYToLocalDate(request.getExpirationDate()));
+        creditCard.setExpiryDate(request.getExpirationDate());
         return creditCard;
     }
 }

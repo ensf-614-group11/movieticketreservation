@@ -1,60 +1,53 @@
 package com.acmeplex.movieticketreservation.dto.request;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 
 /**
- * Data transfer object for user registration requests.
+ * A wrapper DTO for combining registration-related requests.
  */
 public class DefaultRegistrationRequest {
 
-    @NotBlank(message = "Email is required.")
-    @Email(message = "Invalid email format.")
-    private String email;
+    @NotNull(message = "User registration details are required.")
+    @Valid
+    private CreateUserRequest user;
 
-    @NotBlank(message = "Password is required.")
-    private String password;
+    @NotNull(message = "Billing address details are required.")
+    @Valid
+    private CreateBillingAddressRequest billingAddress;
 
-    @NotBlank(message = "First name is required.")
-    private String firstName;
+    @NotNull(message = "Payment type details are required.")
+    @Valid
+    private CreatePaymentTypeRequest paymentType;
 
-    @NotBlank(message = "Last name is required.")
-    private String lastName;
+    // Default constructor
+    public DefaultRegistrationRequest() {
+    }
 
-    private CreatePaymentTypeRequest paymentType; // Optional field for payment type
-    private UpdateBillingAddressRequest billingAddress; // Optional field for billing address
+    // Constructor for initialization
+    public DefaultRegistrationRequest(CreateUserRequest user,
+                                      CreateBillingAddressRequest billingAddress,
+                                      CreatePaymentTypeRequest paymentType) {
+        this.user = user;
+        this.billingAddress = billingAddress;
+        this.paymentType = paymentType;
+    }
 
     // Getters and setters
-    public String getEmail() {
-        return email;
+    public CreateUserRequest getUser() {
+        return user;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUser(CreateUserRequest user) {
+        this.user = user;
     }
 
-    public String getPassword() {
-        return password;
+    public CreateBillingAddressRequest getBillingAddress() {
+        return billingAddress;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setBillingAddress(CreateBillingAddressRequest billingAddress) {
+        this.billingAddress = billingAddress;
     }
 
     public CreatePaymentTypeRequest getPaymentType() {
@@ -63,13 +56,5 @@ public class DefaultRegistrationRequest {
 
     public void setPaymentType(CreatePaymentTypeRequest paymentType) {
         this.paymentType = paymentType;
-    }
-
-    public UpdateBillingAddressRequest getBillingAddress() {
-        return billingAddress;
-    }
-
-    public void setBillingAddress(UpdateBillingAddressRequest billingAddress) {
-        this.billingAddress = billingAddress;
     }
 }
