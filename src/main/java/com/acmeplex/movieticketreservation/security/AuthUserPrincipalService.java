@@ -16,10 +16,9 @@ public class AuthUserPrincipalService {
      * @return the authenticated {@link UserPrincipal}, or null if no user is authenticated
      */
     public UserPrincipal getCurrentUserPrincipal() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        if (authentication != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof UserPrincipal) {
-            return (UserPrincipal) authentication.getPrincipal();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null && isUserPrincipal(auth)) {
+            return (UserPrincipal) auth.getPrincipal();
         }
         return null;
     }
@@ -27,10 +26,20 @@ public class AuthUserPrincipalService {
     /**
      * Checks if the current user is authenticated.
      *
-     * @return true if the user is authenticated, false otherwise
+     * @return true if authenticated, false otherwise
      */
     public boolean isAuthenticated() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return authentication != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof UserPrincipal;
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return auth != null && isUserPrincipal(auth);
+    }
+
+    /**
+     * Helper method to check if the authentication principal is a {@link UserPrincipal}.
+     *
+     * @param auth the {@link Authentication} object
+     * @return true if the principal is a {@link UserPrincipal}, false otherwise
+     */
+    private boolean isUserPrincipal(Authentication auth) {
+        return auth.isAuthenticated() && auth.getPrincipal() instanceof UserPrincipal;
     }
 }
