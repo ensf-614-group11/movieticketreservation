@@ -17,11 +17,10 @@ public class TheatreService {
   }
 
   public List<TheatreResponse> getAllTheatres() {
-    // List<Theatre> theatres = theatreRepository.findAll();
-    // System.out.println(theatres);
     return theatreRepository.findAll().stream()
         .map(theatre -> new TheatreResponse(
             theatre.getId(),
+            theatre.getName(),
             theatre.getLocation()))
         .collect(Collectors.toList());
   }
