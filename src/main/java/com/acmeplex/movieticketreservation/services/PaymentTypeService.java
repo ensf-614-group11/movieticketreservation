@@ -2,6 +2,7 @@ package com.acmeplex.movieticketreservation.services;
 
 import com.acmeplex.movieticketreservation.dto.request.CreatePaymentTypeRequest;
 import com.acmeplex.movieticketreservation.factory.PaymentTypeFactory;
+import com.acmeplex.movieticketreservation.model.AcmePlexUser;
 import com.acmeplex.movieticketreservation.model.PaymentType;
 import com.acmeplex.movieticketreservation.repository.PaymentTypeRepository;
 import com.acmeplex.movieticketreservation.repository.UserRepository;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Service layer for managing payment types, including creation, activation, and deactivation.
@@ -179,5 +181,44 @@ public class PaymentTypeService {
         paymentType.setStatus("Active");
 
         return paymentTypeRepository.save(paymentType);
+    }
+
+    /**
+     * Retrieves the active payment type for a specific user by email.
+     *
+     * @param email The email of the user.
+     * @return The active {@link PaymentType}.
+     * @throws UserNotFoundException if the user with the specified email does not exist.
+     * @throws IllegalArgumentException if no active payment type is found for the user.
+     */
+    @Transactional(readOnly = true)
+    public PaymentType getActivePaymentTypeByEmail(String email) {
+        // Find the user by email
+        AcmePlexUser user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException("User not found with email: " + email));
+
+        // Find the active payment type for the user
+        Optional<PaymentType> activePaymentType = paymentTypeRepository.findActivePaymentTypeByUserId(user.getId());
+
+        // If no active payment type is found, throw an exception
+        return activePaymentType.orElseThrow(() ->
+                new IllegalArgumentException("No active payment type found for user with email: " + email));
+    }
+
+    /**
+     * Retrieves the active payment type for a specific user by their user ID.
+     *
+     * @param userId The ID of the user.
+     * @return The active {@link PaymentType}.
+     * @throws IllegalArgumentException if no active payment type is found for the user.
+     */
+    @Transactional(readOnly = true)
+    public PaymentType findActivePaymentTypeByUserId(Long userId) {
+        // Use the repository to find the active payment type by user ID
+        Optional<PaymentType> activePaymentType = paymentTypeRepository.findActivePaymentTypeByUserId(userId);
+
+        // Return the active payment type if found, otherwise throw an exception
+        return activePaymentType.orElseThrow(() ->
+                new IllegalArgumentException("No active payment type found for user with ID: " + userId));
     }
 }
