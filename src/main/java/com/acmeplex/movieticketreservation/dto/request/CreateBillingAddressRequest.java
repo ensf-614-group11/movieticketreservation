@@ -3,7 +3,10 @@ package com.acmeplex.movieticketreservation.dto.request;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-public class SaveBillingAddressRequest {
+/**
+ * Request DTO for creating a new billing address.
+ */
+public class CreateBillingAddressRequest {
 
     @NotBlank(message = "Street address cannot be blank")
     @Size(max = 100, message = "Street address must not exceed 100 characters")

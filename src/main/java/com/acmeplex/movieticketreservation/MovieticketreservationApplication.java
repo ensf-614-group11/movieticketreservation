@@ -2,8 +2,11 @@ package com.acmeplex.movieticketreservation;
 
 import com.acmeplex.movieticketreservation.model.AcmePlexUser;
 import com.acmeplex.movieticketreservation.repository.UserRepository;
+import com.acmeplex.movieticketreservation.services.EmailService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,8 +20,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @SpringBootApplication(scanBasePackages = "com.acmeplex.movieticketreservation")
 public class MovieticketreservationApplication {
 
+	@Autowired
+	private EmailService emailService;
 	public static void main(String[] args) {
-		// Run the Spring Boot application
 		SpringApplication.run(MovieticketreservationApplication.class, args);
 	}
+
 }

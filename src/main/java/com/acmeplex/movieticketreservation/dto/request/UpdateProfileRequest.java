@@ -21,16 +21,12 @@ public class UpdateProfileRequest {
     @Email(message = "Invalid email format")
     private String email;
 
-    @Size(min = 8, max = 100, message = "Password must be between 8 and 100 characters")
-    private String password; // Optional
-
     public UpdateProfileRequest() {}
 
-    public UpdateProfileRequest(String firstName, String lastName, String email, String password) {
+    public UpdateProfileRequest(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.password = password;
     }
 
     // Getters and setters
@@ -56,13 +52,5 @@ public class UpdateProfileRequest {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 }
