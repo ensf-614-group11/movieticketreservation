@@ -1,6 +1,5 @@
 package com.acmeplex.movieticketreservation.controller;
 
-import com.acmeplex.movieticketreservation.config.constants.Constants;
 import com.acmeplex.movieticketreservation.dto.request.CreditValidationResponse;
 import com.acmeplex.movieticketreservation.dto.response.CreditValidationRequest;
 import com.acmeplex.movieticketreservation.model.AcmePlexCredit;
@@ -15,12 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(Constants.Endpoints.API_CREDIT_VAL)
-public class CreditValidation {
+@RequestMapping("api/validate-credit")
+public class AcmePlexCreditValidation {
 
     AcmePlexCreditRepository creditRepository;
 
-    public CreditValidation(AcmePlexCreditRepository creditRepository) {
+    public AcmePlexCreditValidation(AcmePlexCreditRepository creditRepository) {
         this.creditRepository = creditRepository;
     }
 

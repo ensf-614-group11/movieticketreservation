@@ -1,7 +1,6 @@
 package com.acmeplex.movieticketreservation.factory;
 
-import com.acmeplex.movieticketreservation.controller.PaymentStrategy;
-import com.acmeplex.movieticketreservation.dto.request.PaymentRequest;
+import com.acmeplex.movieticketreservation.services.strategy.PaymentStrategy;
 import com.acmeplex.movieticketreservation.dto.request.RegisteredUserPaymentRequest;
 import com.acmeplex.movieticketreservation.dto.request.UnregisteredUserPaymentRequest;
 import com.acmeplex.movieticketreservation.model.AcmePlexUser;
