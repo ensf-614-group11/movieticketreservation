@@ -1,6 +1,5 @@
-package com.acmeplex.movieticketreservation.controller;
+package com.acmeplex.movieticketreservation.services.strategy;
 
-import com.acmeplex.movieticketreservation.dto.request.PaymentRequest;
 import com.acmeplex.movieticketreservation.dto.request.RegisteredUserPaymentRequest;
 import com.acmeplex.movieticketreservation.dto.request.UnregisteredUserPaymentRequest;
 import com.acmeplex.movieticketreservation.model.AcmePlexUser;
@@ -8,6 +7,7 @@ import com.acmeplex.movieticketreservation.model.CreditCard;
 import com.acmeplex.movieticketreservation.model.PaymentType;
 import com.acmeplex.movieticketreservation.repository.CreditCardRepository;
 import com.acmeplex.movieticketreservation.repository.UserRepository;
+import com.acmeplex.movieticketreservation.services.PaymentTypeService;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -17,10 +17,16 @@ public class CreditCardPayment implements PaymentStrategy {
 
     private final UserRepository userRepository;
     private final CreditCardRepository creditCardRepository;
+    private final RetrieveCreditCardPaymentType retrieveCreditCardPaymentType;
 
-    public CreditCardPayment(UserRepository userRepository, CreditCardRepository creditCardRepository) {
+    public CreditCardPayment(UserRepository userRepository,
+                             CreditCardRepository creditCardRepository,
+                             PaymentTypeService paymentTypeService,
+                             RetrieveCreditCardPaymentType retrieveCreditCardPaymentType
+    ) {
         this.userRepository = userRepository;
         this.creditCardRepository = creditCardRepository;
+        this.retrieveCreditCardPaymentType = retrieveCreditCardPaymentType;
     }
 
     @Override
@@ -43,7 +49,7 @@ public class CreditCardPayment implements PaymentStrategy {
         CreditCard creditCard = null;
         for(PaymentType paymentType : paymentTypes){
             if(paymentType.getMethod().equals("CreditCard")){
-                creditCard = creditCardRepository.findByCardNumber(paymentType.getCardNumber());
+                creditCard = retrieveCreditCardPaymentType.retrieve(user.getId());
             }
         }
 

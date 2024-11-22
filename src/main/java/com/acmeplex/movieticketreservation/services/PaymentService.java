@@ -1,7 +1,6 @@
 package com.acmeplex.movieticketreservation.services;
 
-import com.acmeplex.movieticketreservation.controller.PaymentStrategy;
-import com.acmeplex.movieticketreservation.dto.request.PaymentRequest;
+import com.acmeplex.movieticketreservation.services.strategy.PaymentStrategy;
 import com.acmeplex.movieticketreservation.dto.request.RegisteredUserPaymentRequest;
 import com.acmeplex.movieticketreservation.dto.request.UnregisteredUserPaymentRequest;
 import com.acmeplex.movieticketreservation.dto.response.PaymentResponse;
@@ -9,11 +8,9 @@ import com.acmeplex.movieticketreservation.factory.PaymentStrategyFactory;
 import com.acmeplex.movieticketreservation.model.*;
 import com.acmeplex.movieticketreservation.repository.*;
 import org.springframework.stereotype.Service;
-import org.springframework.services.NotificationService;
 
 import java.util.Date;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class PaymentService {
@@ -35,8 +32,8 @@ public class PaymentService {
             SeatRepository seatRepository,
             ShowtimeRepository showtimeRepository,
             UserRepository userRepository,
-            NotificationService notificationService,
-            UserRepository userRepository) {
+            NotificationService notificationService
+    ) {
         this.paymentStrategyFactory = paymentStrategyFactory;
         this.paymentRepository = paymentRepository;
         this.ticketRepository = ticketRepository;
@@ -144,7 +141,7 @@ public class PaymentService {
         receiptRepository.save(receipt);
 
         // Send Ticket and Receipt via email
-        notificationService.sendTicketAndReceiptOrdinaryUser(ticket, receipt, user.get().getEmail());
+        notificationService.sendTicketAndReceiptRegisteredUser(ticket, receipt);
 
         // Return the PaymentResponse
         return new PaymentResponse(
