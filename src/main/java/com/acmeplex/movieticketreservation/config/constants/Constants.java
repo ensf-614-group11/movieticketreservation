@@ -36,8 +36,8 @@ public final class Constants {
         // Payment Endpoint
         public static final String API_PAYMENT = "/api/payment";
 
-        // Ticket Endpoint
-        public static final String API_TICKET = "/api/ticket";
+        // Validate Credit Endpoint
+        public static final String API_CREDIT_VAL = "api/creditval";
     }
 
     /**

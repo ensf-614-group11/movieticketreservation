@@ -37,4 +37,12 @@ public class AcmePlexCredit {
     public void setPayment(Payment payment) {
         this.payment = payment;
     }
+
+    public float getAmount() {
+        return amount;
+    }
+
+    public void setAmount(float amount) {
+        this.amount = amount;
+    }
 }
