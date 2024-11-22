@@ -40,3 +40,8 @@ build/
 .DS_Store
 .idea/
 .idea/workspace.xml
+
+
+### Properties File ###
+*.properties
+application.properties
