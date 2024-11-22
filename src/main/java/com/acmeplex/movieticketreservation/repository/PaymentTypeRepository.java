@@ -52,4 +52,5 @@ public interface PaymentTypeRepository extends JpaRepository<PaymentType, Long> 
     @Query("SELECT p FROM PaymentType p WHERE p.acmePlexUser.id = :userId")
     List<PaymentType> findAllByUserId(@Param("userId") Long userId);
 
+
 }
