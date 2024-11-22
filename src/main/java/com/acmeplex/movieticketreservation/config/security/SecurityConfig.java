@@ -2,6 +2,7 @@ package com.acmeplex.movieticketreservation.config.security;
 
 import com.acmeplex.movieticketreservation.security.AuthTokenFilterUtil;
 import com.acmeplex.movieticketreservation.security.AcmePlexUserDetailsService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -82,6 +83,16 @@ public class SecurityConfig {
                         .requestMatchers(protectedEndpoints.toArray(new String[0])).authenticated()
                         // Require authentication for any other requests
                         .anyRequest().authenticated()
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/api/auth/logout") // Define the logout endpoint
+                        .logoutSuccessHandler((request, response, authentication) -> {
+                            logger.info("User logged out successfully: {}", authentication != null ? authentication.getName() : "Anonymous");
+                            response.setStatus(HttpServletResponse.SC_OK);
+                            response.getWriter().write("Logout successful");
+                        })
+                        .invalidateHttpSession(true) // Invalidate the user's session
+                        .deleteCookies("JSESSIONID") // Delete session cookies (if any)
                 )
                 .authenticationProvider(daoAuthenticationProvider()) // Use custom UserDetailsService
                 .addFilterBefore(authTokenFilterUtil, UsernamePasswordAuthenticationFilter.class); // Add JWT filter
