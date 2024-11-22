@@ -2,18 +2,17 @@ package com.acmeplex.movieticketreservation.model;
 
 import jakarta.persistence.*;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 public class Showtime {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Date dateAndTime;
-    boolean isEarlyRelease;
+    private LocalDateTime dateAndTime;
+    private boolean isEarlyRelease;
 
     @ManyToOne
     @JoinColumn(name = "theatre_room_id")
@@ -29,28 +28,29 @@ public class Showtime {
     public Showtime() {
     }
 
-    public Showtime(Date dateAndTime, boolean isEarlyRelease, TheatreRoom theatreRoom, Movie movie) {
+    public Showtime(LocalDateTime dateAndTime, boolean isEarlyRelease, TheatreRoom theatreRoom, Movie movie) {
         this.dateAndTime = dateAndTime;
         this.isEarlyRelease = isEarlyRelease;
         this.theatreRoom = theatreRoom;
         this.movie = movie;
     }
 
-
     public Long getId() {
         return id;
     }
 
-    public Date getDateAndTime() {
+    public LocalDateTime getDateAndTime() {
         return dateAndTime;
     }
 
-    public void setDateAndTime(Date dateAndTime) {
+    public void setDateAndTime(LocalDateTime dateAndTime) {
         this.dateAndTime = dateAndTime;
     }
+
     public boolean isEarlyRelease() {
         return isEarlyRelease;
     }
+
     public void setEarlyRelease(boolean earlyRelease) {
         isEarlyRelease = earlyRelease;
     }

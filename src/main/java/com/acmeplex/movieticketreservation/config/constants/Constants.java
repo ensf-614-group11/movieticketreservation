@@ -1,5 +1,7 @@
 package com.acmeplex.movieticketreservation.config.constants;
 
+import javax.print.DocFlavor.STRING;
+
 /**
  * Shared constants used across the application, including API endpoints, error
  * messages, and success messages.
@@ -46,8 +48,11 @@ public final class Constants {
         // Error Endpoints
         public static final String API_ERROR = "/error";
 
+        // Theatre Endpoints
         public static final String API_THEATRES = "/api/theatres";
-        public static final String API_THEATRES_MOVIES = API_THEATRES + "/movies";
+        public static final String API_MOVIES = "/api/movies";
+        public static final String API_SHOWTIMES = "/api/showtimes";
+        public static final String API_AVAILABLE_SEATS = "/api/availableSeats/{showtimeId}";
     }
 
     /**

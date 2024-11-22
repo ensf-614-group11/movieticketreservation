@@ -24,7 +24,9 @@ public class EndpointSecurityConfig {
             "/favicon.ico",
             Endpoints.API_ERROR,
             Endpoints.API_THEATRES,
-            Endpoints.API_THEATRES_MOVIES);
+            Endpoints.API_MOVIES,
+            Endpoints.API_SHOWTIMES,
+            Endpoints.API_AVAILABLE_SEATS);
 
     /**
      * Protected endpoints that require authentication.

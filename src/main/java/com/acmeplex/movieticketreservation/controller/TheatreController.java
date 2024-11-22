@@ -4,13 +4,18 @@ import com.acmeplex.movieticketreservation.services.TheatreService;
 import com.acmeplex.movieticketreservation.services.SeatAvailabilityService;
 import com.acmeplex.movieticketreservation.services.ShowtimeService;
 import com.acmeplex.movieticketreservation.config.constants.Constants;
+import com.acmeplex.movieticketreservation.dto.response.MovieResponse;
+import com.acmeplex.movieticketreservation.dto.response.SeatAvailabilityResponse;
+import com.acmeplex.movieticketreservation.dto.response.ShowtimeResponse;
 import com.acmeplex.movieticketreservation.dto.response.TheatreResponse;
 import com.acmeplex.movieticketreservation.model.Movie;
 import com.acmeplex.movieticketreservation.model.SeatAvailability;
 import com.acmeplex.movieticketreservation.model.Showtime;
 import com.acmeplex.movieticketreservation.model.Theatre;
+import com.acmeplex.movieticketreservation.repository.ShowtimeRepository;
 import com.acmeplex.movieticketreservation.services.MovieService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping(Constants.Endpoints.API_THEATRES)
+// @RequestMapping(Constants.Endpoints.API_THEATRES)
 public class TheatreController {
 
   private final MovieService movieService;
@@ -39,8 +44,8 @@ public class TheatreController {
    *
    * @return a list of all movies
    */
-  @GetMapping(Constants.Endpoints.API_THEATRES_MOVIES)
-  public List<Movie> getMovies() {
+  @GetMapping(Constants.Endpoints.API_MOVIES)
+  public List<MovieResponse> getMovies() {
     return movieService.getAllMovies();
   }
 
@@ -50,7 +55,7 @@ public class TheatreController {
    * @return a list of all theatres
    */
 
-  @GetMapping
+  @GetMapping(Constants.Endpoints.API_THEATRES)
   public List<TheatreResponse> getTheatres() {
     return theatreService.getAllTheatres();
   }
@@ -64,12 +69,13 @@ public class TheatreController {
    * @param theatreId the ID of the theatre
    * @return a list of showtimes for the requested date, movie, and theatre
    */
-  @GetMapping("/showtimes")
-  public List<Showtime> getShowtimes(
-      @RequestParam String date,
-      @RequestParam Long movieId,
-      @RequestParam Long theatreId) {
-    return showtimeService.getShowtimes(date, movieId, theatreId);
+  @GetMapping(Constants.Endpoints.API_SHOWTIMES)
+  public List<ShowtimeResponse> getShowtimes(
+      @RequestParam("date") String date,
+      @RequestParam(value = "movieId", required = false) Long movieId,
+      @RequestParam(value = "theatreId", required = false) Long theatreId) {
+
+    return showtimeService.getShowtimesResponse(date, movieId, theatreId);
   }
 
   /**
@@ -79,8 +85,8 @@ public class TheatreController {
    * @param showtimeId the ID of the showtime
    * @return a list of all seats for the showtime with availability status
    */
-  @GetMapping("/seats/all")
-  public List<SeatAvailability> getAllSeats(@RequestParam Long showtimeId) {
+  @GetMapping(Constants.Endpoints.API_AVAILABLE_SEATS)
+  public List<SeatAvailabilityResponse> getAllSeats(@PathVariable Long showtimeId) {
     return seatAvailabilityService.getAllSeats(showtimeId);
   }
 }

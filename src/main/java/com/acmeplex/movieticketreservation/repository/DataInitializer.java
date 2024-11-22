@@ -7,9 +7,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.Date;
 import java.util.List;
-
 
 @Service
 public class DataInitializer {
@@ -31,12 +32,12 @@ public class DataInitializer {
     private final PasswordEncoder passwordEncoder;
 
     public DataInitializer(MovieRepository movieRepository, AcmePlexCreditRepository creditRepository,
-                           UserRepository userRepository, NotificationRepository notificationRepository,
-                           PaymentRepository paymentRepository, ReceiptRepository receiptRepository,
-                           SeatRepository seatRepository, SeatAvailabilityRepository seatAvailabilityRepository,
-                           ShowtimeRepository showtimeRepository,
-                           TheatreRepository theatreRepository, TheatreRoomRepository theatreRoomRepository,
-                           TicketRepository ticketRepository, PasswordEncoder passwordEncoder) {
+            UserRepository userRepository, NotificationRepository notificationRepository,
+            PaymentRepository paymentRepository, ReceiptRepository receiptRepository,
+            SeatRepository seatRepository, SeatAvailabilityRepository seatAvailabilityRepository,
+            ShowtimeRepository showtimeRepository,
+            TheatreRepository theatreRepository, TheatreRoomRepository theatreRoomRepository,
+            TicketRepository ticketRepository, PasswordEncoder passwordEncoder) {
         this.movieRepository = movieRepository;
         this.creditRepository = creditRepository;
         this.userRepository = userRepository;
@@ -55,24 +56,32 @@ public class DataInitializer {
     @PostConstruct
     public void init() {
         try {
-            //Users
+            // Users
             AcmePlexUser user1 = new AcmePlexUser("admin@example.com", passwordEncoder.encode("1111"), "Admin", "User");
-            AcmePlexUser user2 = new AcmePlexUser("user@example.com", passwordEncoder.encode("1111"), "Regular", "User");
+            AcmePlexUser user2 = new AcmePlexUser("user@example.com", passwordEncoder.encode("1111"), "Regular",
+                    "User");
             userRepository.save(user1);
             userRepository.save(user2);
 
             logger.info("Sample users have been added to the database.");
 
             // Movies
-            Movie avengers = movieRepository.save(new Movie("Avengers", 2.3, "Tony Stark woops butt."));
-            Movie ultron = movieRepository.save(new Movie("Avengers: Age of Ultron", 2.5, "Ultron and Vision duke it out."));
-            Movie infinityWar = movieRepository.save(new Movie("Avengers: Infinity War", 3, "Thanos' Guide to the Galaxy."));
-            Movie endgame = movieRepository.save(new Movie("Avengers: Endgame", 3.2, "Time Travelies."));
+            Movie avengers = movieRepository
+                    .save(new Movie("Avengers", 120, java.sql.Date.valueOf("2024-05-26"), "Tony Stark woops butt."));
+            Movie ultron = movieRepository
+                    .save(new Movie("Avengers: Age of Ultron", 130, java.sql.Date.valueOf("2024-09-21"),
+                            "Ultron and Vision duke it out."));
+            Movie infinityWar = movieRepository
+                    .save(new Movie("Avengers: Infinity War", 110, java.sql.Date.valueOf("2024-10-20"),
+                            "Thanos' Guide to the Galaxy."));
+            Movie endgame = movieRepository
+                    .save(new Movie("Avengers: Endgame", 140, java.sql.Date.valueOf("2024-11-15"), "Time Travelies."));
 
             logger.info("Movies have been added to the database.");
 
             // Theatres
-            Theatre crowfootTheatre = theatreRepository.save(new Theatre("800 Crowfoot Street SE Edmonton AB"));
+            Theatre crowfootTheatre = theatreRepository
+                    .save(new Theatre("Crowfoot Theatre", "800 Crowfoot Street SE Edmonton AB"));
 
             logger.info("Theatres have been added to the database.");
 
@@ -84,27 +93,38 @@ public class DataInitializer {
             logger.info("Theatre Rooms have been added to the database.");
 
             // Seats for Crowfoot Room 1
-            for (int i = 1; i <= 108; i++) {
-                seatRepository.save(new Seat(i / 12 + 1, i % 12 == 0 ? 12 : i % 12, crowfootRoom1));
+            for (int i = 1; i <= 40; i++) {
+                int rowNumber = (i - 1) / 8 + 1;
+                int seatNumber = i % 8 == 0 ? 8 : i % 8;
+                seatRepository.save(new Seat(rowNumber, seatNumber, crowfootRoom1));
             }
 
             // Seats for Crowfoot Room 2
-            for (int i = 1; i <= 150; i++) {
-                seatRepository.save(new Seat(i / 15 + 1, i % 15 == 0 ? 15 : i % 15, crowfootRoom2));
+            for (int i = 1; i <= 40; i++) {
+                int rowNumber = (i - 1) / 8 + 1;
+                int seatNumber = i % 8 == 0 ? 8 : i % 8;
+                seatRepository.save(new Seat(rowNumber, seatNumber, crowfootRoom2));
             }
 
             // Seats for Crowfoot Room 3
-            for (int i = 1; i <= 120; i++) {
-                seatRepository.save(new Seat(i / 10 + 1, i % 10 == 0 ? 10 : i % 10, crowfootRoom3));
+            for (int i = 1; i <= 40; i++) {
+                int rowNumber = (i - 1) / 8 + 1;
+                int seatNumber = i % 8 == 0 ? 8 : i % 8;
+                seatRepository.save(new Seat(rowNumber, seatNumber, crowfootRoom3));
             }
 
             logger.info("Theatre room seats have been added to the database.");
 
             // Showtimes
-            showtimeRepository.save(new Showtime(new Date(), false, crowfootRoom1, avengers));
-            showtimeRepository.save(new Showtime(new Date(), true, crowfootRoom1, ultron));
-            showtimeRepository.save(new Showtime(new Date(), false, crowfootRoom2, infinityWar));
-            showtimeRepository.save(new Showtime(new Date(), true, crowfootRoom3, endgame));
+            LocalDateTime showtime1 = LocalDateTime.of(2024, Month.NOVEMBER, 25, 14, 30);
+            LocalDateTime showtime2 = LocalDateTime.of(2024, Month.NOVEMBER, 25, 17, 00);
+            LocalDateTime showtime3 = LocalDateTime.of(2024, Month.NOVEMBER, 26, 19, 30);
+            LocalDateTime showtime4 = LocalDateTime.of(2024, Month.NOVEMBER, 26, 21, 15);
+
+            showtimeRepository.save(new Showtime(showtime1, false, crowfootRoom1, avengers));
+            showtimeRepository.save(new Showtime(showtime2, true, crowfootRoom1, ultron));
+            showtimeRepository.save(new Showtime(showtime3, false, crowfootRoom2, infinityWar));
+            showtimeRepository.save(new Showtime(showtime4, true, crowfootRoom3, endgame));
 
             logger.info("Showtimes have been added to the database.");
 
@@ -128,8 +148,8 @@ public class DataInitializer {
                 }
             }
 
-            logger.info("Seat availabilities have been initialized for all showtimes and their respective theatre room seats.");
-
+            logger.info(
+                    "Seat availabilities have been initialized for all showtimes and their respective theatre room seats.");
 
             // Notifications
             notificationRepository.save(new Notification(new Date(), "Your ticket is confirmed", user1));
@@ -141,12 +161,14 @@ public class DataInitializer {
             Seat ticketSeat1 = seatRepository.findByTheatreRoomAndRowNumberAndSeatNumber(crowfootRoom1, 1, 1);
             Showtime ticketShowtime1 = showtimeRepository.findByTheatreRoomAndMovie(crowfootRoom1, avengers);
 
-            Ticket ticket1 = ticketRepository.save(new Ticket("confirmed", new Date(), ticketShowtime1, ticketSeat1, user1));
+            Ticket ticket1 = ticketRepository
+                    .save(new Ticket("confirmed", new Date(), ticketShowtime1, ticketSeat1, user1));
 
             logger.info("Tickets have been added to the database.");
 
             // Payments
-            Payment payment1 = paymentRepository.save(new Payment(12.99f, new Date(), "completed", "credit card", ticket1, user1));
+            Payment payment1 = paymentRepository
+                    .save(new Payment(12.99f, new Date(), "completed", "credit card", ticket1, user1));
 
             logger.info("Payments have been added to the database.");
 
