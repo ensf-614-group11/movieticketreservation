@@ -44,3 +44,4 @@ build/
 
 ### Properties File ###
 *.properties
+application.properties
