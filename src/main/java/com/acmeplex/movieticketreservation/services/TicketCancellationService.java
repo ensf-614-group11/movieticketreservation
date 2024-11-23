@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
@@ -112,10 +113,11 @@ public class TicketCancellationService {
 
     // Helper method
     // Check if the showtime is more than 72 hours away from the current time
-    private boolean isWithinCancellableWindow(Date showtimeDate) {
-        Instant now = Instant.now();
-        Instant deadline = now.plus(Duration.ofHours(72));
-        return showtimeDate.toInstant().isAfter(deadline);
+    private boolean isWithinCancellableWindow(LocalDateTime showtimeDate) {
+       LocalDateTime now = LocalDateTime.now();
+
+       LocalDateTime deadline = now.plusHours(72);
+        return showtimeDate.isAfter(deadline);
     }
 
 
