@@ -37,16 +37,18 @@ public class AcmePlexUser {
     @JoinColumn(name = "billing_address_id")
     private Address savedBillingAddress;
 
-    @OneToMany(mappedBy = "acmePlexUser", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = false)
+    @OneToMany(mappedBy = "acmePlexUser", cascade = { CascadeType.PERSIST, CascadeType.MERGE }, orphanRemoval = false)
     private List<PaymentType> paymentTypes;
 
     /**
      * Default constructor required by JPA.
      */
-    public AcmePlexUser() {}
+    public AcmePlexUser() {
+    }
 
     /**
-     * Constructs a new AcmePlexUser with the specified email, password, first name, and last name.
+     * Constructs a new AcmePlexUser with the specified email, password, first name,
+     * and last name.
      *
      * @param email     the email of the user (must be unique)
      * @param password  the encrypted password of the user
@@ -193,11 +195,11 @@ public class AcmePlexUser {
         return activeMembership;
     }
 
-    public void activateMembership(){
+    public void activateMembership() {
         this.activeMembership = true;
     }
 
-    public void deactivateMembership(){
+    public void deactivateMembership() {
         this.activeMembership = false;
     }
 }
