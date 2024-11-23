@@ -17,7 +17,6 @@ public final class Constants {
      */
     public static final class Endpoints {
 
-
         private Endpoints() {
             // Private constructor to prevent instantiation
         }
@@ -34,16 +33,18 @@ public final class Constants {
 
         // Billing Address Endpoints
         public static final String API_BILLING_ADDRESS = API_USER_PROFILE + "/billing-address";
-        public static final String API_BILLING_ADDRESS_UPDATE = API_BILLING_ADDRESS; // PUT /api/user/profile/billing-address
+        public static final String API_BILLING_ADDRESS_UPDATE = API_BILLING_ADDRESS; // PUT
+                                                                                     // /api/user/profile/billing-address
 
         // Payment Type Endpoints
         public static final String API_PAYMENT_TYPE = API_USER_PROFILE + "/payment-type";
         public static final String API_PAYMENT_TYPE_CREATE = API_PAYMENT_TYPE; // POST /api/user/profile/payment-type
-        public static final String API_PAYMENT_TYPE_SET_ACTIVE = API_PAYMENT_TYPE + "/set-active"; // PUT /api/user/profile/payment-type/set-active
-        public static final String API_PAYMENT_TYPE_GET = API_PAYMENT_TYPE + "/list"; // GET /api/user/profile/payment-type/list
-        public static final String API_PAYMENT_TYPE_MANAGE = API_USER_PROFILE + "/payment-type/manage"; // PUT /api/user/profile/payment-type/manage
-
-
+        public static final String API_PAYMENT_TYPE_SET_ACTIVE = API_PAYMENT_TYPE + "/set-active"; // PUT
+                                                                                                   // /api/user/profile/payment-type/set-active
+        public static final String API_PAYMENT_TYPE_GET = API_PAYMENT_TYPE + "/list"; // GET
+                                                                                      // /api/user/profile/payment-type/list
+        public static final String API_PAYMENT_TYPE_MANAGE = API_USER_PROFILE + "/payment-type/manage"; // PUT
+                                                                                                        // /api/user/profile/payment-type/manage
 
         // Error Endpoints
         public static final String API_ERROR = "/error";
@@ -77,7 +78,6 @@ public final class Constants {
      * Success message constants.
      */
     public static final class Success {
-
 
         private Success() {
             // Private constructor to prevent instantiation

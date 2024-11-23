@@ -14,7 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Service layer for managing user profile operations such as registration, profile updates,
+ * Service layer for managing user profile operations such as registration,
+ * profile updates,
  * and billing address management.
  */
 @Service
@@ -65,8 +66,7 @@ public class AcmePlexUserProfileService {
                 registerRequest.getEmail(),
                 passwordEncoder.encode(registerRequest.getPassword()),
                 registerRequest.getFirstName(),
-                registerRequest.getLastName()
-        );
+                registerRequest.getLastName());
 
         logger.info("Registering new user with email: {}", registerRequest.getEmail());
         return userRepository.save(newUser);
