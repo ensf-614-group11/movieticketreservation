@@ -11,6 +11,9 @@ public final class Constants {
      */
     public static final class Endpoints {
 
+
+
+
         private Endpoints() {
             // Private constructor to prevent instantiation
         }
@@ -36,6 +39,12 @@ public final class Constants {
         public static final String API_PAYMENT_TYPE_GET = API_PAYMENT_TYPE + "/list";
         public static final String API_PAYMENT_TYPE_MANAGE = "/api/user/profile/payment-type/manage";
 
+        // Ticket cancellation Endpoints
+        public static final String API_TICKET_CANCELLATION = "/api/cancel-ticket";
+        public static final String API_TICKET_CANCELLATION_POST_REGISTERED = API_TICKET_CANCELLATION +"/post/registered";
+        public static final String API_TICKET_CANCELLATION_POST_ORDINARY = API_TICKET_CANCELLATION +"/post/ordinary";
+        public static final String API_TICKET_CANCELLATION_GET = API_TICKET_CANCELLATION + "/get";
+
         // Error Endpoints
         public static final String API_ERROR = "/error";
     }
@@ -45,6 +54,8 @@ public final class Constants {
      * Error message constants.
      */
     public static final class Errors {
+
+
 
         private Errors() {
             // Private constructor to prevent instantiation
@@ -59,6 +70,7 @@ public final class Constants {
         public static final String BAD_REQUEST = "The request was invalid. Please check your input.";
         public static final String NOT_FOUND = "The requested page was not found.";
         public static final String GENERIC_ERROR = "An error occurred while processing the request.";
+        public static final String TICKET_NOT_FOUND = "Ticket not found with ID: ";
     }
 
     /**
