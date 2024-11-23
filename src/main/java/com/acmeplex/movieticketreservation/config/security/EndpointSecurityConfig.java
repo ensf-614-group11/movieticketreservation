@@ -32,7 +32,7 @@ public class EndpointSecurityConfig {
      * Protected endpoints that require authentication.
      */
     public static final List<String> PROTECTED_ENDPOINTS = List.of(
-            Endpoints.API_USER_PROFILE + "/**", // All subpaths under user profile
-            // Endpoints.API_SHARED_PAGE // Shared page endpoint
+            Endpoints.API_USER_PROFILE + "/**" // All subpaths under user profile
+    // Endpoints.API_SHARED_PAGE // Shared page endpoint
     );
 }
