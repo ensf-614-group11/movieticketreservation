@@ -56,14 +56,17 @@ public class SecurityConfig {
                 "/public/**",     // Static files and public resources
                 "/static/**",
                 "/favicon.ico",
-                "/error"
+                "/error",
+                "/api/payment/unregistered",
+                "api/validate-credit"
         );
 
         List<String> protectedEndpoints = List.of(
                 "/api/user/profile/**",
                 "/api/user/profile/billing-address/**",
                 "/api/user/profile/payment-type/**",
-                "/api/user/profile/payment-type/manage/**"
+                "/api/user/profile/payment-type/manage/**",
+                "/api/payment/registered"
         );
 
         http

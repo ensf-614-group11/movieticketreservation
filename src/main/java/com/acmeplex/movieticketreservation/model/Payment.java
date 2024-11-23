@@ -38,6 +38,14 @@ public class Payment {
         this.acmePlexUser = acmePlexUser;
     }
 
+    public Payment(float amount, Date datePaid, String status, String method, Ticket ticket) {
+        this.amount = amount;
+        this.datePaid = datePaid;
+        this.status = status;
+        this.method = method;
+        this.ticket = ticket;
+    }
+
     public Payment() {
 
     }
