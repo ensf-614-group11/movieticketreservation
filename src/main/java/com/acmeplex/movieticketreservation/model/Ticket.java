@@ -62,7 +62,7 @@ public class Ticket {
         this.status = status;
     }
 
-    public Date getShowtime() {
+    public Showtime getShowtime() {
         return showtime;
     }
 
