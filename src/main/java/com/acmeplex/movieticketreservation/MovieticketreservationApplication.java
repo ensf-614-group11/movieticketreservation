@@ -23,7 +23,6 @@ public class MovieticketreservationApplication {
 	@Autowired
 	private EmailService emailService;
 	public static void main(String[] args) {
-		// Run the Spring Boot application
 		SpringApplication.run(MovieticketreservationApplication.class, args);
 	}
 
