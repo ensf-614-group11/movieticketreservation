@@ -65,9 +65,15 @@ public class PaymentService {
         );
         paymentRepository.save(payment);
 
-        // Fetch the Seat and Showtime (modify as per your logic)
+        // Fetch the Seat and Showtime
         Seat seat = seatRepository.findById(paymentRequest.getSeatId());
+        if(seat == null){
+            throw new IllegalArgumentException("Invalid seat provided.");
+        }
         Showtime showtime = showtimeRepository.findById(paymentRequest.getShowtimeId());
+        if(showtime == null){
+            throw new IllegalArgumentException("Invalid seat provided.");
+        }
 
         // Create and save the Ticket entity
         Ticket ticket = new Ticket("confirmed", new Date(), showtime, seat, null);
@@ -123,9 +129,15 @@ public class PaymentService {
         );
         paymentRepository.save(payment);
 
-        // Fetch the Seat and Showtime (modify as per your logic)
+        // Fetch the Seat and Showtime
         Seat seat = seatRepository.findById(paymentRequest.getSeatId());
+        if(seat == null){
+            throw new IllegalArgumentException("Invalid seat provided.");
+        }
         Showtime showtime = showtimeRepository.findById(paymentRequest.getShowtimeId());
+        if(showtime == null){
+            throw new IllegalArgumentException("Invalid seat provided.");
+        }
 
         // Create and save the Ticket entity
         Ticket ticket = new Ticket("confirmed", new Date(), showtime, seat, user.get());
