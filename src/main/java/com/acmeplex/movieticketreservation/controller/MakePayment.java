@@ -1,15 +1,12 @@
 package com.acmeplex.movieticketreservation.controller;
 
-import com.acmeplex.movieticketreservation.config.constants.Constants;
-import com.acmeplex.movieticketreservation.dto.request.PaymentRequest;
+
 import com.acmeplex.movieticketreservation.dto.request.RegisteredUserPaymentRequest;
 import com.acmeplex.movieticketreservation.dto.request.UnregisteredUserPaymentRequest;
 import com.acmeplex.movieticketreservation.dto.response.PaymentResponse;
-import com.acmeplex.movieticketreservation.security.AuthUserPrincipalService;
 import com.acmeplex.movieticketreservation.services.PaymentService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,11 +14,9 @@ import org.springframework.web.bind.annotation.*;
 public class MakePayment {
 
     private final PaymentService paymentService;
-    private final AuthUserPrincipalService authUserPrincipalService;
 
-    public MakePayment(PaymentService paymentService, AuthUserPrincipalService authUserPrincipalService) {
+    public MakePayment(PaymentService paymentService) {
         this.paymentService = paymentService;
-        this.authUserPrincipalService = authUserPrincipalService;
     }
 
     @PostMapping("/unregistered")
