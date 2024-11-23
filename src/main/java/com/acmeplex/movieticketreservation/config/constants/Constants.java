@@ -41,6 +41,11 @@ public final class Constants {
         public static final String API_PAYMENT_TYPE_MANAGE = API_USER_PROFILE + "/payment-type/manage"; // PUT /api/user/profile/payment-type/manage
 
 
+        // Ticket Cancellation Endpoints
+        public static final String API_TICKET_CANCELLATION = "api/cancel-ticket";
+        public static final String API_TICKET_CANCELLATION_GET = API_TICKET_CANCELLATION + "/get";
+        public static final String API_TICKET_CANCELLATION_POST = API_TICKET_CANCELLATION + "/post";
+
 
         // Error Endpoints
         public static final String API_ERROR = "/error";

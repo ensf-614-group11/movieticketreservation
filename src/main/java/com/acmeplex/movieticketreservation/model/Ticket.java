@@ -62,7 +62,7 @@ public class Ticket {
         this.status = status;
     }
 
-    public Showtime getShowtime() {
+    public Date getShowtime() {
         return showtime;
     }
 
@@ -89,4 +89,6 @@ public class Ticket {
     public AcmePlexUser getUser() {return user;}
 
     public void setUser(AcmePlexUser user) {this.user = user;}
+
+
 }
