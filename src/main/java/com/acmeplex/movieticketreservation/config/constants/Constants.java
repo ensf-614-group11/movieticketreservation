@@ -44,8 +44,8 @@ public final class Constants {
         // Ticket Cancellation Endpoints
         public static final String API_TICKET_CANCELLATION = "api/cancel-ticket";
         public static final String API_TICKET_CANCELLATION_GET = API_TICKET_CANCELLATION + "/get";
-        public static final String API_TICKET_CANCELLATION_POST = API_TICKET_CANCELLATION + "/post";
-
+        public static final String API_TICKET_CANCELLATION_POST_REGISTERED = API_TICKET_CANCELLATION + "/post/registered";
+        public static final String API_TICKET_CANCELLATION_POST_ORDINARY = API_TICKET_CANCELLATION + "/post/ordinary";
 
         // Error Endpoints
         public static final String API_ERROR = "/error";
@@ -55,6 +55,8 @@ public final class Constants {
      * Error message constants.
      */
     public static final class Errors {
+
+
         private Errors() {
             // Private constructor to prevent instantiation
         }
@@ -67,6 +69,7 @@ public final class Constants {
         public static final String BAD_REQUEST = "The request was invalid. Please check your input.";
         public static final String NOT_FOUND = "The requested page was not found.";
         public static final String GENERIC_ERROR = "An error occurred while processing the request.";
+        public static final String TICKET_NOT_FOUND = "Ticket not found.";
     }
 
     /**

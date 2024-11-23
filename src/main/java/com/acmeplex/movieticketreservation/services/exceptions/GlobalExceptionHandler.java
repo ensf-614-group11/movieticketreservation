@@ -60,6 +60,26 @@ public class GlobalExceptionHandler {
     }
 
     /**
+     * Handles TicketNotFoundException and returns a 404 response with an ErrorResponse.
+     *
+     * @param ex      the TicketNotFoundException thrown
+     * @param request the current WebRequest
+     * @return a ResponseEntity with a structured ErrorResponse
+     */
+    @ExceptionHandler(TicketNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleTicketNotFoundException(TicketNotFoundException ex, WebRequest request) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                LocalDateTime.now(),
+                HttpStatus.NOT_FOUND.value(),
+                Errors.TICKET_NOT_FOUND,  // You can define a constant for this error if needed
+                ex.getMessage(),
+                request.getDescription(false)
+        );
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+    }
+
+
+    /**
      * Handles InvalidRequestException and returns a 400 response with an ErrorResponse.
      *
      * @param ex      the InvalidRequestException thrown
