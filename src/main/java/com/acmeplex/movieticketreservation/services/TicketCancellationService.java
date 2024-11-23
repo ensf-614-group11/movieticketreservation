@@ -68,6 +68,7 @@ public class TicketCancellationService {
         Date currentDate = new Date();
         AcmePlexCredit acmePlexCredit = new AcmePlexCredit(creditSecretCodeGenerator(), ticket.getPayment().getAmount(), ticket.getPayment(), currentDate);
         acmePlexCredit.setAcmePlexUser(ticket.getUser());
+        ticket.getUser().addCredit(acmePlexCredit);
 
         // Send notification to confirm cancellation
         notificationService.sendTicketCancellationRegisteredUser(acmePlexCredit, ticket.getUser());

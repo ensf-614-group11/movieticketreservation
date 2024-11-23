@@ -134,6 +134,7 @@ public void sendMovieNews(String movieNews){
                 "\nShowtime: " + ticket.getShowtime() +
                 "\nSeat: " + ticket.getSeat() +
                 "\nStatus: " + ticket.getStatus() +
+                "\nTicket id: " + ticket.getId() +
                 "\n\nReceipt \nDate Paid: " + receipt.getPayment().getDatePaid() +
                 "\nAmount: " + receipt.getPayment().getAmount() +
                 "\nMethod: " + receipt.getPayment().getMethod() +
