@@ -10,26 +10,34 @@ public class Theatre {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    private String name;
     private String location;
 
-  @OneToMany(mappedBy = "theatre", cascade = CascadeType.ALL)
-  private List<TheatreRoom> theatreRooms;
+    @OneToMany(mappedBy = "theatre", cascade = CascadeType.ALL)
+    private List<TheatreRoom> theatreRooms;
 
-    public Theatre() {}
+    public Theatre() {
+    }
 
-
-    public Theatre(String location) {
+    public Theatre(String name, String location) {
+        this.name = name;
         this.location = location;
-
     }
 
-    public String getLocation(){
-        return location; 
+    public String getName() {
+        return name;
     }
 
-    public void setLocation(String location){
-        this.location = location; 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public Long getId() {
