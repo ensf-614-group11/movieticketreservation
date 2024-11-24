@@ -25,6 +25,7 @@ public class UserPrincipal implements UserDetails {
     private final String password;
     private final String firstName;
     private final String lastName;
+    private final CountryCode countryCode;
 
     /**
      * Constructs a new {@code UserPrincipal} with the specified user details.
@@ -34,6 +35,7 @@ public class UserPrincipal implements UserDetails {
      * @param password    the encrypted password of the user
      * @param firstName   the user's first name
      * @param lastName    the user's last name
+     * @param countryCode the countryCode for the user
      */
     public UserPrincipal(Long id,
                          String email,
