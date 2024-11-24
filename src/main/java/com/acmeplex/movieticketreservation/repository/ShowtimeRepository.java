@@ -18,8 +18,6 @@ public interface ShowtimeRepository extends JpaRepository<Showtime, Integer> {
 
     Showtime findById(Long id);
 
-    Showtime findByTheatreRoomAndMovie(TheatreRoom crowfootRoom1, Movie avengers);
-
     /**
      * Custom query to fetch showtimes by date, movie ID, and theatre ID.
      * Joins Showtime -> TheatreRoom -> Theatre to filter by theatre.

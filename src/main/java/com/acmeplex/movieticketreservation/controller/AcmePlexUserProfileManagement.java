@@ -23,19 +23,19 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/user/profile")
 @Validated
-public class UserProfileManagementController {
+public class AcmePlexUserProfileManagement {
 
-    private static final Logger logger = LoggerFactory.getLogger(UserProfileManagementController.class);
+    private static final Logger logger = LoggerFactory.getLogger(AcmePlexUserProfileManagement.class);
 
     private final AcmePlexUserProfileService userProfileService;
     private final AddressService addressService;
     private final PaymentTypeService paymentTypeService;
     private final AuthUserPrincipalService authUserPrincipalService;
 
-    public UserProfileManagementController(AcmePlexUserProfileService userProfileService,
-                                           AddressService addressService,
-                                           PaymentTypeService paymentTypeService,
-                                           AuthUserPrincipalService authUserPrincipalService) {
+    public AcmePlexUserProfileManagement(AcmePlexUserProfileService userProfileService,
+                                         AddressService addressService,
+                                         PaymentTypeService paymentTypeService,
+                                         AuthUserPrincipalService authUserPrincipalService) {
         this.userProfileService = userProfileService;
         this.addressService = addressService;
         this.paymentTypeService = paymentTypeService;
