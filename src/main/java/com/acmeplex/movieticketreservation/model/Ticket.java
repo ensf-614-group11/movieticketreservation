@@ -89,4 +89,6 @@ public class Ticket {
     public AcmePlexUser getUser() {return user;}
 
     public void setUser(AcmePlexUser user) {this.user = user;}
+
+
 }

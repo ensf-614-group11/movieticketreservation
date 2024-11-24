@@ -3,12 +3,14 @@ package com.acmeplex.movieticketreservation.services;
 import com.acmeplex.movieticketreservation.model.*;
 import com.acmeplex.movieticketreservation.observer.Observer;
 import jakarta.validation.constraints.Email;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+@Service
 public class NotificationService {
     private List<Observer> observers = new ArrayList<>();
     EmailService emailService = new EmailService();
@@ -134,6 +136,7 @@ public void sendMovieNews(String movieNews){
                 "\nShowtime: " + ticket.getShowtime() +
                 "\nSeat: " + ticket.getSeat() +
                 "\nStatus: " + ticket.getStatus() +
+                "\nTicket id: " + ticket.getId() +
                 "\n\nReceipt \nDate Paid: " + receipt.getPayment().getDatePaid() +
                 "\nAmount: " + receipt.getPayment().getAmount() +
                 "\nMethod: " + receipt.getPayment().getMethod() +
