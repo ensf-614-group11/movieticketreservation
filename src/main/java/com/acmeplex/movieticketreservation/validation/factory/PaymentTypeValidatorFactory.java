@@ -3,10 +3,10 @@ package com.acmeplex.movieticketreservation.validation.factory;
 import com.acmeplex.movieticketreservation.model.CountryCode;
 import com.acmeplex.movieticketreservation.security.AuthUserPrincipalService;
 import com.acmeplex.movieticketreservation.security.UserPrincipal;
-import com.acmeplex.movieticketreservation.validation.validator.strategy.CanadaCreditCardValidator;
-import com.acmeplex.movieticketreservation.validation.validator.strategy.PayPalValidator;
-import com.acmeplex.movieticketreservation.validation.validator.strategy.PaymentTypeValidator;
-import com.acmeplex.movieticketreservation.validation.validator.strategy.USCreditCardValidator;
+import com.acmeplex.movieticketreservation.validation.validator.strategy.CreateCanadaCreditCardValidator;
+import com.acmeplex.movieticketreservation.validation.validator.strategy.CreatePayPalValidator;
+import com.acmeplex.movieticketreservation.validation.validator.strategy.CreatePaymentTypeValidator;
+import com.acmeplex.movieticketreservation.validation.validator.strategy.CreateUSCreditCardValidator;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -16,24 +16,24 @@ import java.util.Map;
 public class PaymentTypeValidatorFactory {
 
     private final AuthUserPrincipalService authUserPrincipalService;
-    private final Map<String, PaymentTypeValidator> validators = new HashMap<>();
+    private final Map<String, CreatePaymentTypeValidator> validators = new HashMap<>();
 
     public PaymentTypeValidatorFactory(AuthUserPrincipalService authUserPrincipalService) {
         this.authUserPrincipalService = authUserPrincipalService;
 
         // Register country-specific validators for CREDIT_CARD
-        validators.put("CREDIT_CARD:US", new USCreditCardValidator());
-        validators.put("CREDIT_CARD:CA", new CanadaCreditCardValidator());
+        validators.put("CREDIT_CARD:US", new CreateUSCreditCardValidator());
+        validators.put("CREDIT_CARD:CA", new CreateCanadaCreditCardValidator());
 
         // Register a default validator for PayPal or other types
-        validators.put("PAYPAL", new PayPalValidator());
+        validators.put("PAYPAL", new CreatePayPalValidator());
     }
 
-    public PaymentTypeValidator getValidator(String type, String countryCodeFromRequest) {
+    public CreatePaymentTypeValidator getValidator(String type, String countryCodeFromRequest) {
         CountryCode resolvedCountryCode = resolveCountryCode(countryCodeFromRequest);
 
         String key = type.toUpperCase() + ":" + resolvedCountryCode.name();
-        PaymentTypeValidator validator = validators.get(key);
+        CreatePaymentTypeValidator validator = validators.get(key);
 
         if (validator == null) {
             throw new IllegalArgumentException("Unsupported payment type or country: " + key);

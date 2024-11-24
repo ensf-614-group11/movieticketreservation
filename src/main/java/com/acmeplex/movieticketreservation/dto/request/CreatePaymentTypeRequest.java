@@ -1,12 +1,12 @@
 package com.acmeplex.movieticketreservation.dto.request;
 
 import com.acmeplex.movieticketreservation.validation.annotation.ValidCountryCode;
-import com.acmeplex.movieticketreservation.validation.annotation.ValidPaymentType;
+import com.acmeplex.movieticketreservation.validation.annotation.CreateValidPaymentType;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
-@ValidPaymentType
+@CreateValidPaymentType
 public class CreatePaymentTypeRequest {
 
     @NotBlank(message = "Payment type cannot be blank")

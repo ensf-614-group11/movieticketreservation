@@ -1,14 +1,14 @@
-package com.acmeplex.movieticketreservation.validation.annotation;
+package com.acmeplex.movieticketreservation.validation.validator;
 
 import com.acmeplex.movieticketreservation.dto.request.CreatePaymentTypeRequest;
 import com.acmeplex.movieticketreservation.security.AuthUserPrincipalService;
+import com.acmeplex.movieticketreservation.validation.annotation.CreateValidPaymentType;
 import com.acmeplex.movieticketreservation.validation.factory.PaymentTypeValidatorFactory;
-import com.acmeplex.movieticketreservation.validation.validator.strategy.PaymentTypeValidator;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class SavePaymentTypeValidator implements ConstraintValidator<ValidPaymentType, CreatePaymentTypeRequest> {
+public class CreatePaymentTypeValidator implements ConstraintValidator<CreateValidPaymentType, CreatePaymentTypeRequest> {
 
     @Autowired
     private PaymentTypeValidatorFactory factory;
@@ -29,7 +29,7 @@ public class SavePaymentTypeValidator implements ConstraintValidator<ValidPaymen
             String countryCode = resolveCountryCode(request);
 
             // Get the validator and validate the request
-            PaymentTypeValidator validator = factory.getValidator(request.getType(), countryCode);
+            com.acmeplex.movieticketreservation.validation.validator.strategy.CreatePaymentTypeValidator validator = factory.getValidator(request.getType(), countryCode);
             return validator.validate(request, context);
         } catch (IllegalArgumentException e) {
             context.buildConstraintViolationWithTemplate(e.getMessage()).addConstraintViolation();

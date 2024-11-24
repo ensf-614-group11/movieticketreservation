@@ -1,10 +1,9 @@
 package com.acmeplex.movieticketreservation.validation.validator.strategy;
 
 import com.acmeplex.movieticketreservation.dto.request.CreatePaymentTypeRequest;
-import com.acmeplex.movieticketreservation.validation.validator.strategy.PaymentTypeValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
-public class CanadaCreditCardValidator implements PaymentTypeValidator {
+public class CreateCanadaCreditCardValidator implements CreatePaymentTypeValidator {
 
     @Override
     public boolean validate(CreatePaymentTypeRequest request, ConstraintValidatorContext context) {
