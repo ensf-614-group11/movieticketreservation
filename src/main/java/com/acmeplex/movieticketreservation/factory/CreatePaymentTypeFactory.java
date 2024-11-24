@@ -6,7 +6,7 @@ import com.acmeplex.movieticketreservation.model.PaymentType;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PaymentTypeFactory {
+public class CreatePaymentTypeFactory {
 
     public PaymentType createPaymentType(CreatePaymentTypeRequest request) {
         switch (request.getType().toUpperCase()) {

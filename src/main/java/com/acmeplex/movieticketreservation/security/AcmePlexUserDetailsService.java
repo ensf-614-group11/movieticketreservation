@@ -30,7 +30,13 @@ public class AcmePlexUserDetailsService implements UserDetailsService {
     @Cacheable(value = "userProfileCache", key = "#email")
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return userRepository.findByEmail(email)
-                .map(user -> new UserPrincipal(user.getId(), user.getEmail(), user.getPassword(), user.getFirstName(), user.getLastName()))
+                .map(user -> new UserPrincipal(
+                        user.getId(),
+                        user.getEmail(),
+                        user.getPassword(),
+                        user.getFirstName(),
+                        user.getLastName(),
+                        user.getCountryCode()))
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
     }
 }

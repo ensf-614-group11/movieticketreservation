@@ -1,5 +1,7 @@
 package com.acmeplex.movieticketreservation.dto.request;
 
+import com.acmeplex.movieticketreservation.model.CountryCode;
+import com.acmeplex.movieticketreservation.validation.annotation.ValidCountryCode;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
@@ -21,6 +23,10 @@ public class CreateUserRequest {
     @NotBlank(message = "Last name is required.")
     private String lastName;
 
+    @ValidCountryCode
+    @NotBlank(message = "Country code is required.")
+    private String countryCode;
+
     private CreatePaymentTypeRequest paymentType; // Optional field for payment type
     private UpdateBillingAddressRequest billingAddress; // Optional field for billing address
 
@@ -41,9 +47,11 @@ public class CreateUserRequest {
         this.password = password;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
+    public String getFirstName() { return firstName; }
+
+    public String getCountryCode() { return countryCode; }
+
+    public void setCountryCode(String countryCode) { this.countryCode = countryCode; }
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
@@ -72,4 +80,16 @@ public class CreateUserRequest {
     public void setBillingAddress(UpdateBillingAddressRequest billingAddress) {
         this.billingAddress = billingAddress;
     }
+
+    /**
+     * Converts the countryCode string into a CountryCode enum.
+     * Uses the CountryCode model's conversion logic.
+     *
+     * @return CountryCode
+     */
+    public CountryCode getCountryCodeEnum() {
+        return CountryCode.fromString(countryCode);
+    }
+
+
 }

@@ -1,5 +1,6 @@
 package com.acmeplex.movieticketreservation.security;
 
+import com.acmeplex.movieticketreservation.model.CountryCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
@@ -19,7 +20,7 @@ public class UserPrincipal implements UserDetails {
 
     private static final Logger logger = LoggerFactory.getLogger(UserPrincipal.class); // Logger instance
 
-    private final Long id;  // Changed from int to Long to avoid the dependency injection issue
+    private final Long id;
     private final String email;
     private final String password;
     private final String firstName;
@@ -34,12 +35,18 @@ public class UserPrincipal implements UserDetails {
      * @param firstName   the user's first name
      * @param lastName    the user's last name
      */
-    public UserPrincipal(Long id, String email, String password, String firstName, String lastName) {
+    public UserPrincipal(Long id,
+                         String email,
+                         String password,
+                         String firstName,
+                         String lastName,
+                         CountryCode countryCode) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.countryCode = countryCode;
         logger.info("UserPrincipal object created for email: {}", email);
     }
 
@@ -63,6 +70,10 @@ public class UserPrincipal implements UserDetails {
 
     public String getLastName() {
         return lastName;
+    }
+
+    public CountryCode getCountryCode() {
+        return countryCode; // Read-only
     }
 
     @Override

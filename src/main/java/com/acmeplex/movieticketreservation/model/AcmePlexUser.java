@@ -26,6 +26,10 @@ public class AcmePlexUser implements Observer {
     private boolean activeMembership;
     private Date dateRegistered;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private CountryCode countryCode;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Notification> notifications;
 
@@ -61,94 +65,58 @@ public class AcmePlexUser implements Observer {
      * @param firstName the first name of the user
      * @param lastName  the last name of the user
      */
-    public AcmePlexUser(String email, String password, String firstName, String lastName) {
+    public AcmePlexUser(String email,
+                        String password,
+                        String firstName,
+                        String lastName,
+                        CountryCode countryCode) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.countryCode = countryCode;
         dateRegistered = new Date();
     }
 
-    /**
-     * Returns the user's unique identifier.
-     *
-     * @return the user's ID
-     */
     public Long getId() {
         return id;
     }
 
-    /**
-     * Returns the user's email address.
-     *
-     * @return the user's email
-     */
     public String getEmail() {
         return email;
     }
 
-    /**
-     * Sets the user's email address.
-     *
-     * @param email the email to set (must be unique)
-     */
     public void setEmail(String email) {
         this.email = email;
     }
 
-    /**
-     * Returns the user's encrypted password.
-     *
-     * @return the user's password
-     */
     public String getPassword() {
         return password;
     }
 
-    /**
-     * Sets the user's password.
-     *
-     * @param password the encrypted password to set
-     */
     public void setPassword(String password) {
         this.password = password;
     }
 
-    /**
-     * Returns the user's first name.
-     *
-     * @return the user's first name
-     */
     public String getFirstName() {
         return firstName;
     }
 
-    /**
-     * Sets the user's first name.
-     *
-     * @param firstName the first name to set
-     */
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
-    /**
-     * Returns the user's last name.
-     *
-     * @return the user's last name
-     */
     public String getLastName() {
         return lastName;
     }
 
-    /**
-     * Sets the user's last name.
-     *
-     * @param lastName the last name to set
-     */
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+
+    public CountryCode getCountryCode() { return countryCode; }
+
+    public void setCountryCode(CountryCode countryCode) { this.countryCode = countryCode; }
 
     public List<Notification> getNotifications() {
         return notifications;
