@@ -1,9 +1,9 @@
-package com.acmeplex.movieticketreservation.validation.strategy;
+package com.acmeplex.movieticketreservation.validation.validator.strategy;
 
 import com.acmeplex.movieticketreservation.dto.request.CreatePaymentTypeRequest;
 import jakarta.validation.ConstraintValidatorContext;
 
-public class PayPalValidator implements PaymentTypeValidator {
+public class CreatePayPalValidator implements CreatePaymentTypeValidator {
 
     @Override
     public boolean validate(CreatePaymentTypeRequest request, ConstraintValidatorContext context) {

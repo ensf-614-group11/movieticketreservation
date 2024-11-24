@@ -3,6 +3,7 @@ package com.acmeplex.movieticketreservation.services;
 import com.acmeplex.movieticketreservation.dto.request.CreateUserRequest;
 import com.acmeplex.movieticketreservation.dto.request.UpdateProfileRequest;
 import com.acmeplex.movieticketreservation.model.AcmePlexUser;
+import com.acmeplex.movieticketreservation.model.CountryCode;
 import com.acmeplex.movieticketreservation.repository.UserRepository;
 import com.acmeplex.movieticketreservation.services.exceptions.UserNotFoundException;
 import org.slf4j.Logger;
@@ -42,12 +43,17 @@ public class AcmePlexUserProfileService {
     public AcmePlexUser registerUser(CreateUserRequest registerRequest) {
         validateRegistrationRequest(registerRequest);
         checkIfEmailExists(registerRequest.getEmail());
+
+        CountryCode countryCode = CountryCode.fromString(registerRequest.getCountryCode());
+
         AcmePlexUser newUser = new AcmePlexUser(
                 registerRequest.getEmail(),
                 passwordEncoder.encode(registerRequest.getPassword()),
                 registerRequest.getFirstName(),
-                registerRequest.getLastName()
+                registerRequest.getLastName(),
+                countryCode
         );
+
         logger.info("Registering new user with email: {}", registerRequest.getEmail());
         return userRepository.save(newUser);
     }

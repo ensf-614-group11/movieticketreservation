@@ -1,7 +1,7 @@
 package com.acmeplex.movieticketreservation.services;
 
 import com.acmeplex.movieticketreservation.dto.request.CreatePaymentTypeRequest;
-import com.acmeplex.movieticketreservation.factory.PaymentTypeFactory;
+import com.acmeplex.movieticketreservation.factory.CreatePaymentTypeFactory;
 import com.acmeplex.movieticketreservation.model.AcmePlexUser;
 import com.acmeplex.movieticketreservation.model.PaymentType;
 import com.acmeplex.movieticketreservation.repository.PaymentTypeRepository;
@@ -25,12 +25,12 @@ public class PaymentTypeService {
 
     private final PaymentTypeRepository paymentTypeRepository;
     private final UserRepository userRepository;
-    private final PaymentTypeFactory paymentTypeFactory;
+    private final CreatePaymentTypeFactory paymentTypeFactory;
 
     public PaymentTypeService(
             PaymentTypeRepository paymentTypeRepository,
             UserRepository userRepository,
-            PaymentTypeFactory paymentTypeFactory) {
+            CreatePaymentTypeFactory paymentTypeFactory) {
         this.paymentTypeRepository = paymentTypeRepository;
         this.userRepository = userRepository;
         this.paymentTypeFactory = paymentTypeFactory;
