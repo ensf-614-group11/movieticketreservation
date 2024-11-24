@@ -30,7 +30,7 @@ public class SecurityConfig {
     /**
      * Constructor to inject dependencies.
      *
-     * @param userDetailsService the custom UserDetailsService implementation
+     * @param userDetailsService  the custom UserDetailsService implementation
      * @param authTokenFilterUtil the JWT authentication filter
      */
     @Lazy
@@ -40,7 +40,8 @@ public class SecurityConfig {
     }
 
     /**
-     * Configures the security filter chain, defining public and protected endpoints.
+     * Configures the security filter chain, defining public and protected
+     * endpoints.
      *
      * @param http the HttpSecurity instance
      * @return the configured SecurityFilterChain
@@ -53,21 +54,23 @@ public class SecurityConfig {
         List<String> publicEndpoints = List.of(
                 "/api/auth/login/**",
                 "/api/auth/register/**",
-                "/public/**",     // Static files and public resources
+                "/public/**", // Static files and public resources
                 "/static/**",
                 "/favicon.ico",
                 "/error",
                 "/api/payment/unregistered",
-                "api/validate-credit"
-        );
+                "api/validate-credit",
+                "/api/theatres",
+                "/api/movies",
+                "/api/showtimes",
+                "/api/availableSeats/{showtimeId}");
 
         List<String> protectedEndpoints = List.of(
                 "/api/user/profile/**",
                 "/api/user/profile/billing-address/**",
                 "/api/user/profile/payment-type/**",
                 "/api/user/profile/payment-type/manage/**",
-                "/api/payment/registered"
-        );
+                "/api/payment/registered");
 
         http
                 .cors(cors -> cors.configurationSource(request -> {
@@ -85,12 +88,12 @@ public class SecurityConfig {
                         // Require authentication for protected endpoints
                         .requestMatchers(protectedEndpoints.toArray(new String[0])).authenticated()
                         // Require authentication for any other requests
-                        .anyRequest().authenticated()
-                )
+                        .anyRequest().authenticated())
                 .logout(logout -> logout
                         .logoutUrl("/api/auth/logout") // Define the logout endpoint
                         .logoutSuccessHandler((request, response, authentication) -> {
-                            logger.info("User logged out successfully: {}", authentication != null ? authentication.getName() : "Anonymous");
+                            logger.info("User logged out successfully: {}",
+                                    authentication != null ? authentication.getName() : "Anonymous");
                             response.setStatus(HttpServletResponse.SC_OK);
                             response.getWriter().write("Logout successful");
                         })
@@ -122,12 +125,14 @@ public class SecurityConfig {
      * @throws Exception if an error occurs creating the AuthenticationManager
      */
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+            throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
     /**
-     * Configures a DaoAuthenticationProvider using the custom UserDetailsService and PasswordEncoder.
+     * Configures a DaoAuthenticationProvider using the custom UserDetailsService
+     * and PasswordEncoder.
      *
      * @return a configured DaoAuthenticationProvider
      */
