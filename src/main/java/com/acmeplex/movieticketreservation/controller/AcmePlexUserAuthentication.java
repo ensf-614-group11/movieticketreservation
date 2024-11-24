@@ -11,20 +11,19 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
-public class AuthController {
+public class AcmePlexUserAuthentication {
 
-    private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
+    private static final Logger logger = LoggerFactory.getLogger(AcmePlexUserAuthentication.class);
 
     private final AuthenticationManager authenticationManager;
     private final AuthTokenUtil authTokenUtil;
     private final RegistrationFacade registrationFacade;
 
-    public AuthController(AuthenticationManager authenticationManager, AuthTokenUtil authTokenUtil, RegistrationFacade registrationFacade) {
+    public AcmePlexUserAuthentication(AuthenticationManager authenticationManager, AuthTokenUtil authTokenUtil, RegistrationFacade registrationFacade) {
         this.authenticationManager = authenticationManager;
         this.authTokenUtil = authTokenUtil;
         this.registrationFacade = registrationFacade;
@@ -34,7 +33,7 @@ public class AuthController {
     public ResponseEntity<?> login(@RequestBody DefaultLoginRequest request) {
         logger.info("Login request received for email: {}", request.getEmail());
 
-        Authentication authentication = authenticationManager.authenticate(
+        org.springframework.security.core.Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
                         request.getPassword()
