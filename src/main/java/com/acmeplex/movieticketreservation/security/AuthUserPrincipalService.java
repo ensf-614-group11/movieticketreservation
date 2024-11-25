@@ -1,5 +1,8 @@
 package com.acmeplex.movieticketreservation.security;
 
+import com.acmeplex.movieticketreservation.model.AcmePlexUser;
+import com.acmeplex.movieticketreservation.repository.UserRepository;
+import com.acmeplex.movieticketreservation.services.exceptions.UserNotFoundException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -9,6 +12,12 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class AuthUserPrincipalService {
+
+    private final UserRepository userRepository;
+
+    public AuthUserPrincipalService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     /**
      * Retrieves the current authenticated {@link UserPrincipal}.
@@ -21,6 +30,23 @@ public class AuthUserPrincipalService {
             return (UserPrincipal) auth.getPrincipal();
         }
         return null;
+    }
+
+    /**
+     * Retrieves the current authenticated {@link AcmePlexUser}.
+     *
+     * @return the authenticated {@link AcmePlexUser} entity from the database
+     * @throws UserNotFoundException if the user does not exist in the database
+     */
+    public AcmePlexUser getAuthenticatedAcmePlexUser() {
+        UserPrincipal currentUser = getCurrentUserPrincipal();
+        if (currentUser == null) {
+            throw new IllegalStateException("No authenticated user found");
+        }
+
+        // Use the email from UserPrincipal to fetch AcmePlexUser
+        return userRepository.findByEmail(currentUser.getUsername())
+                .orElseThrow(() -> new UserNotFoundException("User not found with email: " + currentUser.getUsername()));
     }
 
     /**
