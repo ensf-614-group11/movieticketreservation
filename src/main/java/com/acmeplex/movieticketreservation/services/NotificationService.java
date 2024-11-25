@@ -83,7 +83,7 @@ public void sendAnnualFeeReminder(AcmePlexUser acmePlexUser){
     acmePlexUser.addNotification(notification);
     }
 
-    public void sendAnnualFeePaymentConfirmation(AcmePlexUser acmePlexUser){
+    public void sendAnnualFeePaymentConfirmation(AcmePlexUser acmePlexUser, Receipt receipt){
         Date currentDate = new Date();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(currentDate);
@@ -94,7 +94,11 @@ public void sendAnnualFeeReminder(AcmePlexUser acmePlexUser){
                 ", \nThis message is to provide confirmation of the payment for your annual AcmePlex fee. " +
                 "The payment was processed successfully." +
                 "Your next annual fee payment will be due on: " + nextPaymentDueDate +
-                ". ";
+                ". Details of your receipt are below." +
+                "\nReceipt: " + "\nAmount: " + receipt.getPayment().getAmount() +
+                "\nDate Paid:" + receipt.getPayment().getDatePaid() +
+                "\n Method: " + receipt.getPayment().getMethod() +
+                "\nStatus: " + receipt.getPayment().getStatus();
         Notification notification = new Notification(currentDate, message, acmePlexUser.getEmail());
         try {
             emailService.sendSimpleMessage(acmePlexUser.getEmail(), "AcmePlex Annual Fee Confirmation", message);
