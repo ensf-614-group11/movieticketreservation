@@ -23,7 +23,6 @@ public class AcmePlexUser implements Observer {
     private String password;
     private String firstName;
     private String lastName;
-    private boolean activeMembership;
     private Date dateRegistered;
 
     @Enumerated(EnumType.STRING)
@@ -52,9 +51,10 @@ public class AcmePlexUser implements Observer {
     @OneToMany(mappedBy = "acmePlexUser", cascade = CascadeType.ALL)
     private List<AcmePlexCredit> credits;
 
-    /**
-     * Default constructor required by JPA.
-     */
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "membership_id", referencedColumnName = "id")
+    private AcmePlexMembership membership;
+
     public AcmePlexUser() {}
 
     /**
@@ -166,17 +166,9 @@ public class AcmePlexUser implements Observer {
         this.savedBillingAddress = savedBillingAddress;
     }
 
-    public boolean isActiveMembership() {
-        return activeMembership;
-    }
+    public AcmePlexMembership getMembership() { return membership; }
 
-    public void activateMembership(){
-        this.activeMembership = true;
-    }
-
-    public void deactivateMembership(){
-        this.activeMembership = false;
-    }
+    public void setMembership(AcmePlexMembership membership) { this.membership = membership; }
 
     public void addNotification(Notification notification) {
         notifications.add(notification);
