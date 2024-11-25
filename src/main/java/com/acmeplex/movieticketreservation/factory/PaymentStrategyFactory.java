@@ -49,4 +49,26 @@ public class PaymentStrategyFactory {
             throw new IllegalArgumentException("Unsupported payment method.");
         }
     }
+
+    public PaymentStrategy getStrategy(Long userId){
+        Optional<AcmePlexUser> user = userRepository.findById(userId);
+
+        if(user.isEmpty()){
+            throw new IllegalArgumentException("User not found.");
+        }else{
+            List<PaymentType> paymentTypes = user.get().getPaymentTypes();
+            boolean userHasCreditCardPaymentType = false;
+            for(PaymentType paymentType : paymentTypes){
+                if(paymentType.getMethod().equals("CreditCard")){
+                    userHasCreditCardPaymentType = true;
+                }
+            }
+            if(userHasCreditCardPaymentType){
+                return creditCardPayment;
+            }
+            throw new IllegalArgumentException("Unsupported payment method.");
+        }
+
+
+    }
 }

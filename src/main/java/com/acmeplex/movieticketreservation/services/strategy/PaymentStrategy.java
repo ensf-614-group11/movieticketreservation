@@ -8,4 +8,6 @@ public interface PaymentStrategy {
     boolean unregisteredUserPay(UnregisteredUserPaymentRequest paymentRequest);
 
     boolean registeredUserPay(RegisteredUserPaymentRequest paymentRequest);
+
+    boolean registeredUserPay(Long userId, float amount);
 }
