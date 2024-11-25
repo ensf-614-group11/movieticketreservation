@@ -12,8 +12,6 @@ import com.acmeplex.movieticketreservation.services.AcmePlexUserProfileService;
 import com.acmeplex.movieticketreservation.services.AddressService;
 import com.acmeplex.movieticketreservation.services.PaymentTypeService;
 import jakarta.validation.Valid;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -24,8 +22,6 @@ import java.util.List;
 @RequestMapping("/api/user/profile")
 @Validated
 public class AcmePlexUserProfileManagement {
-
-    private static final Logger logger = LoggerFactory.getLogger(AcmePlexUserProfileManagement.class);
 
     private final AcmePlexUserProfileService userProfileService;
     private final AddressService addressService;
@@ -43,46 +39,40 @@ public class AcmePlexUserProfileManagement {
     }
 
     private String getAuthenticatedUserEmail() {
-        return authUserPrincipalService.getCurrentUserPrincipal()
-                .getUsername();
+        return authUserPrincipalService.getCurrentUserPrincipal().getUsername();
     }
 
     @GetMapping("/get")
     public ResponseEntity<ApiResponse<AcmePlexUser>> getUserProfile() {
         String email = getAuthenticatedUserEmail();
-        logger.info("Fetching profile for user: {}", email);
         AcmePlexUser user = userProfileService.getUserByEmail(email);
-        return ResponseEntity.ok(new ApiResponse<>(true, "Profile updated successfully", user));
+        return ResponseEntity.ok(new ApiResponse<>(true, "Profile retrieved successfully", user));
     }
 
     @PutMapping("/update")
     public ResponseEntity<ApiResponse<AcmePlexUser>> updateProfile(@RequestBody @Valid UpdateProfileRequest request) {
         String email = getAuthenticatedUserEmail();
-        logger.info("Updating profile for user: {}", email);
         AcmePlexUser updatedUser = userProfileService.updateUserProfile(email, request);
-        return ResponseEntity.ok(new ApiResponse<>(true, "Profile updated successfully", updatedUser));
+        return ResponseEntity.ok(new ApiResponse<>(true, "Profile updated successfully"));
     }
 
     @PutMapping("/billing-address")
     public ResponseEntity<ApiResponse<Address>> updateBillingAddress(@RequestBody @Valid UpdateBillingAddressRequest request) {
         String email = getAuthenticatedUserEmail();
-        logger.info("Updating billing address for user: {}", email);
         Address updatedAddress = addressService.updateBillingAddress(email, request);
-        return ResponseEntity.ok(new ApiResponse<>(true, "Billing address updated successfully", updatedAddress));
+        return ResponseEntity.ok(new ApiResponse<>(true, "Billing address updated successfully"));
     }
 
     @PostMapping("/payment-type")
     public ResponseEntity<ApiResponse<PaymentType>> addPaymentType(@RequestBody @Valid CreatePaymentTypeRequest request) {
         String email = getAuthenticatedUserEmail();
-        logger.info("Adding new payment type for user: {}", email);
         PaymentType paymentType = paymentTypeService.createPaymentType(email, request);
-        return ResponseEntity.ok(new ApiResponse<>(true, "Payment type created successfully", paymentType));
+        return ResponseEntity.ok(new ApiResponse<>(true, "Payment type created successfully"));
     }
 
     @PutMapping("/payment-type/set-active")
     public ResponseEntity<ApiResponse<PaymentType>> setActivePaymentType(@RequestParam Long paymentTypeId) {
         String email = getAuthenticatedUserEmail();
-        logger.info("Setting payment type ID {} as active for user: {}", paymentTypeId, email);
         PaymentType paymentType = paymentTypeService.setActivePaymentType(email, paymentTypeId);
         return ResponseEntity.ok(new ApiResponse<>(true, "Payment type updated successfully", paymentType));
     }
@@ -90,7 +80,6 @@ public class AcmePlexUserProfileManagement {
     @GetMapping("/payment-type/list")
     public ResponseEntity<ApiResponse<List<PaymentType>>> getAllPaymentTypes() {
         String email = getAuthenticatedUserEmail();
-        logger.info("Fetching all payment types for user: {}", email);
         List<PaymentType> paymentTypes = paymentTypeService.getPaymentTypesByUser(email);
         return ResponseEntity.ok(new ApiResponse<>(true, "User payment types retrieved successfully", paymentTypes));
     }
@@ -98,7 +87,6 @@ public class AcmePlexUserProfileManagement {
     @PutMapping("/payment-type/manage")
     public ResponseEntity<ApiResponse<PaymentType>> managePaymentType(@RequestBody @Valid CreatePaymentTypeRequest request) {
         String email = getAuthenticatedUserEmail();
-        logger.info("Managing payment type for user: {}", email);
         PaymentType paymentType = paymentTypeService.updateOrCreateAndSetActive(email, request);
         return ResponseEntity.ok(new ApiResponse<>(true, "Payment type updated successfully", paymentType));
     }

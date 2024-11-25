@@ -122,8 +122,8 @@ public class AddressService {
         if (isNotBlank(request.getCity())) {
             address.setCity(request.getCity());
         }
-        if (isNotBlank(request.getProvince())) {
-            address.setProvince(request.getProvince());
+        if (isNotBlank(request.getRegion())) {
+            address.setProvince(request.getRegion());
         }
         if (isNotBlank(request.getPostalCode())) {
             address.setPostalCode(request.getPostalCode());
