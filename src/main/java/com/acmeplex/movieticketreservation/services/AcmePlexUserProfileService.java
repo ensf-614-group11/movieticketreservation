@@ -5,9 +5,8 @@ import com.acmeplex.movieticketreservation.dto.request.UpdateProfileRequest;
 import com.acmeplex.movieticketreservation.model.AcmePlexUser;
 import com.acmeplex.movieticketreservation.model.CountryCode;
 import com.acmeplex.movieticketreservation.repository.UserRepository;
+import com.acmeplex.movieticketreservation.security.AuthUserPrincipalService;
 import com.acmeplex.movieticketreservation.services.exceptions.UserNotFoundException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,21 +21,23 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class AcmePlexUserProfileService {
 
-    private static final Logger logger = LoggerFactory.getLogger(AcmePlexUserProfileService.class);
-
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final AuthUserPrincipalService authUserPrincipalService;
 
-    public AcmePlexUserProfileService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public AcmePlexUserProfileService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthUserPrincipalService authUserPrincipalService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.authUserPrincipalService = authUserPrincipalService;
     }
 
-    @Cacheable(value = "userProfileCache", key = "#email")
     @Transactional(readOnly = true)
     public AcmePlexUser getUserByEmail(String email) {
-        return userRepository.findByEmail(email)
-                .orElseThrow(() -> new UserNotFoundException("User not found with email: " + email));
+        AcmePlexUser user = authUserPrincipalService.getAuthenticatedAcmePlexUser();
+        if (!user.getEmail().equalsIgnoreCase(email)) {
+            throw new IllegalArgumentException("Authenticated user email does not match the requested email");
+        }
+        return user;
     }
 
     @Transactional
@@ -54,7 +55,6 @@ public class AcmePlexUserProfileService {
                 countryCode
         );
 
-        logger.info("Registering new user with email: {}", registerRequest.getEmail());
         return userRepository.save(newUser);
     }
 
@@ -62,20 +62,17 @@ public class AcmePlexUserProfileService {
         if (registerRequest == null || registerRequest.getEmail() == null || registerRequest.getPassword() == null) {
             throw new IllegalArgumentException("Registration details must not be null.");
         }
-        logger.debug("Validated registration request for email: {}", registerRequest.getEmail());
     }
 
     private void checkIfEmailExists(String email) {
         userRepository.findByEmail(email).ifPresent(existing -> {
             throw new IllegalArgumentException("Email already in use: " + email);
         });
-        logger.debug("Email is available: {}", email);
     }
 
     @Transactional
     @CacheEvict(value = "userProfileCache", key = "#email")
     public AcmePlexUser updateUserProfile(String email, UpdateProfileRequest request) {
-
         AcmePlexUser user = getUserByEmail(email);
 
         user.setFirstName(request.getFirstName());
@@ -86,9 +83,7 @@ public class AcmePlexUserProfileService {
             user.setEmail(request.getEmail());
         }
 
-        AcmePlexUser updatedUser = userRepository.save(user);
-        logger.info("User profile updated successfully for email: {}", email);
-        return updatedUser;
+        return userRepository.save(user);
     }
 
     private boolean isNotBlank(String value) {

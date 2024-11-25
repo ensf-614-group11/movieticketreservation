@@ -162,4 +162,42 @@ public class PaymentService {
                 payment.getId()
         );
     }
+
+    public boolean processAnnualSubscriptionPayment(Long userId, float amount){
+        Optional<AcmePlexUser> user = userRepository.findById(userId);
+
+        // Validate User exists.
+        if(user.isEmpty()){
+            throw new IllegalArgumentException("User not found.");
+        }
+
+        // Validate payment strategy
+        PaymentStrategy strategy = paymentStrategyFactory.getStrategy(userId);
+        if (strategy == null) {
+            throw new IllegalArgumentException("Invalid payment method provided.");
+        }
+
+        boolean paymentSuccess = strategy.registeredUserPay(userId, amount);
+
+        if (!paymentSuccess) {
+            throw new IllegalArgumentException("Payment processing failed.");
+        }
+
+        // Create and save the Payment entity
+        Payment payment = new Payment(
+                amount,
+                new Date(),
+                "completed",
+                "credit card",
+                null,// Payment not associated with ticket.
+                user.get()
+        );
+        paymentRepository.save(payment);
+
+        // Create and save the Receipt entity
+        Receipt receipt = new Receipt(payment);
+        receiptRepository.save(receipt);
+
+        return paymentSuccess;
+    }
 }

@@ -1,5 +1,6 @@
 package com.acmeplex.movieticketreservation.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -14,6 +15,7 @@ public abstract class PaymentType {
     private String method; // E.g., "CreditCard", "PayPal"
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "user_id", nullable = true)
     private AcmePlexUser acmePlexUser;
 

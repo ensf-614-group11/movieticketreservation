@@ -63,5 +63,26 @@ public class CreditCardPayment implements PaymentStrategy {
         return true;
     }
 
+    public boolean registeredUserPay(Long userId, float amount){
+        AcmePlexUser user = userRepository.findById(userId).get();
+
+        List<PaymentType> paymentTypes = user.getPaymentTypes();
+
+        CreditCard creditCard = null;
+        for(PaymentType paymentType : paymentTypes){
+            if(paymentType.getMethod().equals("CreditCard")){
+                creditCard = retrieveCreditCardPaymentType.retrieve(user.getId());
+            }
+        }
+
+        String cardNumber = creditCard.getCardNumber();
+        String cardHolderName = user.getFirstName() + " " + user.getLastName();
+
+        System.out.println("Processing credit card payment of $" + amount +
+                "\nCard Number: " + cardNumber +
+                "\nCard Holder Name: " + cardHolderName);
+        return true;
+    }
+
 }
 
