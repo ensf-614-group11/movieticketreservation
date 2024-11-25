@@ -51,7 +51,7 @@ public class AcmePlexUser implements Observer {
     @OneToMany(mappedBy = "acmePlexUser", cascade = CascadeType.ALL)
     private List<AcmePlexCredit> credits;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name = "membership_id", referencedColumnName = "id")
     private AcmePlexMembership membership;
 

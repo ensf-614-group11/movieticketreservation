@@ -1,14 +1,12 @@
 package com.acmeplex.movieticketreservation.facade;
 
 import com.acmeplex.movieticketreservation.dto.request.CreateUserRequest;
-import com.acmeplex.movieticketreservation.dto.request.DefaultRegistrationRequest;
 import com.acmeplex.movieticketreservation.dto.request.CreateBillingAddressRequest;
 import com.acmeplex.movieticketreservation.dto.request.CreatePaymentTypeRequest;
-import com.acmeplex.movieticketreservation.model.AcmePlexMembership;
 import com.acmeplex.movieticketreservation.model.AcmePlexUser;
 import com.acmeplex.movieticketreservation.model.Address;
 import com.acmeplex.movieticketreservation.model.PaymentType;
-import com.acmeplex.movieticketreservation.services.AcmePlexMembershipService;
+import com.acmeplex.movieticketreservation.services.RegistrationPostProcessingService;
 import com.acmeplex.movieticketreservation.services.AcmePlexUserProfileService;
 import com.acmeplex.movieticketreservation.services.AddressService;
 import com.acmeplex.movieticketreservation.services.PaymentTypeService;
@@ -28,17 +26,17 @@ public class RegistrationFacade {
     private final AcmePlexUserProfileService userProfileService;
     private final AddressService addressService;
     private final PaymentTypeService paymentTypeService;
-    private final AcmePlexMembershipService membershipService;
+    private final RegistrationPostProcessingService postProcessingService;
 
     public RegistrationFacade(
             AcmePlexUserProfileService userProfileService,
             AddressService addressService,
             PaymentTypeService paymentTypeService,
-            AcmePlexMembershipService membershipService) {
+            RegistrationPostProcessingService postProcessingService) {
         this.userProfileService = userProfileService;
         this.addressService = addressService;
         this.paymentTypeService = paymentTypeService;
-        this.membershipService = membershipService;
+        this.postProcessingService = postProcessingService;
     }
 
     /**
@@ -60,20 +58,18 @@ public class RegistrationFacade {
             AcmePlexUser user = userProfileService.registerUser(createUserRequest);
             logger.debug("User registered successfully: {}", user.getEmail());
 
-            // Step 2: Create and associate membership
-            AcmePlexMembership membership = membershipService.createMembership(user.getDateRegistered());
-            user.setMembership(membership);
-            logger.debug("Membership created and associated with user: {}", user.getEmail());
-
-            // Step 3: Create billing address
+            // Step 2: Create billing address
             Address billingAddress = addressService.createBillingAddress(user.getEmail(), billingAddressRequest);
             user.setSavedBillingAddress(billingAddress);
             logger.debug("Billing address saved: {}", billingAddress.getStreet());
 
-            // Step 4: Create payment type
+            // Step 3: Create payment type
             PaymentType paymentType = paymentTypeService.createPaymentType(user.getEmail(), paymentTypeRequest);
             paymentTypeService.setActivePaymentType(user.getEmail(), paymentType.getId());
             logger.debug("Payment type saved: {}", paymentType.getType());
+
+            // Step 4: Post-registration tasks (e.g., membership creation)
+            postProcessingService.handlePostRegistration(user);
 
             logger.info("Registration process completed successfully for user: {}", createUserRequest.getEmail());
             return user;
@@ -82,5 +78,4 @@ public class RegistrationFacade {
             throw ex; // Re-throw to be handled by the caller
         }
     }
-
 }

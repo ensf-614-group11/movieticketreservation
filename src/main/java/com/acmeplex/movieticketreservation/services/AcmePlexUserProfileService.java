@@ -94,4 +94,16 @@ public class AcmePlexUserProfileService {
     private boolean isNotBlank(String value) {
         return value != null && !value.isBlank();
     }
+
+    /**
+     * Saves or updates the user in the database.
+     *
+     * @param user The user to save or update.
+     * @return The saved user entity.
+     */
+    @Transactional
+    public AcmePlexUser save(AcmePlexUser user) {
+        logger.debug("Saving user with email: {}", user.getEmail());
+        return userRepository.save(user);
+    }
 }
