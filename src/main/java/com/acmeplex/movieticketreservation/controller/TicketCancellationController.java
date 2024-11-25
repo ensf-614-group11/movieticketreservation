@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(Constants.Endpoints.API_TICKET_CANCELLATION)
+@RequestMapping("/api/cancel-ticket")
 public class TicketCancellationController {
 
     @Autowired
     private TicketCancellationService ticketCancellationService;
 
     // Endpoint to retrieve ticket details based on ticket ID
-    @GetMapping(Constants.Endpoints.API_TICKET_CANCELLATION_GET)
+    @GetMapping("/api/cancel-ticket/get")
     public ResponseEntity<ApiResponse<TicketCancellationResponse>> getTicketDetails(@PathVariable Long ticketId) {
         // Retrieve ticket details by ID
         Optional<Ticket> ticket = ticketCancellationService.getTicketById(ticketId);
@@ -41,7 +41,7 @@ public class TicketCancellationController {
     }
 
     // Endpoint to cancel a ticket for a registered user
-    @PostMapping(Constants.Endpoints.API_TICKET_CANCELLATION_POST_REGISTERED)
+    @PostMapping("/api/cancel-ticket/post/registered")
     public ResponseEntity<ApiResponse<TicketCancellationResponse>> cancelTicket(@PathVariable Long ticketId) {
         // Retrieve ticket details and process cancellation
         Optional<Ticket> ticket = ticketCancellationService.getTicketById(ticketId);
@@ -62,7 +62,7 @@ public class TicketCancellationController {
     }
 
     // Endpoint to cancel a ticket for ordinary users
-    @PostMapping(Constants.Endpoints.API_TICKET_CANCELLATION_POST_ORDINARY)
+    @PostMapping("/api/cancel-ticket/post/ordinary")
     public ResponseEntity<ApiResponse<TicketCancellationResponse>> cancelTicketForOrdinaryUser(@PathVariable Long ticketId, @RequestParam String email) {
         Optional<Ticket> ticket = ticketCancellationService.getTicketById(ticketId);
         if (ticket.isEmpty()) {
