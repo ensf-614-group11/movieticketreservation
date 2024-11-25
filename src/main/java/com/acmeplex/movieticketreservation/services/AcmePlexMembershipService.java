@@ -7,6 +7,16 @@ import java.util.Date;
 public class AcmePlexMembershipService {
 
     /**
+     * Creates a new AcmePlexMembership for the user.
+     *
+     * @param dateRegistered The registration date of the user.
+     * @return A new AcmePlexMembership instance.
+     */
+    public AcmePlexMembership createMembership(Date dateRegistered) {
+        return new AcmePlexMembership(dateRegistered);
+    }
+
+    /**
      * Activates the membership.
      *
      * @param membership the membership to activate
