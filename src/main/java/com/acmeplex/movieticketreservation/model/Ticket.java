@@ -30,12 +30,21 @@ public class Ticket {
     private AcmePlexUser user;
 
 
+    // Constructor for registered users
     public Ticket(String status, Date dateIssued, Showtime showtime, Seat seat, AcmePlexUser user) {
         this.status = status;
         this.dateIssued = dateIssued;
         this.showtime = showtime;
         this.seat = seat;
         this.user = user;
+    }
+
+    // Constructor for ordinary users
+    public Ticket(String status, Date dateIssued, Showtime showtime, Seat seat) {
+        this.status = status;
+        this.dateIssued = dateIssued;
+        this.showtime = showtime;
+        this.seat = seat;
     }
 
     public Ticket() {
