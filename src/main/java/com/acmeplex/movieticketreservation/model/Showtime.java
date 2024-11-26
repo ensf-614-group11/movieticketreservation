@@ -1,5 +1,6 @@
 package com.acmeplex.movieticketreservation.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -16,13 +17,16 @@ public class Showtime {
 
     @ManyToOne
     @JoinColumn(name = "theatre_room_id")
+    @JsonIgnore
     private TheatreRoom theatreRoom;
 
     @ManyToOne
     @JoinColumn(name = "movie_id")
+    @JsonIgnore
     private Movie movie;
 
     @OneToMany(mappedBy = "showtime", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Ticket> tickets;
 
     public Showtime() {

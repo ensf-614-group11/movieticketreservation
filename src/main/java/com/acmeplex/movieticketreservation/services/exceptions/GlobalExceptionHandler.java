@@ -1,6 +1,7 @@
 package com.acmeplex.movieticketreservation.services.exceptions;
 
 import com.acmeplex.movieticketreservation.config.constants.Constants.Errors;
+import com.acmeplex.movieticketreservation.dto.response.ApiResponse;
 import com.acmeplex.movieticketreservation.dto.response.ErrorResponse;
 import com.acmeplex.movieticketreservation.dto.response.ValidationErrorResponse;
 import org.slf4j.Logger;
@@ -95,6 +96,19 @@ public class GlobalExceptionHandler {
         );
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
     }
+
+    // Handle InvalidRequestException
+    @ExceptionHandler(InvalidRequestException.class)
+    public ResponseEntity<ApiResponse<String>> handleInvalidRequestException(InvalidRequestException ex) {
+        // Create a custom API response with a user-friendly error message
+        ApiResponse<String> apiResponse = new ApiResponse<>(
+                false, // failure
+                ex.getMessage(), // the exception message will be sent as the error message
+                null // no data
+        );
+        return new ResponseEntity<>(apiResponse, HttpStatus.BAD_REQUEST); // Send 400 Bad Request status
+    }
+
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGlobalException(Exception ex, WebRequest request) {

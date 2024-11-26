@@ -58,7 +58,10 @@ public class SecurityConfig {
                 "/favicon.ico",
                 "/error",
                 "/api/payment/unregistered",
-                "api/validate-credit"
+                "api/validate-credit",
+                "/api/cancel-ticket/get",
+                "/api/cancel-ticket/post/registered",
+                "/api/cancel-ticket/post/ordinary"
         );
 
         List<String> protectedEndpoints = List.of(
