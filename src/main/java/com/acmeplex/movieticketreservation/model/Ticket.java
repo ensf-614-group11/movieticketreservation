@@ -87,6 +87,7 @@ public class Ticket {
         return showtime;
     }
 
+//Use helper class ShowtimeDetails to include showtime date, movie title and theatre in ticket object response for cancelling tickets
     @JsonProperty("showtime")
     public ShowtimeDetails getShowtimeDetails() {
         if (this.showtime != null) {
