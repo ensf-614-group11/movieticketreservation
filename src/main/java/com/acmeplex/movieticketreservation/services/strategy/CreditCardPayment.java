@@ -1,8 +1,8 @@
 package com.acmeplex.movieticketreservation.services.strategy;
 
 import com.acmeplex.movieticketreservation.config.constants.Constants;
-import com.acmeplex.movieticketreservation.dto.request.CreateBillingAddressRequest;
-import com.acmeplex.movieticketreservation.dto.request.CreatePaymentTypeRequest;
+import com.acmeplex.movieticketreservation.dto.request.BillingAddressRequest;
+import com.acmeplex.movieticketreservation.dto.request.PaymentTypeRequest;
 import com.acmeplex.movieticketreservation.dto.request.RegisteredUserPaymentRequest;
 import com.acmeplex.movieticketreservation.dto.request.UnregisteredUserPaymentRequest;
 import com.acmeplex.movieticketreservation.model.AcmePlexUser;
@@ -89,8 +89,8 @@ public class CreditCardPayment implements PaymentStrategy {
 
     @Override
     public boolean newAcmePlexMembershipPay(
-            CreatePaymentTypeRequest paymentTypeRequest,
-            CreateBillingAddressRequest billingAddressRequest) {
+            PaymentTypeRequest paymentTypeRequest,
+            BillingAddressRequest billingAddressRequest) {
 
         // Validate input details from CreatePaymentTypeRequest
         String cardNumber = paymentTypeRequest.getCardNumber();

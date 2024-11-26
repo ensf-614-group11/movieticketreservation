@@ -14,11 +14,11 @@ public class DefaultRegistrationRequest {
 
     @NotNull(message = "Billing address details are required.")
     @Valid
-    private CreateBillingAddressRequest billingAddress;
+    private BillingAddressRequest billingAddress;
 
     @NotNull(message = "Payment type details are required.")
     @Valid
-    private CreatePaymentTypeRequest paymentType;
+    private PaymentTypeRequest paymentType;
 
     // Default constructor
     public DefaultRegistrationRequest() {
@@ -26,8 +26,8 @@ public class DefaultRegistrationRequest {
 
     // Constructor for initialization
     public DefaultRegistrationRequest(CreateUserRequest user,
-                                      CreateBillingAddressRequest billingAddress,
-                                      CreatePaymentTypeRequest paymentType) {
+                                      BillingAddressRequest billingAddress,
+                                      PaymentTypeRequest paymentType) {
         this.user = user;
         this.billingAddress = billingAddress;
         this.paymentType = paymentType;
@@ -42,19 +42,19 @@ public class DefaultRegistrationRequest {
         this.user = user;
     }
 
-    public CreateBillingAddressRequest getBillingAddress() {
+    public BillingAddressRequest getBillingAddress() {
         return billingAddress;
     }
 
-    public void setBillingAddress(CreateBillingAddressRequest billingAddress) {
+    public void setBillingAddress(BillingAddressRequest billingAddress) {
         this.billingAddress = billingAddress;
     }
 
-    public CreatePaymentTypeRequest getPaymentType() {
+    public PaymentTypeRequest getPaymentType() {
         return paymentType;
     }
 
-    public void setPaymentType(CreatePaymentTypeRequest paymentType) {
+    public void setPaymentType(PaymentTypeRequest paymentType) {
         this.paymentType = paymentType;
     }
 }

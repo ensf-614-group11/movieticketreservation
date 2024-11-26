@@ -1,7 +1,7 @@
 package com.acmeplex.movieticketreservation.controller;
 
-import com.acmeplex.movieticketreservation.dto.request.CreatePaymentTypeRequest;
-import com.acmeplex.movieticketreservation.dto.request.UpdateBillingAddressRequest;
+import com.acmeplex.movieticketreservation.dto.request.BillingAddressRequest;
+import com.acmeplex.movieticketreservation.dto.request.PaymentTypeRequest;
 import com.acmeplex.movieticketreservation.dto.request.UpdateProfileRequest;
 import com.acmeplex.movieticketreservation.dto.response.*;
 import com.acmeplex.movieticketreservation.model.AcmePlexUser;
@@ -57,14 +57,14 @@ public class AcmePlexUserProfileManagement {
     }
 
     @PutMapping("/billing-address")
-    public ResponseEntity<ApiResponse<Address>> updateBillingAddress(@RequestBody @Valid UpdateBillingAddressRequest request) {
+    public ResponseEntity<ApiResponse<Address>> updateBillingAddress(@RequestBody @Valid BillingAddressRequest request) {
         String email = getAuthenticatedUserEmail();
         Address updatedAddress = addressService.updateBillingAddress(email, request);
         return ResponseEntity.ok(new ApiResponse<>(true, "Billing address updated successfully"));
     }
 
     @PostMapping("/payment-type")
-    public ResponseEntity<ApiResponse<PaymentType>> addPaymentType(@RequestBody @Valid CreatePaymentTypeRequest request) {
+    public ResponseEntity<ApiResponse<PaymentType>> addPaymentType(@RequestBody @Valid PaymentTypeRequest request) {
         String email = getAuthenticatedUserEmail();
         PaymentType paymentType = paymentTypeService.createPaymentType(email, request);
         return ResponseEntity.ok(new ApiResponse<>(true, "Payment type created successfully"));
@@ -85,7 +85,7 @@ public class AcmePlexUserProfileManagement {
     }
 
     @PutMapping("/payment-type/manage")
-    public ResponseEntity<ApiResponse<PaymentType>> managePaymentType(@RequestBody @Valid CreatePaymentTypeRequest request) {
+    public ResponseEntity<ApiResponse<PaymentType>> managePaymentType(@RequestBody @Valid PaymentTypeRequest request) {
         String email = getAuthenticatedUserEmail();
         PaymentType paymentType = paymentTypeService.updateOrCreateAndSetActive(email, request);
         return ResponseEntity.ok(new ApiResponse<>(true, "Payment type updated successfully", paymentType));

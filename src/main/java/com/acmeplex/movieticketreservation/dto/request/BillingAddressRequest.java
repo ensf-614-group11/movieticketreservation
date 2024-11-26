@@ -1,24 +1,30 @@
 package com.acmeplex.movieticketreservation.dto.request;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 /**
- * Request DTO for updating an existing billing address.
+ * Request DTO for creating a new billing address.
  */
-public class UpdateBillingAddressRequest {
+public class BillingAddressRequest {
 
+    @NotBlank(message = "Street address cannot be blank")
     @Size(max = 100, message = "Street address must not exceed 100 characters")
     private String street;
 
+    @NotBlank(message = "City cannot be blank")
     @Size(max = 50, message = "City must not exceed 50 characters")
     private String city;
 
+    @NotBlank(message = "Region cannot be blank")
     @Size(max = 50, message = "Region must not exceed 50 characters")
     private String region;
 
+    @NotBlank(message = "Postal code cannot be blank")
     @Size(max = 10, message = "Postal code must not exceed 10 characters")
     private String postalCode;
 
+    @NotBlank(message = "Country cannot be blank")
     @Size(max = 50, message = "Country must not exceed 50 characters")
     private String country;
 

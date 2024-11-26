@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
 @CreateValidPaymentType
-public class CreatePaymentTypeRequest {
+public class PaymentTypeRequest {
 
     @NotBlank(message = "Payment type cannot be blank")
     private String type; // E.g., "CREDIT_CARD" or "PAYPAL"
@@ -33,11 +33,11 @@ public class CreatePaymentTypeRequest {
     private String email;
 
     // Default constructor
-    public CreatePaymentTypeRequest() {
+    public PaymentTypeRequest() {
     }
 
     // Constructor for PaymentTypeService
-    public CreatePaymentTypeRequest(String type, String cardNumber, String cardholderName, String expirationDate) {
+    public PaymentTypeRequest(String type, String cardNumber, String cardholderName, String expirationDate) {
         this.type = type;
         this.cardNumber = cardNumber;
         this.cardholderName = cardholderName;

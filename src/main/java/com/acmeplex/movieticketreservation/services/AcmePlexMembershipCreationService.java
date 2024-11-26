@@ -10,14 +10,15 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 
 @Service
-public class AcmePlexMembershipService {
+public class AcmePlexMembershipCreationService {
 
-    private static final Logger logger = LoggerFactory.getLogger(AcmePlexMembershipService.class);
+    private static final Logger logger = LoggerFactory.getLogger(AcmePlexMembershipCreationService.class);
     private final AcmePlexMembershipRepository membershipRepository;
 
-    public AcmePlexMembershipService(AcmePlexMembershipRepository membershipRepository) {
+    public AcmePlexMembershipCreationService(AcmePlexMembershipRepository membershipRepository) {
         this.membershipRepository = membershipRepository;
     }
+
 
     /**
      * Creates a new membership for a given registration date.
@@ -108,5 +109,7 @@ public class AcmePlexMembershipService {
             System.out.println("Membership is active, but renewal status was false. Renewal status is now set to true.");
         }
     }
+
+
 
 }

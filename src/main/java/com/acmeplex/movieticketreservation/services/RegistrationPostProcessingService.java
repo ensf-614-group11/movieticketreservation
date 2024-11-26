@@ -19,13 +19,13 @@ public class RegistrationPostProcessingService {
 
     private static final Logger logger = LoggerFactory.getLogger(RegistrationPostProcessingService.class);
 
-    private final AcmePlexMembershipService membershipService;
+    private final AcmePlexMembershipCreationService membershipService;
     private final AcmePlexUserProfileService userProfileService;
     private final PaymentRepository paymentRepository;
     private final ReceiptRepository receiptRepository;
 
     public RegistrationPostProcessingService(
-            AcmePlexMembershipService membershipService,
+            AcmePlexMembershipCreationService membershipService,
             AcmePlexUserProfileService userProfileService,
             PaymentRepository paymentRepository,
             ReceiptRepository receiptRepository) {
