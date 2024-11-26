@@ -62,7 +62,7 @@ public class AcmePlexMembershipRenewalService {
             membershipRepository.save(membership);
 
             AcmePlexUser user = membershipRepository.findUserByMembershipId(membership.getId());
-//            notificationService.sendMembershipDeactivationNotice(user);
+            notificationService.sendMembershipDeactivationNotice(user);
             notificationService.removeObserver(user);
         }
     }
