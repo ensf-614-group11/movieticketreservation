@@ -1,6 +1,7 @@
 package com.acmeplex.movieticketreservation.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
@@ -29,6 +30,7 @@ public class Payment {
     private AcmePlexCredit credit;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "user_id", nullable = true)
     private AcmePlexUser acmePlexUser;
 
