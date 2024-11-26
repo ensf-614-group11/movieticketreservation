@@ -1,6 +1,6 @@
 package com.acmeplex.movieticketreservation.dto.request;
 
-public class TicketCancellationFindTicketRequest {
+public class TicketCancellationRegisteredRequest {
     private Long ticketId;
 
     public Long getTicketId() {

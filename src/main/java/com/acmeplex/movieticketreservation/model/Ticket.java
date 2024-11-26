@@ -1,5 +1,6 @@
 package com.acmeplex.movieticketreservation.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -16,17 +17,21 @@ public class Ticket {
 
     @ManyToOne
     @JoinColumn(name = "showtime_id")
+    @JsonIgnore
     private Showtime showtime;
 
     @OneToOne
     @JoinColumn(name = "seat_id")
+    @JsonIgnore
     private Seat seat;
 
     @OneToOne(mappedBy = "ticket")
+    @JsonIgnore
     private Payment payment;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = true)
+    @JsonIgnore
     private AcmePlexUser user;
 
 

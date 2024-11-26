@@ -193,8 +193,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.sql.Date;
 import java.time.LocalDateTime;
-
-
+import java.util.Optional;
 
 
 @Service
@@ -301,8 +300,14 @@ public class DataInitializer {
             List<Seat> selectedSeats = seatRepository.findByTheatreRoom(room1).subList(0, 5); // First 5 seats in Room 1
             for (Seat seat : selectedSeats) {
                 // Create Ticket
-                Ticket ticket = new Ticket("confirmed", new java.util.Date(), showtime1, seat, user1);
+                Ticket ticket = new Ticket("confirmed", new java.util.Date(), showtime3, seat, user1);
                 ticketRepository.save(ticket);
+                Optional<SeatAvailability> seatAvailabilityOpt = seatAvailabilityRepository.findBySeatIdAndShowtimeId(ticket.getSeat().getId(), ticket.getShowtime().getId());
+                if (seatAvailabilityOpt.isPresent()) {
+                    SeatAvailability seatAvailability = seatAvailabilityOpt.get();
+                    seatAvailability.setAvailable(false);
+                    seatAvailabilityRepository.save(seatAvailability);
+                }
 
                 // Create Payment
                 Payment payment = new Payment(20.0f, new java.util.Date(), "completed", "credit card", ticket, user1);
@@ -316,8 +321,14 @@ public class DataInitializer {
 
             List<Seat> selectedSeatsOrdinaryUsers = seatRepository.findByTheatreRoom(room1).subList(6, 10); // Next 5 seats in Room 1
             for (Seat seat : selectedSeatsOrdinaryUsers) {
-                Ticket ticket = new Ticket("confirmed", new java.util.Date(), showtime1, seat);
+                Ticket ticket = new Ticket("confirmed", new java.util.Date(), showtime3, seat);
                 ticketRepository.save(ticket);
+                Optional<SeatAvailability> seatAvailabilityOpt = seatAvailabilityRepository.findBySeatIdAndShowtimeId(ticket.getSeat().getId(), ticket.getShowtime().getId());
+                if (seatAvailabilityOpt.isPresent()) {
+                    SeatAvailability seatAvailability = seatAvailabilityOpt.get();
+                    seatAvailability.setAvailable(false);
+                    seatAvailabilityRepository.save(seatAvailability);
+                }
 
                 Payment payment = new Payment(20.0f, new java.util.Date(), "completed", "credit card", ticket);
                 paymentRepository.save(payment);

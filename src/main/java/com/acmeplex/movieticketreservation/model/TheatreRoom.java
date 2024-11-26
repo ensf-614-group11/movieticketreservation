@@ -1,5 +1,6 @@
 package com.acmeplex.movieticketreservation.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -14,6 +15,7 @@ public class TheatreRoom {
     private int numberOfSeats;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "theatre_id")
     private Theatre theatre;
 

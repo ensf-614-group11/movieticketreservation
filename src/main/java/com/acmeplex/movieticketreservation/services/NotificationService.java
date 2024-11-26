@@ -2,7 +2,9 @@ package com.acmeplex.movieticketreservation.services;
 
 import com.acmeplex.movieticketreservation.model.*;
 import com.acmeplex.movieticketreservation.observer.Observer;
+import com.acmeplex.movieticketreservation.repository.NotificationRepository;
 import jakarta.validation.constraints.Email;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -13,16 +15,24 @@ import java.util.List;
 @Service
 public class NotificationService {
     private List<Observer> observers = new ArrayList<>();
-    EmailService emailService = new EmailService();
+
+    @Autowired
+    private EmailService emailService;
+
+    @Autowired
+    private NotificationRepository notificationRepository;
 
 public void sendTicketAndReceiptOrdinaryUser(Ticket ticket, Receipt receipt, String email){
     Date currentDate = new Date();
     String message = createTicketAndReceiptMessage(ticket, receipt, null);
     Notification notification = new Notification(currentDate, message, email);
+
     try {emailService.sendSimpleMessage(email, "AcmePlex Ticket and Receipt Confirmation", message);
     } catch (Exception e) {
         System.out.println("Error sending email to: " + email + "\nError Message: " + e.getMessage());
     }
+    notificationRepository.save(notification);
+
 
 }
 
@@ -30,11 +40,13 @@ public void sendTicketAndReceiptRegisteredUser(Ticket ticket, Receipt receipt){
     Date currentDate = new Date();
     String message = createTicketAndReceiptMessage(ticket, receipt, ticket.getUser().getFirstName());
     Notification notification = new Notification(currentDate, message, ticket.getUser().getEmail());
+
    try {emailService.sendSimpleMessage(ticket.getUser().getEmail(), "AcmePlex Ticket and Receipt Confirmation", message);
    } catch (Exception e) {
        System.out.println("Error sending email to: " + ticket.getUser().getEmail() + "\nError Message: " + e.getMessage());
    }
     ticket.getUser().addNotification(notification);
+    notificationRepository.save(notification);
 }
 
 public void sendTicketCancellationOrdinaryUser(AcmePlexCredit acmePlexCredit, String email){
@@ -47,6 +59,8 @@ public void sendTicketCancellationOrdinaryUser(AcmePlexCredit acmePlexCredit, St
     } catch (Exception e) {
         System.out.println("Error sending email to: " + email + "\nError Message: " + e.getMessage());
     }
+    notificationRepository.save(notification);
+
 }
 
 
@@ -61,6 +75,7 @@ public void sendTicketCancellationRegisteredUser(AcmePlexCredit acmePlexCredit, 
         System.out.println("Error sending email to: " + acmePlexUser.getEmail() + "\nError Message: " + e.getMessage());
     }
    acmePlexUser.addNotification(notification);
+    notificationRepository.save(notification);
 }
 
 
@@ -81,6 +96,7 @@ public void sendAnnualFeeReminder(AcmePlexUser acmePlexUser){
         System.out.println("Error sending email to: " + acmePlexUser.getEmail() + "\nError Message: " + e.getMessage());
     }
     acmePlexUser.addNotification(notification);
+    notificationRepository.save(notification);
     }
 
     public void sendAnnualFeePaymentConfirmation(AcmePlexUser acmePlexUser, Receipt receipt){
@@ -106,6 +122,7 @@ public void sendAnnualFeeReminder(AcmePlexUser acmePlexUser){
             System.out.println("Error sending email to: " + acmePlexUser.getEmail() + "\nError Message: " + e.getMessage());
         }
         acmePlexUser.addNotification(notification);
+        notificationRepository.save(notification);
     }
 
 

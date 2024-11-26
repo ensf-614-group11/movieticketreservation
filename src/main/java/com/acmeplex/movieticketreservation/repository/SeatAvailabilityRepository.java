@@ -12,7 +12,7 @@ import java.util.List;
 
 @Repository
 public interface SeatAvailabilityRepository extends JpaRepository<SeatAvailability, Integer> {
-    Optional<SeatAvailability> findBySeatId(Long seatId);
+    Optional<SeatAvailability> findBySeatIdAndShowtimeId(Long seatId, Long showtimeId);
   /**
    * Finds all seats (whether available or not) for a specific showtime.
    *

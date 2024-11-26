@@ -13,6 +13,8 @@ public class Notification {
     private Long id;
     private Date dateSent;
     private String emailRecipient;
+
+    @Column(length = 10000)
     private String message;
 
     @ManyToOne
