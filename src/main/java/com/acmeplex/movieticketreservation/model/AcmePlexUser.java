@@ -4,6 +4,7 @@ import com.acmeplex.movieticketreservation.observer.Observer;
 import com.acmeplex.movieticketreservation.services.EmailService;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class AcmePlexUser implements Observer {
     private CountryCode countryCode;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Notification> notifications;
+    private List<Notification> notifications = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Ticket> tickets;
