@@ -21,12 +21,12 @@ public class PaymentTypeValidatorFactory {
     public PaymentTypeValidatorFactory(AuthUserPrincipalService authUserPrincipalService) {
         this.authUserPrincipalService = authUserPrincipalService;
 
-        // Register country-specific validators for CREDIT_CARD
-        validators.put("CREDIT_CARD:US", new CreateUSCreditCardValidator());
-        validators.put("CREDIT_CARD:CA", new CreateCanadaCreditCardValidator());
+        // Register country-specific validators for CreditCard
+        validators.put("CreditCard:US", new CreateUSCreditCardValidator());
+        validators.put("CreditCard:CA", new CreateCanadaCreditCardValidator());
 
         // Register a default validator for PayPal or other types
-        validators.put("PAYPAL", new CreatePayPalValidator());
+        validators.put("PayPal", new CreatePayPalValidator());
     }
 
     public CreatePaymentTypeValidator getValidator(String type, String countryCodeFromRequest) {

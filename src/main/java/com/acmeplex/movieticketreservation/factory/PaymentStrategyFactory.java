@@ -1,5 +1,7 @@
 package com.acmeplex.movieticketreservation.factory;
 
+import com.acmeplex.movieticketreservation.dto.request.CreateBillingAddressRequest;
+import com.acmeplex.movieticketreservation.dto.request.CreatePaymentTypeRequest;
 import com.acmeplex.movieticketreservation.services.strategy.PaymentStrategy;
 import com.acmeplex.movieticketreservation.dto.request.RegisteredUserPaymentRequest;
 import com.acmeplex.movieticketreservation.dto.request.UnregisteredUserPaymentRequest;
@@ -28,6 +30,13 @@ public class PaymentStrategyFactory {
             return creditCardPayment;
         }
         throw new IllegalArgumentException("Unsupported payment method.");
+    }
+
+    public PaymentStrategy getStrategy(CreatePaymentTypeRequest paymentTypeRequest, CreateBillingAddressRequest billingAddressRequest) {
+        if ("CreditCard".equals(paymentTypeRequest.getType())) {
+            return creditCardPayment; // Return the credit card payment strategy
+        }
+        throw new IllegalArgumentException("Unsupported payment method: " + paymentTypeRequest.getType());
     }
 
     // Overloaded method for Registered User payment

@@ -99,4 +99,16 @@ public final class Constants {
         public static final String BILLING_ADDRESS_UPDATED = "Billing address updated successfully";
         public static final String PAYMENT_TYPES_FETCHED = "User payment types retrieved successfully";
     }
+
+    /**
+     * Pricing constants.
+     */
+    public static final class Pricing {
+
+        private Pricing() {
+            // Private constructor to prevent instantiation
+        }
+
+        public static final float MEMBERSHIP_PRICE = 20.00f; // Fixed price for annual membership
+    }
 }

@@ -1,5 +1,8 @@
 package com.acmeplex.movieticketreservation.services.strategy;
 
+import com.acmeplex.movieticketreservation.config.constants.Constants;
+import com.acmeplex.movieticketreservation.dto.request.CreateBillingAddressRequest;
+import com.acmeplex.movieticketreservation.dto.request.CreatePaymentTypeRequest;
 import com.acmeplex.movieticketreservation.dto.request.RegisteredUserPaymentRequest;
 import com.acmeplex.movieticketreservation.dto.request.UnregisteredUserPaymentRequest;
 import com.acmeplex.movieticketreservation.model.AcmePlexUser;
@@ -84,5 +87,37 @@ public class CreditCardPayment implements PaymentStrategy {
         return true;
     }
 
+    @Override
+    public boolean newAcmePlexMembershipPay(
+            CreatePaymentTypeRequest paymentTypeRequest,
+            CreateBillingAddressRequest billingAddressRequest) {
+
+        // Validate input details from CreatePaymentTypeRequest
+        String cardNumber = paymentTypeRequest.getCardNumber();
+        if (cardNumber == null || cardNumber.isEmpty()) {
+            throw new IllegalArgumentException("Invalid credit card number provided.");
+        }
+
+        // Validate billing address from CreateBillingAddressRequest
+        if (billingAddressRequest.getStreet() == null || billingAddressRequest.getStreet().isEmpty() ||
+                billingAddressRequest.getPostalCode() == null || billingAddressRequest.getPostalCode().isEmpty() ||
+                billingAddressRequest.getCountry() == null || billingAddressRequest.getCountry().isEmpty()) {
+            throw new IllegalArgumentException("Invalid billing address provided.");
+        }
+
+        // Use the membership price constant
+        float amount = Constants.Pricing.MEMBERSHIP_PRICE;
+
+        // Simulate payment processing
+        System.out.println("Processing annual membership payment of $" + amount +
+                "\nCard Number: " + cardNumber +
+                "\nBilling Address: " +
+                "\nStreet: " + billingAddressRequest.getStreet() +
+                "\nPostal Code: " + billingAddressRequest.getPostalCode() +
+                "\nCountry: " + billingAddressRequest.getCountry());
+
+        // Assume payment is successful and return true
+        return true;
+    }
 }
 
