@@ -14,6 +14,7 @@ public class Ticket {
 
     private Date dateIssued;
     private String status; // confirmed or cancelled
+    private boolean belongsToRegisteredUser;
 
     @ManyToOne
     @JoinColumn(name = "showtime_id")
@@ -42,6 +43,9 @@ public class Ticket {
         this.showtime = showtime;
         this.seat = seat;
         this.user = user;
+        if (user != null) {
+            belongsToRegisteredUser = true;
+        }
     }
 
     // Constructor for ordinary users
@@ -50,6 +54,7 @@ public class Ticket {
         this.dateIssued = dateIssued;
         this.showtime = showtime;
         this.seat = seat;
+        belongsToRegisteredUser = false;
     }
 
     public Ticket() {
@@ -103,6 +108,14 @@ public class Ticket {
     public AcmePlexUser getUser() {return user;}
 
     public void setUser(AcmePlexUser user) {this.user = user;}
+
+    public boolean isBelongsToRegisteredUser() {
+        return belongsToRegisteredUser;
+    }
+
+    public void setBelongsToRegisteredUser(boolean belongsToRegisteredUser) {
+        this.belongsToRegisteredUser = belongsToRegisteredUser;
+    }
 
 
 }
