@@ -1,6 +1,7 @@
 package com.acmeplex.movieticketreservation.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -18,6 +19,7 @@ public class Notification {
     private String message;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "user_id", nullable = true)
     private AcmePlexUser user;
 
