@@ -276,7 +276,7 @@ public class DataInitializer {
             logger.info("Seats have been added to the database.");
 
             // Initialize Showtimes
-            Showtime showtime1 = showtimeRepository.save(new Showtime(LocalDateTime.of(2024, 11, 28, 11, 30, 0), false, room1, avengers));
+            Showtime showtime1 = showtimeRepository.save(new Showtime(LocalDateTime.of(2024, 11, 26, 11, 30, 0), false, room1, avengers));
             Showtime showtime2 = showtimeRepository.save(new Showtime(LocalDateTime.of(2024, 11, 30, 13, 30, 0), true, room2, ultron));
             Showtime showtime3 = showtimeRepository.save(new Showtime(LocalDateTime.of(2024, 12, 1, 14, 0, 0), false, room1, infinityWar));
             Showtime showtime4 = showtimeRepository.save(new Showtime(LocalDateTime.of(2024, 12, 3, 15, 30, 0), true, room2, endgame));

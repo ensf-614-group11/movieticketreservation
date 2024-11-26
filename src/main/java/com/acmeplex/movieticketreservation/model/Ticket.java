@@ -1,8 +1,10 @@
 package com.acmeplex.movieticketreservation.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -85,6 +87,14 @@ public class Ticket {
         return showtime;
     }
 
+    @JsonProperty("showtime")
+    public ShowtimeDetails getShowtimeDetails() {
+        if (this.showtime != null) {
+            return new ShowtimeDetails(this.showtime);
+        }
+        return null;
+    }
+
     public void setShowtime(Showtime showtime) {
         this.showtime = showtime;
     }
@@ -105,9 +115,13 @@ public class Ticket {
         this.payment = payment;
     }
 
-    public AcmePlexUser getUser() {return user;}
+    public AcmePlexUser getUser() {
+        return user;
+    }
 
-    public void setUser(AcmePlexUser user) {this.user = user;}
+    public void setUser(AcmePlexUser user) {
+        this.user = user;
+    }
 
     public boolean isBelongsToRegisteredUser() {
         return belongsToRegisteredUser;
@@ -116,6 +130,5 @@ public class Ticket {
     public void setBelongsToRegisteredUser(boolean belongsToRegisteredUser) {
         this.belongsToRegisteredUser = belongsToRegisteredUser;
     }
-
 
 }
