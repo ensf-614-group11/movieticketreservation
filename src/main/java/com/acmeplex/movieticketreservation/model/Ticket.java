@@ -1,7 +1,10 @@
 package com.acmeplex.movieticketreservation.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -13,29 +16,47 @@ public class Ticket {
 
     private Date dateIssued;
     private String status; // confirmed or cancelled
+    private boolean belongsToRegisteredUser;
 
     @ManyToOne
     @JoinColumn(name = "showtime_id")
+    @JsonIgnore
     private Showtime showtime;
 
     @OneToOne
     @JoinColumn(name = "seat_id")
+    @JsonIgnore
     private Seat seat;
 
     @OneToOne(mappedBy = "ticket")
+    @JsonIgnore
     private Payment payment;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = true)
+    @JsonIgnore
     private AcmePlexUser user;
 
 
+    // Constructor for registered users
     public Ticket(String status, Date dateIssued, Showtime showtime, Seat seat, AcmePlexUser user) {
         this.status = status;
         this.dateIssued = dateIssued;
         this.showtime = showtime;
         this.seat = seat;
         this.user = user;
+        if (user != null) {
+            belongsToRegisteredUser = true;
+        }
+    }
+
+    // Constructor for ordinary users
+    public Ticket(String status, Date dateIssued, Showtime showtime, Seat seat) {
+        this.status = status;
+        this.dateIssued = dateIssued;
+        this.showtime = showtime;
+        this.seat = seat;
+        belongsToRegisteredUser = false;
     }
 
     public Ticket() {
@@ -66,6 +87,14 @@ public class Ticket {
         return showtime;
     }
 
+    @JsonProperty("showtime")
+    public ShowtimeDetails getShowtimeDetails() {
+        if (this.showtime != null) {
+            return new ShowtimeDetails(this.showtime);
+        }
+        return null;
+    }
+
     public void setShowtime(Showtime showtime) {
         this.showtime = showtime;
     }
@@ -86,9 +115,20 @@ public class Ticket {
         this.payment = payment;
     }
 
-    public AcmePlexUser getUser() {return user;}
+    public AcmePlexUser getUser() {
+        return user;
+    }
 
-    public void setUser(AcmePlexUser user) {this.user = user;}
+    public void setUser(AcmePlexUser user) {
+        this.user = user;
+    }
 
+    public boolean isBelongsToRegisteredUser() {
+        return belongsToRegisteredUser;
+    }
+
+    public void setBelongsToRegisteredUser(boolean belongsToRegisteredUser) {
+        this.belongsToRegisteredUser = belongsToRegisteredUser;
+    }
 
 }

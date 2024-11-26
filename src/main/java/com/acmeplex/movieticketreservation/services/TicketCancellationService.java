@@ -5,9 +5,7 @@ import com.acmeplex.movieticketreservation.model.AcmePlexCredit;
 import com.acmeplex.movieticketreservation.model.SeatAvailability;
 import com.acmeplex.movieticketreservation.model.Showtime;
 import com.acmeplex.movieticketreservation.model.Ticket;
-import com.acmeplex.movieticketreservation.repository.SeatAvailabilityRepository;
-import com.acmeplex.movieticketreservation.repository.TicketRepository;
-import com.acmeplex.movieticketreservation.repository.UserRepository;
+import com.acmeplex.movieticketreservation.repository.*;
 import com.acmeplex.movieticketreservation.services.exceptions.InvalidRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,16 +22,18 @@ public class TicketCancellationService {
 
     @Autowired
     private TicketRepository ticketRepository;
-    @Autowired
-    private UserRepository userRepository;
 
-    private NotificationService notificationService = new NotificationService();
+    @Autowired
+    private AcmePlexCreditRepository creditRepository;
+
+    @Autowired
+    private NotificationService notificationService;
 
     @Autowired
     private SeatAvailabilityRepository seatAvailabilityRepository;
 
     public Optional<Ticket> getTicketById(Long ticketId) {
-        return ticketRepository.findById(Math.toIntExact(ticketId));
+        return ticketRepository.findById(ticketId);
     }
 
     // REGISTERED USER AND ORDINARY USER
@@ -58,7 +58,7 @@ public class TicketCancellationService {
         ticketRepository.save(ticket);
 
         // Update the seat availability
-        Optional<SeatAvailability> seatAvailabilityOpt = seatAvailabilityRepository.findBySeatId(ticket.getSeat().getId());
+        Optional<SeatAvailability> seatAvailabilityOpt = seatAvailabilityRepository.findBySeatIdAndShowtimeId(ticket.getSeat().getId(), ticket.getShowtime().getId());
         if (seatAvailabilityOpt.isPresent()) {
             SeatAvailability seatAvailability = seatAvailabilityOpt.get();
             seatAvailability.setAvailable(true);
@@ -70,6 +70,8 @@ public class TicketCancellationService {
         AcmePlexCredit acmePlexCredit = new AcmePlexCredit(creditSecretCodeGenerator(), ticket.getPayment().getAmount(), ticket.getPayment(), currentDate);
         acmePlexCredit.setAcmePlexUser(ticket.getUser());
         ticket.getUser().addCredit(acmePlexCredit);
+        creditRepository.save(acmePlexCredit);
+
 
         // Send notification to confirm cancellation
         notificationService.sendTicketCancellationRegisteredUser(acmePlexCredit, ticket.getUser());
@@ -91,7 +93,7 @@ public class TicketCancellationService {
         ticketRepository.save(ticket);
 
         // Update the seat availability
-        Optional<SeatAvailability> seatAvailabilityOpt = seatAvailabilityRepository.findBySeatId(ticket.getSeat().getId());
+        Optional<SeatAvailability> seatAvailabilityOpt = seatAvailabilityRepository.findBySeatIdAndShowtimeId(ticket.getSeat().getId(), ticket.getShowtime().getId());
         if (seatAvailabilityOpt.isPresent()) {
             SeatAvailability seatAvailability = seatAvailabilityOpt.get();
             seatAvailability.setAvailable(true);
@@ -101,6 +103,7 @@ public class TicketCancellationService {
         // Create a new credit
         Date currentDate = new Date();
         AcmePlexCredit acmePlexCredit = new AcmePlexCredit(creditSecretCodeGenerator(), (float) ((ticket.getPayment().getAmount())*0.85), ticket.getPayment(), currentDate);
+        creditRepository.save(acmePlexCredit);
 
         // Send notification to confirm cancellation
         notificationService.sendTicketCancellationOrdinaryUser(acmePlexCredit, email);

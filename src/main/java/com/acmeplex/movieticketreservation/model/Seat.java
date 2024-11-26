@@ -1,5 +1,6 @@
 package com.acmeplex.movieticketreservation.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -17,6 +18,7 @@ public class Seat {
 
     @ManyToOne
     @JoinColumn(name = "theatre_room_id")
+    @JsonIgnore
     private TheatreRoom theatreRoom;
 
     @OneToOne(mappedBy = "seat")

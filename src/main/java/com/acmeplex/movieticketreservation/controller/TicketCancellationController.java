@@ -1,6 +1,7 @@
 package com.acmeplex.movieticketreservation.controller;
 
-import com.acmeplex.movieticketreservation.config.constants.Constants;
+import com.acmeplex.movieticketreservation.dto.request.TicketCancellationOrdinaryRequest;
+import com.acmeplex.movieticketreservation.dto.request.TicketCancellationRegisteredRequest;
 import com.acmeplex.movieticketreservation.dto.response.ApiResponse;
 import com.acmeplex.movieticketreservation.dto.response.TicketCancellationResponse;
 import com.acmeplex.movieticketreservation.model.Ticket;
@@ -13,15 +14,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(Constants.Endpoints.API_TICKET_CANCELLATION)
+@RequestMapping("/api/cancel-ticket")
 public class TicketCancellationController {
 
     @Autowired
     private TicketCancellationService ticketCancellationService;
 
     // Endpoint to retrieve ticket details based on ticket ID
-    @GetMapping(Constants.Endpoints.API_TICKET_CANCELLATION_GET)
-    public ResponseEntity<ApiResponse<TicketCancellationResponse>> getTicketDetails(@PathVariable Long ticketId) {
+    @GetMapping("/get")
+    public ResponseEntity<ApiResponse<TicketCancellationResponse>> getTicketDetails(@RequestParam Long ticketId) {
         // Retrieve ticket details by ID
         Optional<Ticket> ticket = ticketCancellationService.getTicketById(ticketId);
         if (ticket.isEmpty()) {
@@ -41,8 +42,9 @@ public class TicketCancellationController {
     }
 
     // Endpoint to cancel a ticket for a registered user
-    @PostMapping(Constants.Endpoints.API_TICKET_CANCELLATION_POST_REGISTERED)
-    public ResponseEntity<ApiResponse<TicketCancellationResponse>> cancelTicket(@PathVariable Long ticketId) {
+    @PostMapping("/post/registered")
+    public ResponseEntity<ApiResponse<TicketCancellationResponse>> cancelTicket(@RequestBody TicketCancellationRegisteredRequest request) {
+        Long ticketId = request.getTicketId();
         // Retrieve ticket details and process cancellation
         Optional<Ticket> ticket = ticketCancellationService.getTicketById(ticketId);
         if (ticket.isEmpty()) {
@@ -62,8 +64,11 @@ public class TicketCancellationController {
     }
 
     // Endpoint to cancel a ticket for ordinary users
-    @PostMapping(Constants.Endpoints.API_TICKET_CANCELLATION_POST_ORDINARY)
-    public ResponseEntity<ApiResponse<TicketCancellationResponse>> cancelTicketForOrdinaryUser(@PathVariable Long ticketId, @RequestParam String email) {
+    @PostMapping("/post/ordinary")
+    public ResponseEntity<ApiResponse<TicketCancellationResponse>> cancelTicketForOrdinaryUser(@RequestBody TicketCancellationOrdinaryRequest request) {
+       Long ticketId = request.getTicketId();
+       String email = request.getEmail();
+
         Optional<Ticket> ticket = ticketCancellationService.getTicketById(ticketId);
         if (ticket.isEmpty()) {
             throw new TicketNotFoundException("Ticket not found for ID: " + ticketId);

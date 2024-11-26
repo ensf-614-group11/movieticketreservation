@@ -20,8 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @SpringBootApplication(scanBasePackages = "com.acmeplex.movieticketreservation")
 public class MovieticketreservationApplication {
 
-	@Autowired
-	private EmailService emailService;
+
 	public static void main(String[] args) {
 		SpringApplication.run(MovieticketreservationApplication.class, args);
 	}
