@@ -16,7 +16,7 @@ public class Payment {
     private String method;
 
     @OneToOne
-    @JoinColumn(name = "ticket_id")
+    @JoinColumn(name = "ticket_id", nullable = true)
     private Ticket ticket;
 
     @OneToOne(mappedBy = "payment", cascade = CascadeType.ALL)

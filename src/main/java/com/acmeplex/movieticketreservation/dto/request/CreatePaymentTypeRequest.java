@@ -10,7 +10,7 @@ import jakarta.validation.constraints.Pattern;
 public class CreatePaymentTypeRequest {
 
     @NotBlank(message = "Payment type cannot be blank")
-    private String type; // E.g., "CreditCard" or "PayPal"
+    private String type; // E.g., "CREDIT_CARD" or "PAYPAL"
 
     @NotBlank(message = "Country code cannot be blank")
     @ValidCountryCode

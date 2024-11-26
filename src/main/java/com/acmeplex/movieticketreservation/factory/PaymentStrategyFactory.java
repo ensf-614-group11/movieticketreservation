@@ -33,7 +33,7 @@ public class PaymentStrategyFactory {
     }
 
     public PaymentStrategy getStrategy(CreatePaymentTypeRequest paymentTypeRequest, CreateBillingAddressRequest billingAddressRequest) {
-        if ("CreditCard".equals(paymentTypeRequest.getType())) {
+        if ("CREDIT_CARD".equals(paymentTypeRequest.getType())) {
             return creditCardPayment; // Return the credit card payment strategy
         }
         throw new IllegalArgumentException("Unsupported payment method: " + paymentTypeRequest.getType());
@@ -48,7 +48,7 @@ public class PaymentStrategyFactory {
             List<PaymentType> paymentTypes = user.get().getPaymentTypes();
             boolean userHasCreditCardPaymentType = false;
             for(PaymentType paymentType : paymentTypes){
-                if(paymentType.getMethod().equals("CreditCard")){
+                if(paymentType.getMethod().equals("CREDIT_CARD")){
                     userHasCreditCardPaymentType = true;
                 }
             }
@@ -68,7 +68,7 @@ public class PaymentStrategyFactory {
             List<PaymentType> paymentTypes = user.get().getPaymentTypes();
             boolean userHasCreditCardPaymentType = false;
             for(PaymentType paymentType : paymentTypes){
-                if(paymentType.getMethod().equals("CreditCard")){
+                if(paymentType.getMethod().equals("CREDIT_CARD")){
                     userHasCreditCardPaymentType = true;
                 }
             }

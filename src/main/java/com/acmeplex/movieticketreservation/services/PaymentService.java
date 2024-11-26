@@ -3,6 +3,7 @@ package com.acmeplex.movieticketreservation.services;
 import com.acmeplex.movieticketreservation.config.constants.Constants;
 import com.acmeplex.movieticketreservation.dto.request.CreateBillingAddressRequest;
 import com.acmeplex.movieticketreservation.dto.request.CreatePaymentTypeRequest;
+import com.acmeplex.movieticketreservation.services.exceptions.PaymentFailedException;
 import com.acmeplex.movieticketreservation.services.strategy.PaymentStrategy;
 import com.acmeplex.movieticketreservation.dto.request.RegisteredUserPaymentRequest;
 import com.acmeplex.movieticketreservation.dto.request.UnregisteredUserPaymentRequest;
@@ -166,7 +167,7 @@ public class PaymentService {
         );
     }
 
-    public boolean processNewAcmePlexMembershipPayment(CreatePaymentTypeRequest paymentTypeRequest,
+    public Payment processNewAcmePlexMembershipPayment(CreatePaymentTypeRequest paymentTypeRequest,
                                                        CreateBillingAddressRequest billingAddressRequest) {
         // Step 1: Retrieve the payment strategy using PaymentStrategyFactory
         PaymentStrategy strategy = paymentStrategyFactory.getStrategy(paymentTypeRequest, billingAddressRequest);
@@ -177,7 +178,7 @@ public class PaymentService {
         // Step 2: Call the strategy's newAcmePlexMembershipPay method
         boolean paymentSuccess = strategy.newAcmePlexMembershipPay(paymentTypeRequest, billingAddressRequest);
         if (!paymentSuccess) {
-            throw new IllegalArgumentException("Payment processing failed.");
+            throw new PaymentFailedException("Payment processing failed for card: " + paymentTypeRequest.getCardNumber());
         }
 
         // Step 3: Create and save the Payment entity (associate later with user)
@@ -195,6 +196,6 @@ public class PaymentService {
         Receipt receipt = new Receipt(payment);
         receiptRepository.save(receipt);
 
-        return paymentSuccess;
+        return payment;
     }
 }

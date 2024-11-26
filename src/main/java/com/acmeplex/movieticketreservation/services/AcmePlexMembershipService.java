@@ -1,19 +1,37 @@
 package com.acmeplex.movieticketreservation.services;
 
 import com.acmeplex.movieticketreservation.model.AcmePlexMembership;
+import com.acmeplex.movieticketreservation.repository.AcmePlexMembershipRepository;
+import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
+@Service
 public class AcmePlexMembershipService {
 
+    private static final Logger logger = LoggerFactory.getLogger(AcmePlexMembershipService.class);
+    private final AcmePlexMembershipRepository membershipRepository;
+
+    public AcmePlexMembershipService(AcmePlexMembershipRepository membershipRepository) {
+        this.membershipRepository = membershipRepository;
+    }
+
     /**
-     * Creates a new AcmePlexMembership for the user.
+     * Creates a new membership for a given registration date.
      *
-     * @param dateRegistered The registration date of the user.
-     * @return A new AcmePlexMembership instance.
+     * @param dateRegistered The date the user registered.
+     * @return The newly created membership.
      */
+    @Transactional
     public AcmePlexMembership createMembership(Date dateRegistered) {
-        return new AcmePlexMembership(dateRegistered);
+        Date expiryDate = calculateExpirationDate(dateRegistered);
+        AcmePlexMembership membership = new AcmePlexMembership(dateRegistered, expiryDate);
+        membershipRepository.save(membership);
+        logger.debug("Created and saved membership with ID: {}", membership.getId());
+        return membership;
     }
 
     /**
@@ -54,6 +72,17 @@ public class AcmePlexMembershipService {
     public void deactivateRenewalStatus(AcmePlexMembership membership) {
         membership.setRenewalStatus(false);
         // Add additional business logic if required
+    }
+
+    /**
+     * Calculates the expiration date for a membership, e.g., one year from registration.
+     *
+     * @param dateRegistered The date the user registered.
+     * @return The expiration date.
+     */
+    private Date calculateExpirationDate(Date dateRegistered) {
+        // Example logic for a one-year membership
+        return new Date(dateRegistered.getTime() + 365L * 24 * 60 * 60 * 1000); // Add 1 year in milliseconds
     }
 
     /**

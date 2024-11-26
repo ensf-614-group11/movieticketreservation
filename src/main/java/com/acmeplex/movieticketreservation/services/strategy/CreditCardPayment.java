@@ -94,18 +94,7 @@ public class CreditCardPayment implements PaymentStrategy {
 
         // Validate input details from CreatePaymentTypeRequest
         String cardNumber = paymentTypeRequest.getCardNumber();
-        if (cardNumber == null || cardNumber.isEmpty()) {
-            throw new IllegalArgumentException("Invalid credit card number provided.");
-        }
 
-        // Validate billing address from CreateBillingAddressRequest
-        if (billingAddressRequest.getStreet() == null || billingAddressRequest.getStreet().isEmpty() ||
-                billingAddressRequest.getPostalCode() == null || billingAddressRequest.getPostalCode().isEmpty() ||
-                billingAddressRequest.getCountry() == null || billingAddressRequest.getCountry().isEmpty()) {
-            throw new IllegalArgumentException("Invalid billing address provided.");
-        }
-
-        // Use the membership price constant
         float amount = Constants.Pricing.MEMBERSHIP_PRICE;
 
         // Simulate payment processing
@@ -113,6 +102,8 @@ public class CreditCardPayment implements PaymentStrategy {
                 "\nCard Number: " + cardNumber +
                 "\nBilling Address: " +
                 "\nStreet: " + billingAddressRequest.getStreet() +
+                "\nCity: " + billingAddressRequest.getCity() +
+                "\nRegion: " + billingAddressRequest.getRegion() +
                 "\nPostal Code: " + billingAddressRequest.getPostalCode() +
                 "\nCountry: " + billingAddressRequest.getCountry());
 

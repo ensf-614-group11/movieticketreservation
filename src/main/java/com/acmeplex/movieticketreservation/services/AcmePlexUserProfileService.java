@@ -33,11 +33,8 @@ public class AcmePlexUserProfileService {
 
     @Transactional(readOnly = true)
     public AcmePlexUser getUserByEmail(String email) {
-        AcmePlexUser user = authUserPrincipalService.getAuthenticatedAcmePlexUser();
-        if (!user.getEmail().equalsIgnoreCase(email)) {
-            throw new IllegalArgumentException("Authenticated user email does not match the requested email");
-        }
-        return user;
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with email: " + email));
     }
 
     @Transactional
@@ -98,7 +95,6 @@ public class AcmePlexUserProfileService {
      */
     @Transactional
     public AcmePlexUser save(AcmePlexUser user) {
-        logger.debug("Saving user with email: {}", user.getEmail());
         return userRepository.save(user);
     }
 }
