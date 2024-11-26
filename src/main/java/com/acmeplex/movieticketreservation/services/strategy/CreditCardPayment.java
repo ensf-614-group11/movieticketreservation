@@ -1,5 +1,8 @@
 package com.acmeplex.movieticketreservation.services.strategy;
 
+import com.acmeplex.movieticketreservation.config.constants.Constants;
+import com.acmeplex.movieticketreservation.dto.request.CreateBillingAddressRequest;
+import com.acmeplex.movieticketreservation.dto.request.CreatePaymentTypeRequest;
 import com.acmeplex.movieticketreservation.dto.request.RegisteredUserPaymentRequest;
 import com.acmeplex.movieticketreservation.dto.request.UnregisteredUserPaymentRequest;
 import com.acmeplex.movieticketreservation.model.AcmePlexUser;
@@ -84,5 +87,28 @@ public class CreditCardPayment implements PaymentStrategy {
         return true;
     }
 
+    @Override
+    public boolean newAcmePlexMembershipPay(
+            CreatePaymentTypeRequest paymentTypeRequest,
+            CreateBillingAddressRequest billingAddressRequest) {
+
+        // Validate input details from CreatePaymentTypeRequest
+        String cardNumber = paymentTypeRequest.getCardNumber();
+
+        float amount = Constants.Pricing.MEMBERSHIP_PRICE;
+
+        // Simulate payment processing
+        System.out.println("Processing annual membership payment of $" + amount +
+                "\nCard Number: " + cardNumber +
+                "\nBilling Address: " +
+                "\nStreet: " + billingAddressRequest.getStreet() +
+                "\nCity: " + billingAddressRequest.getCity() +
+                "\nRegion: " + billingAddressRequest.getRegion() +
+                "\nPostal Code: " + billingAddressRequest.getPostalCode() +
+                "\nCountry: " + billingAddressRequest.getCountry());
+
+        // Assume payment is successful and return true
+        return true;
+    }
 }
 

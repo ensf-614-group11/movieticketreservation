@@ -12,7 +12,7 @@ public abstract class PaymentType {
     private Long id;
 
     private String status; // E.g., "Active" or "Inactive"
-    private String method; // E.g., "CreditCard", "PayPal"
+    private String method; // E.g., "CREDIT_CARD", "PAYPAL"
 
     @ManyToOne
     @JsonIgnore

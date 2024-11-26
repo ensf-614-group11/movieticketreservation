@@ -16,9 +16,9 @@ public class CreateBillingAddressRequest {
     @Size(max = 50, message = "City must not exceed 50 characters")
     private String city;
 
-    @NotBlank(message = "Province cannot be blank")
-    @Size(max = 50, message = "Province must not exceed 50 characters")
-    private String province;
+    @NotBlank(message = "Region cannot be blank")
+    @Size(max = 50, message = "Region must not exceed 50 characters")
+    private String region;
 
     @NotBlank(message = "Postal code cannot be blank")
     @Size(max = 10, message = "Postal code must not exceed 10 characters")
@@ -45,12 +45,12 @@ public class CreateBillingAddressRequest {
         this.city = city;
     }
 
-    public String getProvince() {
-        return province;
+    public String getRegion() {
+        return region;
     }
 
-    public void setProvince(String province) {
-        this.province = province;
+    public void setRegion(String region) {
+        this.region = region;
     }
 
     public String getPostalCode() {

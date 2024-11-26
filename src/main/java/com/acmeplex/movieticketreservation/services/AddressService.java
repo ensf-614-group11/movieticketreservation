@@ -96,7 +96,7 @@ public class AddressService {
         return new Address(
                 request.getStreet(),
                 request.getCity(),
-                request.getProvince(),
+                request.getRegion(),
                 request.getPostalCode(),
                 request.getCountry()
         );

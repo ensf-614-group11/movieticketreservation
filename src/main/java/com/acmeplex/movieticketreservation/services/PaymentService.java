@@ -1,5 +1,9 @@
 package com.acmeplex.movieticketreservation.services;
 
+import com.acmeplex.movieticketreservation.config.constants.Constants;
+import com.acmeplex.movieticketreservation.dto.request.CreateBillingAddressRequest;
+import com.acmeplex.movieticketreservation.dto.request.CreatePaymentTypeRequest;
+import com.acmeplex.movieticketreservation.services.exceptions.PaymentFailedException;
 import com.acmeplex.movieticketreservation.services.strategy.PaymentStrategy;
 import com.acmeplex.movieticketreservation.dto.request.RegisteredUserPaymentRequest;
 import com.acmeplex.movieticketreservation.dto.request.UnregisteredUserPaymentRequest;
@@ -163,41 +167,35 @@ public class PaymentService {
         );
     }
 
-    public boolean processAnnualSubscriptionPayment(Long userId, float amount){
-        Optional<AcmePlexUser> user = userRepository.findById(userId);
-
-        // Validate User exists.
-        if(user.isEmpty()){
-            throw new IllegalArgumentException("User not found.");
-        }
-
-        // Validate payment strategy
-        PaymentStrategy strategy = paymentStrategyFactory.getStrategy(userId);
+    public Payment processNewAcmePlexMembershipPayment(CreatePaymentTypeRequest paymentTypeRequest,
+                                                       CreateBillingAddressRequest billingAddressRequest) {
+        // Step 1: Retrieve the payment strategy using PaymentStrategyFactory
+        PaymentStrategy strategy = paymentStrategyFactory.getStrategy(paymentTypeRequest, billingAddressRequest);
         if (strategy == null) {
             throw new IllegalArgumentException("Invalid payment method provided.");
         }
 
-        boolean paymentSuccess = strategy.registeredUserPay(userId, amount);
-
+        // Step 2: Call the strategy's newAcmePlexMembershipPay method
+        boolean paymentSuccess = strategy.newAcmePlexMembershipPay(paymentTypeRequest, billingAddressRequest);
         if (!paymentSuccess) {
-            throw new IllegalArgumentException("Payment processing failed.");
+            throw new PaymentFailedException("Payment processing failed for card: " + paymentTypeRequest.getCardNumber());
         }
 
-        // Create and save the Payment entity
+        // Step 3: Create and save the Payment entity (associate later with user)
         Payment payment = new Payment(
-                amount,
+                Constants.Pricing.MEMBERSHIP_PRICE, // Use constant price
                 new Date(),
                 "completed",
-                "credit card",
-                null,// Payment not associated with ticket.
-                user.get()
+                paymentTypeRequest.getType(),
+                null, // Not associated with a ticket
+                null  // User will be associated after registration
         );
         paymentRepository.save(payment);
 
-        // Create and save the Receipt entity
+        // Step 4: Create and save the Receipt entity
         Receipt receipt = new Receipt(payment);
         receiptRepository.save(receipt);
 
-        return paymentSuccess;
+        return payment;
     }
 }

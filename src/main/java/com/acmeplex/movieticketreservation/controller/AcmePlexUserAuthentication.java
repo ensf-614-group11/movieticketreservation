@@ -51,11 +51,7 @@ public class AcmePlexUserAuthentication {
     public ResponseEntity<?> register(@RequestBody DefaultRegistrationRequest request) {
         logger.info("Registration request received for email: {}", request.getUser().getEmail());
 
-        AcmePlexUser newUser = registrationFacade.registerUser(
-                request.getUser(),
-                request.getBillingAddress(),
-                request.getPaymentType()
-        );
+        AcmePlexUser newUser = registrationFacade.registerUser(request);
 
         String token = authTokenUtil.generateToken(newUser.getEmail());
         logger.info("User {} registered successfully.", request.getUser().getEmail());
