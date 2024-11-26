@@ -1,12 +1,13 @@
 package com.acmeplex.movieticketreservation.services;
 
+import com.acmeplex.movieticketreservation.dto.request.BillingAddressRequest;
 import com.acmeplex.movieticketreservation.dto.request.CreateBillingAddressRequest;
-import com.acmeplex.movieticketreservation.dto.request.UpdateBillingAddressRequest;
 import com.acmeplex.movieticketreservation.model.AcmePlexUser;
 import com.acmeplex.movieticketreservation.model.Address;
 import com.acmeplex.movieticketreservation.repository.AddressRepository;
 import com.acmeplex.movieticketreservation.repository.UserRepository;
 import com.acmeplex.movieticketreservation.services.exceptions.UserNotFoundException;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,30 @@ public class AddressService {
     }
 
     /**
+     * Finds the billing address for a user by their ID.
+     *
+     * @param userId the user's ID
+     * @return the billing Address, or null if none exists
+     */
+    @Transactional(readOnly = true)
+    public Address findBillingAddressByUserId(Long userId) {
+        // Find the user by their ID
+        AcmePlexUser user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + userId));
+
+        // Retrieve the billing address
+        Address billingAddress = user.getSavedBillingAddress();
+
+        if (billingAddress == null) {
+            logger.warn("No billing address found for user ID: {}", userId);
+        } else {
+            logger.info("Retrieved billing address for user ID: {}", userId);
+        }
+
+        return billingAddress;
+    }
+
+    /**
      * Creates a new billing address for a user.
      *
      * @param email   the user's email
@@ -36,7 +61,7 @@ public class AddressService {
      * @return the created Address
      */
     @Transactional
-    public Address createBillingAddress(String email, CreateBillingAddressRequest request) {
+    public Address createBillingAddress(String email, BillingAddressRequest request) {
         AcmePlexUser user = findUserByEmail(email);
 
         Address address = createAddressFromRequest(request);
@@ -56,7 +81,7 @@ public class AddressService {
      * @return the updated Address
      */
     @Transactional
-    public Address updateBillingAddress(String email, UpdateBillingAddressRequest request) {
+    public Address updateBillingAddress(String email, @Valid BillingAddressRequest request) {
         AcmePlexUser user = findUserByEmail(email);
         Address address = getBillingAddressForUser(user);
 
@@ -92,7 +117,7 @@ public class AddressService {
                 .orElseThrow(() -> new UserNotFoundException("User not found with email: " + email));
     }
 
-    private Address createAddressFromRequest(CreateBillingAddressRequest request) {
+    private Address createAddressFromRequest(BillingAddressRequest request) {
         return new Address(
                 request.getStreet(),
                 request.getCity(),
@@ -115,7 +140,7 @@ public class AddressService {
         return address;
     }
 
-    private void updateAddressFields(Address address, UpdateBillingAddressRequest request) {
+    private void updateAddressFields(Address address, BillingAddressRequest request) {
         if (isNotBlank(request.getStreet())) {
             address.setStreet(request.getStreet());
         }

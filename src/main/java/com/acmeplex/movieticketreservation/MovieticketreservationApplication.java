@@ -11,6 +11,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
@@ -18,11 +19,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * Initializes the database with sample users and starts the application.
  */
 @SpringBootApplication(scanBasePackages = "com.acmeplex.movieticketreservation")
+@EnableScheduling
 public class MovieticketreservationApplication {
-
-
 	public static void main(String[] args) {
 		SpringApplication.run(MovieticketreservationApplication.class, args);
 	}
-
 }

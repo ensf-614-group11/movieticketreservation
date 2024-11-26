@@ -1,6 +1,6 @@
 package com.acmeplex.movieticketreservation.services;
 
-import com.acmeplex.movieticketreservation.dto.request.CreatePaymentTypeRequest;
+import com.acmeplex.movieticketreservation.dto.request.PaymentTypeRequest;
 import com.acmeplex.movieticketreservation.factory.CreatePaymentTypeFactory;
 import com.acmeplex.movieticketreservation.model.AcmePlexUser;
 import com.acmeplex.movieticketreservation.model.PaymentType;
@@ -56,7 +56,7 @@ public class PaymentTypeService {
     }
 
     @Transactional
-    public PaymentType createPaymentType(String email, CreatePaymentTypeRequest request) {
+    public PaymentType createPaymentType(String email, PaymentTypeRequest request) {
         var user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UserNotFoundException("User not found with email: " + email));
 
@@ -94,7 +94,7 @@ public class PaymentTypeService {
     }
 
     @Transactional
-    public PaymentType updateOrCreateAndSetActive(String email, CreatePaymentTypeRequest request) {
+    public PaymentType updateOrCreateAndSetActive(String email, PaymentTypeRequest request) {
         var user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UserNotFoundException("User not found with email: " + email));
 

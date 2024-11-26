@@ -24,6 +24,12 @@ public class AcmePlexMembership {
     @Column(nullable = false)
     private boolean renewalStatus;
 
+    @Column(nullable = true)
+    private String renewalToken = "token_from_processing_financial_institution";
+
+    @OneToOne(mappedBy = "membership", fetch = FetchType.LAZY)
+    private AcmePlexUser acmePlexUser;
+
     public AcmePlexMembership() {
         this.activeMembership = true;
         this.renewalStatus = true;
@@ -73,4 +79,8 @@ public class AcmePlexMembership {
     private Date calculateDefaultExpirationDate(Date startDate) {
         return new Date(startDate.getTime() + 365L * 24 * 60 * 60 * 1000); // Add 1 year in milliseconds
     }
+
+    public String getRenewalToken() { return renewalToken; }
+
+    public void setRenewalToken() { this.renewalToken = renewalToken; }
 }

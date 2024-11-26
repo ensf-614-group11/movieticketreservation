@@ -1,6 +1,6 @@
 package com.acmeplex.movieticketreservation.validation.validator;
 
-import com.acmeplex.movieticketreservation.dto.request.CreatePaymentTypeRequest;
+import com.acmeplex.movieticketreservation.dto.request.PaymentTypeRequest;
 import com.acmeplex.movieticketreservation.security.AuthUserPrincipalService;
 import com.acmeplex.movieticketreservation.validation.annotation.CreateValidPaymentType;
 import com.acmeplex.movieticketreservation.validation.factory.PaymentTypeValidatorFactory;
@@ -8,7 +8,7 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class CreatePaymentTypeValidator implements ConstraintValidator<CreateValidPaymentType, CreatePaymentTypeRequest> {
+public class CreatePaymentTypeValidator implements ConstraintValidator<CreateValidPaymentType, PaymentTypeRequest> {
 
     @Autowired
     private PaymentTypeValidatorFactory factory;
@@ -17,7 +17,7 @@ public class CreatePaymentTypeValidator implements ConstraintValidator<CreateVal
     private AuthUserPrincipalService authUserPrincipalService;
 
     @Override
-    public boolean isValid(CreatePaymentTypeRequest request, ConstraintValidatorContext context) {
+    public boolean isValid(PaymentTypeRequest request, ConstraintValidatorContext context) {
         if (request == null || request.getType() == null) {
             context.buildConstraintViolationWithTemplate("Payment type cannot be null").addConstraintViolation();
             return false;
@@ -45,7 +45,7 @@ public class CreatePaymentTypeValidator implements ConstraintValidator<CreateVal
      * @param request the CreatePaymentTypeRequest
      * @return the resolved country code
      */
-    private String resolveCountryCode(CreatePaymentTypeRequest request) {
+    private String resolveCountryCode(PaymentTypeRequest request) {
         if (authUserPrincipalService.isAuthenticated()) {
             // Use the logged-in user's country code
             return authUserPrincipalService.getCurrentUserPrincipal().getCountryCode().name();

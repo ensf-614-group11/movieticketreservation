@@ -1,8 +1,8 @@
 package com.acmeplex.movieticketreservation.facade;
 
+import com.acmeplex.movieticketreservation.dto.request.BillingAddressRequest;
 import com.acmeplex.movieticketreservation.dto.request.CreateUserRequest;
-import com.acmeplex.movieticketreservation.dto.request.CreateBillingAddressRequest;
-import com.acmeplex.movieticketreservation.dto.request.CreatePaymentTypeRequest;
+import com.acmeplex.movieticketreservation.dto.request.PaymentTypeRequest;
 import com.acmeplex.movieticketreservation.dto.request.DefaultRegistrationRequest;
 import com.acmeplex.movieticketreservation.model.*;
 import com.acmeplex.movieticketreservation.repository.ReceiptRepository;
@@ -57,8 +57,8 @@ public class RegistrationFacade {
     @Transactional
     public AcmePlexUser registerUser(DefaultRegistrationRequest registerRequest) {
         CreateUserRequest createUserRequest = registerRequest.getUser();
-        CreatePaymentTypeRequest paymentTypeRequest = registerRequest.getPaymentType();
-        CreateBillingAddressRequest billingAddressRequest = registerRequest.getBillingAddress();
+        PaymentTypeRequest paymentTypeRequest = registerRequest.getPaymentType();
+        BillingAddressRequest billingAddressRequest = registerRequest.getBillingAddress();
 
         try {
             logger.info("Starting user registration for email: {}", createUserRequest.getEmail());
@@ -87,10 +87,10 @@ public class RegistrationFacade {
     }
 
     private Payment processPayment(CreateUserRequest createUserRequest,
-                                   CreatePaymentTypeRequest paymentTypeRequest,
-                                   CreateBillingAddressRequest billingAddressRequest) {
+                                   PaymentTypeRequest paymentTypeRequest,
+                                   BillingAddressRequest billingAddressRequest) {
         try {
-            Payment payment = paymentService.processNewAcmePlexMembershipPayment(paymentTypeRequest, billingAddressRequest);
+            Payment payment = paymentService.processAcmePlexMembershipPayment(paymentTypeRequest, billingAddressRequest);
             logger.info("Payment processed successfully for email: {}", createUserRequest.getEmail());
             return payment;
         } catch (PaymentFailedException ex) {
@@ -120,7 +120,7 @@ public class RegistrationFacade {
         }
     }
 
-    private void saveBillingAddress(AcmePlexUser newUser, CreateBillingAddressRequest billingAddressRequest) {
+    private void saveBillingAddress(AcmePlexUser newUser, BillingAddressRequest billingAddressRequest) {
         try {
             Address billingAddress = addressService.createBillingAddress(newUser.getEmail(), billingAddressRequest);
             newUser.setSavedBillingAddress(billingAddress);
@@ -131,7 +131,7 @@ public class RegistrationFacade {
         }
     }
 
-    private void savePaymentType(AcmePlexUser newUser, CreatePaymentTypeRequest paymentTypeRequest) {
+    private void savePaymentType(AcmePlexUser newUser, PaymentTypeRequest paymentTypeRequest) {
         try {
             PaymentType paymentType = paymentTypeService.createPaymentType(newUser.getEmail(), paymentTypeRequest);
             paymentTypeService.setActivePaymentType(newUser.getEmail(), paymentType.getId());

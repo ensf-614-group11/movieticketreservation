@@ -27,8 +27,8 @@ public class CreateUserRequest {
     @NotBlank(message = "Country code is required.")
     private String countryCode;
 
-    private CreatePaymentTypeRequest paymentType; // Optional field for payment type
-    private UpdateBillingAddressRequest billingAddress; // Optional field for billing address
+    private PaymentTypeRequest paymentType; // Optional field for payment type
+    private BillingAddressRequest billingAddress; // Optional field for billing address
 
     // Getters and setters
     public String getEmail() {
@@ -65,19 +65,19 @@ public class CreateUserRequest {
         this.lastName = lastName;
     }
 
-    public CreatePaymentTypeRequest getPaymentType() {
+    public PaymentTypeRequest getPaymentType() {
         return paymentType;
     }
 
-    public void setPaymentType(CreatePaymentTypeRequest paymentType) {
+    public void setPaymentType(PaymentTypeRequest paymentType) {
         this.paymentType = paymentType;
     }
 
-    public UpdateBillingAddressRequest getBillingAddress() {
+    public BillingAddressRequest getBillingAddress() {
         return billingAddress;
     }
 
-    public void setBillingAddress(UpdateBillingAddressRequest billingAddress) {
+    public void setBillingAddress(BillingAddressRequest billingAddress) {
         this.billingAddress = billingAddress;
     }
 
