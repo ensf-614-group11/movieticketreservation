@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ReceiptRepository extends JpaRepository<Receipt, Integer> {
 
+    Receipt findByPaymentId(Long id);
 }
