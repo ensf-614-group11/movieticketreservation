@@ -33,7 +33,7 @@ public class AcmePlexCredit {
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(dateCreated);
-        calendar.add(Calendar.DATE, 1);
+        calendar.add(Calendar.YEAR, 1);
         expirationDate = calendar.getTime();
     }
 

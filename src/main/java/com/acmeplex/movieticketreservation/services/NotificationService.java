@@ -103,7 +103,7 @@ public void sendAnnualFeeReminder(AcmePlexUser acmePlexUser){
         Date currentDate = new Date();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(currentDate);
-        calendar.add(Calendar.DATE, 1);
+        calendar.add(Calendar.YEAR, 1);
         Date nextPaymentDueDate = calendar.getTime();
 
         String message = "Hello " + acmePlexUser.getFirstName() +
@@ -180,13 +180,12 @@ public void sendMovieNews(String movieNews){
     private String createTicketCancellationMessageForRegisteredUser(AcmePlexCredit acmePlexCredit, AcmePlexUser acmePlexUser) {
         return "Hello " + acmePlexUser.getFirstName() + ",\nThis message confirms your ticket cancellation for AcmePlex Theatres." +
                 " You have been awarded an AcmePlex Credit for future purchase. The credit is valid for 1 year. " +
-                "The credit has been applied to your account. Details of the credit are also available below." +
-                "Next time you make a movie ticket purchase, you will be given the option to apply this credit. " +
+                "The details of your credit are included below." +
+                "Next time you make a movie ticket purchase, you can use the Credit Secret Code given below. " +
                 "Hope to see you again soon!" +
                 "\n\nAcmePlex Credit \nAmount: " + acmePlexCredit.getAmount() +
                 "\nCredit Secret Code: " + acmePlexCredit.getCreditSecretCode() +
-                "\nExpiration Date: " + acmePlexCredit.getExpirationDate() +
-                "\n\nCurrent AcmePlex Credit Balance: " + acmePlexUser.getTotalCredits();
+                "\nExpiration Date: " + acmePlexCredit.getExpirationDate();
     }
 
 
