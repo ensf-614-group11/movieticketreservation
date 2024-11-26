@@ -125,6 +125,23 @@ public void sendAnnualFeeReminder(AcmePlexUser acmePlexUser){
         notificationRepository.save(notification);
     }
 
+    public void sendMembershipDeactivationNotice(AcmePlexUser acmePlexUser){
+    Date currentDate = new Date();
+    String message = "Hello" + acmePlexUser.getFirstName() +
+            ", \nThis message is to inform you that your AcmePlex membership has been deactivated" +
+            " as of " +  currentDate + ". We hope you'll join us again soon!";
+
+        Notification notification = new Notification(currentDate, message, acmePlexUser.getEmail());
+        try {
+            emailService.sendSimpleMessage(acmePlexUser.getEmail(), "AcmePlex Membership Deactivation Notice", message);
+        } catch (Exception e) {
+            System.out.println("Error sending email to: " + acmePlexUser.getEmail() + "\nError Message: " + e.getMessage());
+        }
+        acmePlexUser.addNotification(notification);
+        notificationRepository.save(notification);
+
+    }
+
 
     public void addObserver(Observer observer) {
         observers.add(observer);
