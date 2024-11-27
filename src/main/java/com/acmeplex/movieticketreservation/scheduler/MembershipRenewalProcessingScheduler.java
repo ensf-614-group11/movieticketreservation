@@ -21,4 +21,8 @@ public class MembershipRenewalProcessingScheduler {
     public void deactivateNonRenewingMembershipsDaily() {
         renewalService.deactivateNonRenewingMemberships();
     }
+
+    // Schedule to run every day at 2 AM
+    @Scheduled(cron = "0 0 2 * * ?")
+    public void remindMembershipsExpiringInOneWeek() { renewalService.remindMembershipsExpiringInOneWeek(); }
 }

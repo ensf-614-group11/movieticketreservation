@@ -67,6 +67,14 @@ public class AcmePlexMembershipRenewalService {
         }
     }
 
+    public void remindMembershipsExpiringInOneWeek() {
+        List<AcmePlexMembership> memberships = membershipRepository.findMembershipsExpiringInOneWeek();
+        for (AcmePlexMembership membership : memberships) {
+            AcmePlexUser user = membershipRepository.findUserByMembershipId(membership.getId());
+            notificationService.sendAnnualFeeReminder(user);
+        }
+    }
+
     /**
      *
      * Fetches the user associated with the given membership ID.
