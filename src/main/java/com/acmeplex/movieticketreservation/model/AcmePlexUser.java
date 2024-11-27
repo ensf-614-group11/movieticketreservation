@@ -218,6 +218,5 @@ public class AcmePlexUser implements Observer {
         addNotification(notification);
     }
 
-
     public Date getDateRegistered() {return dateRegistered;}
 }

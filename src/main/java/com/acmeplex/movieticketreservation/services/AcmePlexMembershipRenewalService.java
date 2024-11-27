@@ -8,6 +8,7 @@ import com.acmeplex.movieticketreservation.repository.ReceiptRepository;
 import com.acmeplex.movieticketreservation.services.PaymentTypeService;
 
 import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 
@@ -68,7 +69,10 @@ public class AcmePlexMembershipRenewalService {
     }
 
     public void remindMembershipsExpiringInOneWeek() {
-        List<AcmePlexMembership> memberships = membershipRepository.findMembershipsExpiringInOneWeek();
+
+        Date lastWeekDate = getLastWeekDate();
+
+        List<AcmePlexMembership> memberships = membershipRepository.findMembershipsExpiringInOneWeek(lastWeekDate);
         for (AcmePlexMembership membership : memberships) {
             AcmePlexUser user = membershipRepository.findUserByMembershipId(membership.getId());
             notificationService.sendAnnualFeeReminder(user);
@@ -119,5 +123,12 @@ public class AcmePlexMembershipRenewalService {
         userProfileService.save(user);
 
         return renewalPayment;
+    }
+
+
+    private Date getLastWeekDate() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, -7);
+        return calendar.getTime();
     }
 }
