@@ -20,6 +20,6 @@ public interface AcmePlexMembershipRepository extends JpaRepository<AcmePlexMemb
     @Query("SELECT m FROM AcmePlexMembership m WHERE m.expiryDate < :currentDate AND m.renewalStatus = false")
     List<AcmePlexMembership> findExpiredMembershipsWithoutRenewal(Date currentDate);
 
-    @Query("SELECT m FROM AcmePlexMembership m WHERE m.expiryDate BETWEEN CURRENT_DATE AND CURRENT_DATE + 7")
+    @Query("SELECT m FROM AcmePlexMembership m WHERE m.expiryDate = CURRENT_DATE + 7")
     List<AcmePlexMembership> findMembershipsExpiringInOneWeek();
 }
