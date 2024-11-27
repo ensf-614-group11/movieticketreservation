@@ -2,6 +2,7 @@ package com.acmeplex.movieticketreservation.services;
 
 import com.acmeplex.movieticketreservation.model.*;
 import com.acmeplex.movieticketreservation.observer.Observer;
+import com.acmeplex.movieticketreservation.observer.Subject;
 import com.acmeplex.movieticketreservation.repository.NotificationRepository;
 import jakarta.validation.constraints.Email;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class NotificationService {
+public class NotificationService implements Subject {
     private List<Observer> observers = new ArrayList<>();
 
     @Autowired
