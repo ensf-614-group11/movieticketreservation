@@ -22,17 +22,17 @@ public interface PaymentTypeRepository extends JpaRepository<PaymentType, Long> 
     Optional<PaymentType> findActivePaymentTypeByUserId(@Param("userId") Long userId);
 
     /**
-     * Finds a payment type for a user based on the payment method type and card number.
+     * Finds a payment type for a user based on the payment type and card number.
      *
      * @param userId    The ID of the user.
-     * @param method      The payment method type (e.g., "CREDIT_CARD", "PAYPAL").
+     * @param type      The payment method type (e.g., "CREDIT_CARD", "PAYPAL").
      * @param cardNumber The card number associated with the payment type.
      * @return An {@link Optional} containing the matching {@link PaymentType}, or empty if no match is found.
      */
-    @Query("SELECT p FROM PaymentType p WHERE p.acmePlexUser.id = :userId AND p.method = :method AND p.cardNumber = :cardNumber")
+    @Query("SELECT p FROM PaymentType p WHERE p.acmePlexUser.id = :userId AND p.type = :type AND p.cardNumber = :cardNumber")
     Optional<PaymentType> findByUserIdAndDetails(
             @Param("userId") Long userId,
-            @Param("method") String method,
+            @Param("type") String type,
             @Param("cardNumber") String cardNumber);
 
     /**

@@ -51,7 +51,7 @@ public class CreditCardPayment implements PaymentStrategy {
 
         CreditCard creditCard = null;
         for(PaymentType paymentType : paymentTypes){
-            if(paymentType.getMethod().equals("CreditCard")){
+            if(paymentType.getType().equals("CreditCard")){
                 creditCard = retrieveCreditCardPaymentType.retrieve(user.getId());
             }
         }
@@ -73,7 +73,7 @@ public class CreditCardPayment implements PaymentStrategy {
 
         CreditCard creditCard = null;
         for(PaymentType paymentType : paymentTypes){
-            if(paymentType.getMethod().equals("CreditCard")){
+            if(paymentType.getType().equals("CreditCard")){
                 creditCard = retrieveCreditCardPaymentType.retrieve(user.getId());
             }
         }

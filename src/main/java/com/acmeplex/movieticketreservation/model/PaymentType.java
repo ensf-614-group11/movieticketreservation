@@ -15,7 +15,7 @@ public abstract class PaymentType {
     private Long id;
 
     private String status; // E.g., "Active" or "Inactive"
-    private String method; // E.g., "CREDIT_CARD", "PAYPAL"
+    private String type; // E.g., "CREDIT_CARD", "PAYPAL"
 
     @ManyToOne
     @JsonIgnore
@@ -24,9 +24,9 @@ public abstract class PaymentType {
 
     public PaymentType() {}
 
-    public PaymentType(String status, String method, AcmePlexUser acmePlexUser) {
+    public PaymentType(String status, String type, AcmePlexUser acmePlexUser) {
         this.status = status;
-        this.method = method;
+        this.type = type;
         this.acmePlexUser = acmePlexUser;
     }
 
@@ -42,12 +42,12 @@ public abstract class PaymentType {
         this.status = status;
     }
 
-    public String getMethod() {
-        return method;
+    public String getType() {
+        return type;
     }
 
     public void setMethod(String method) {
-        this.method = method;
+        this.type = method;
     }
 
     public AcmePlexUser getAcmePlexUser() {
@@ -57,9 +57,4 @@ public abstract class PaymentType {
     public void setAcmePlexUser(AcmePlexUser acmePlexUser) {
         this.acmePlexUser = acmePlexUser;
     }
-
-    public String getType() {
-        return this.method;
-    }
-
 }
