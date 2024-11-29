@@ -1,0 +1,1636 @@
+@startuml
+interface ReceiptRepository {
+~ Receipt findByPaymentId(Long)
+}
+
+class AcmePlexUserAuthentication {
+- {static} Logger logger
+- AuthenticationManager authenticationManager
+- AuthTokenUtil authTokenUtil
+- RegistrationFacade registrationFacade
++ ResponseEntity<?> login(DefaultLoginRequest)
++ ResponseEntity<?> register(DefaultRegistrationRequest)
+}
+
+AcmePlexUserAuthentication --> "1" AuthenticationManager : uses
+AcmePlexUserAuthentication --> "1" AuthTokenUtil : uses
+AcmePlexUserAuthentication --> "1" RegistrationFacade : uses
+AcmePlexUserAuthentication --> "1" DefaultLoginRequest : parameter in login()
+AcmePlexUserAuthentication --> "1" DefaultRegistrationRequest : parameter in register()
+AcmePlexUserAuthentication --> "1" AuthenticationResponse : returns from login()
+AcmePlexUserAuthentication --> "1" ApiResponse : wraps responses
+AcmePlexUserAuthentication --> "1" AcmePlexUser : returns from RegistrationFacade
+
+class UserPrincipal {
+    - {static} Logger logger
+    - Long id
+    - String email
+    - String password
+    - String firstName
+    - String lastName
+    - CountryCode countryCode
+    + Long getId()
+    + String getUsername()
+    + String getPassword()
+    + String getFirstName()
+    + String getLastName()
+    + CountryCode getCountryCode()
+    + boolean isAccountNonExpired()
+    + boolean isAccountNonLocked()
+    + boolean isCredentialsNonExpired()
+    + boolean isEnabled()
+    + List<GrantedAuthority> getAuthorities()
+    + String toString()
+    + boolean equals(Object)
+    + int hashCode()
+}
+
+UserPrincipal ..|> UserDetails : implements
+UserPrincipal --> "1" CountryCode : uses
+UserPrincipal --> "0..*" GrantedAuthority : returns in getAuthorities()
+GrantedAuthority <|-- SimpleGrantedAuthority : inheritance
+
+
+
+class ShowtimeDetails {
+~ LocalDateTime dateAndTime
+~ String movieTitle
+~ String theatre
++ LocalDateTime getDateAndTime()
++ String getMovieTitle()
++ String getTheatre()
+}
+
+ShowtimeDetails --> "1" Showtime : extracts details from
+Showtime --> "0..1" Movie : may have a Movie
+Showtime --> "1" TheatreRoom : contains
+TheatreRoom --> "1" Theatre : belongs to
+ShowtimeDetails --> "0..1" Movie : uses movie title
+ShowtimeDetails --> "1" Theatre : uses theatre name
+
+class Theatre {
+- Long id
+- String name
+- String location
+- List<TheatreRoom> theatreRooms
++ String getName()
++ void setName(String)
++ String getLocation()
++ void setLocation(String)
++ Long getId()
++ List<TheatreRoom> getTheatreRooms()
++ void setTheatreRooms(List<TheatreRoom>)
+}
+
+Theatre "1" *-- "0..*" TheatreRoom : composition
+
+class MovieService {
+- MovieRepository movieRepository
++ List<MovieResponse> getAllMovies()
+}
+
+MovieService --> MovieRepository : uses
+MovieRepository "0..*" --> "1" Movie : returns
+MovieService --> "0..*" MovieResponse : returns
+
+
+class RetrieveCreditCardPaymentType {
+- PaymentTypeService paymentTypeService
++ CreditCard retrieve(Long)
+}
+
+RetrieveCreditCardPaymentType --> PaymentTypeService : uses
+PaymentTypeService "1" --> "0..1" CreditCard : returns
+RetrieveCreditCardPaymentType --> CreditCard : returns
+
+
+class UserNotFoundException {
+}
+class DefaultLoginRequest {
+- String email
+- String password
++ String getEmail()
++ void setEmail(String)
++ String getPassword()
++ void setPassword(String)
+}
+
+
+class CreatePaymentTypeFactory {
++ PaymentType createPaymentType(PaymentTypeRequest)
+- CreditCard createCreditCardPayment(PaymentTypeRequest)
+}
+
+CreatePaymentTypeFactory --> PaymentTypeRequest : uses
+CreatePaymentTypeFactory --> PaymentType : creates
+CreatePaymentTypeFactory --> CreditCard : creates
+CreditCard --> PaymentType : inherits
+
+class CreditCard {
+- String cardNumber
+- String cardHolderName
+- String expiryDate
++ String getCardNumber()
++ void setCardNumber(String)
++ String getCardHolderName()
++ void setCardHolderName(String)
++ String getExpiryDate()
++ void setExpiryDate(String)
+}
+CreditCard --|> PaymentType : "inherits"
+PaymentType "1" --> "1" AcmePlexUser : "belongs to"
+
+
+class AcmePlexUserDetailsService {
+- {static} Logger logger
+- UserRepository userRepository
++ UserDetails loadUserByUsername(String)
+}
+
+AcmePlexUserDetailsService --> UserRepository : uses
+AcmePlexUserDetailsService --> UserPrincipal : creates
+UserRepository --> AcmePlexUser : retrieves (1)
+AcmePlexUser --> UserPrincipal : transforms (1 to 1)
+
+
+class CreateUserRequest {
+- String email
+- String password
+- String firstName
+- String lastName
+- String countryCode
++ String getEmail()
++ void setEmail(String)
++ String getPassword()
++ void setPassword(String)
++ String getFirstName()
++ String getCountryCode()
++ void setCountryCode(String)
++ void setFirstName(String)
++ String getLastName()
++ void setLastName(String)
++ CountryCode getCountryCodeEnum()
+}
+
+
+class RegisteredUserPaymentRequest {
+- Long userId
++ Long getUserId()
+}
+
+
+class ErrorResponse {
+- {static} Logger logger
+- LocalDateTime timestamp
+- int status
+- String error
+- String message
+- String path
++ LocalDateTime getTimestamp()
++ void setTimestamp(LocalDateTime)
++ int getStatus()
++ void setStatus(int)
++ String getError()
++ void setError(String)
++ String getMessage()
++ void setMessage(String)
++ String getPath()
++ void setPath(String)
+}
+
+
+class UpdateProfileRequest {
+- String firstName
+- String lastName
+- String email
++ String getFirstName()
++ void setFirstName(String)
++ String getLastName()
++ void setLastName(String)
++ String getEmail()
++ void setEmail(String)
+}
+
+
+class AcmePlexUserProfileService {
+- UserRepository userRepository
+- PasswordEncoder passwordEncoder
+- AuthUserPrincipalService authUserPrincipalService
++ AcmePlexUser getUserByEmail(String)
++ AcmePlexUser registerUser(CreateUserRequest)
+- void validateRegistrationRequest(CreateUserRequest)
+- void checkIfEmailExists(String)
++ AcmePlexUser updateUserProfile(String,UpdateProfileRequest)
+- boolean isNotBlank(String)
++ AcmePlexUser save(AcmePlexUser)
+}
+
+
+AcmePlexUserProfileService --> UserRepository : uses
+AcmePlexUserProfileService --> PasswordEncoder : uses
+AcmePlexUserProfileService --> AuthUserPrincipalService : uses
+AcmePlexUserProfileService --> CreateUserRequest : parameter in registerUser()
+AcmePlexUserProfileService --> UpdateProfileRequest : parameter in updateUserProfile()
+AcmePlexUserProfileService --> AcmePlexUser : creates and updates
+AcmePlexUser --> CountryCode : uses
+
+' Multiplicities
+AcmePlexUserProfileService --> UserRepository : "1"
+AcmePlexUserProfileService --> PasswordEncoder : "1"
+AcmePlexUserProfileService --> AuthUserPrincipalService : "1"
+AcmePlexUserProfileService --> CreateUserRequest : "1..*" parameter
+AcmePlexUserProfileService --> UpdateProfileRequest : "1..*" parameter
+AcmePlexUserProfileService --> AcmePlexUser : "1..*" creates/updates
+AcmePlexUser --> CountryCode : "1"
+
+
+class PaymentTypeValidatorFactory {
+- AuthUserPrincipalService authUserPrincipalService
+- Map<String,CreatePaymentTypeValidator> validators
++ CreatePaymentTypeValidator getValidator(String,String)
+- CountryCode resolveCountryCode(String)
+}
+
+PaymentTypeValidatorFactory --> AuthUserPrincipalService : uses
+PaymentTypeValidatorFactory --> CountryCode : resolves
+PaymentTypeValidatorFactory --> CreatePaymentTypeValidator : "1..*" uses
+PaymentTypeValidatorFactory --> UserPrincipal : interacts
+PaymentTypeValidatorFactory --> CreateUSCreditCardValidator : "1..*" uses
+PaymentTypeValidatorFactory --> CreateCanadaCreditCardValidator : "1..*" uses
+PaymentTypeValidatorFactory --> CreatePayPalValidator : "1..*" uses
+UserPrincipal --> CountryCode : "1" has
+
+
+class AcmePlexUserProfileManagement {
+- AcmePlexUserProfileService userProfileService
+- AddressService addressService
+- PaymentTypeService paymentTypeService
+- AuthUserPrincipalService authUserPrincipalService
+- String getAuthenticatedUserEmail()
++ ResponseEntity<ApiResponse<AcmePlexUser>> getUserProfile()
++ ResponseEntity<ApiResponse<AcmePlexUser>> updateProfile(UpdateProfileRequest)
++ ResponseEntity<ApiResponse<Address>> updateBillingAddress(BillingAddressRequest)
++ ResponseEntity<ApiResponse<PaymentType>> addPaymentType(PaymentTypeRequest)
++ ResponseEntity<ApiResponse<PaymentType>> setActivePaymentType(Long)
++ ResponseEntity<ApiResponse<List<PaymentType>>> getAllPaymentTypes()
++ ResponseEntity<ApiResponse<PaymentType>> managePaymentType(PaymentTypeRequest)
+}
+
+AcmePlexUserProfileManagement --> AcmePlexUserProfileService : "1 uses"
+AcmePlexUserProfileManagement --> AddressService : "1 uses"
+AcmePlexUserProfileManagement --> PaymentTypeService : "1 uses"
+AcmePlexUserProfileManagement --> AuthUserPrincipalService : "1 uses"
+AcmePlexUserProfileManagement --> UpdateProfileRequest : "1 parameter"
+AcmePlexUserProfileManagement --> BillingAddressRequest : "1 parameter"
+AcmePlexUserProfileManagement --> PaymentTypeRequest : "1 parameter"
+AcmePlexUserProfileManagement --> AcmePlexUser : "0..1 returns"
+AcmePlexUserProfileManagement --> Address : "0..1 returns"
+AcmePlexUserProfileManagement --> PaymentType : "0..* returns"
+
+class AcmePlexUser {
+- Long id
+- String email
+- String password
+- String firstName
+- String lastName
+- Date dateRegistered
+- CountryCode countryCode
+- List<Notification> notifications
+- List<Ticket> tickets
+- List<Payment> payments
+- List<Receipt> receipts
+- Address savedBillingAddress
+- List<PaymentType> paymentTypes
+- List<AcmePlexCredit> credits
+- AcmePlexMembership membership
++ Long getId()
++ String getEmail()
++ void setEmail(String)
++ String getPassword()
++ void setPassword(String)
++ String getFirstName()
++ void setFirstName(String)
++ String getLastName()
++ void setLastName(String)
++ CountryCode getCountryCode()
++ void setCountryCode(CountryCode)
++ List<Notification> getNotifications()
++ void setNotifications(List<Notification>)
++ List<Ticket> getTickets()
++ void setTickets(List<Ticket>)
++ List<Payment> getPayments()
++ void setPayments(List<Payment>)
++ List<Receipt> getReceipts()
++ void setReceipts(List<Receipt>)
++ List<PaymentType> getPaymentTypes()
++ void setPaymentTypes(List<PaymentType>)
++ Address getSavedBillingAddress()
++ void setSavedBillingAddress(Address)
++ AcmePlexMembership getMembership()
++ void setMembership(AcmePlexMembership)
++ void addNotification(Notification)
++ List<AcmePlexCredit> getCredits()
++ void setCredits(List<AcmePlexCredit>)
++ void addCredit(AcmePlexCredit)
++ void removeCredit(AcmePlexCredit)
++ AcmePlexCredit removeOldestCredit()
++ double getTotalCredits()
++ void update(String)
++ Date getDateRegistered()
+}
+
+AcmePlexUser "1" *-- "0..*" Notification : "has"
+AcmePlexUser "1" *-- "0..*" Ticket : "has"
+AcmePlexUser "1" *-- "0..*" Payment : "has"
+AcmePlexUser "1" *-- "0..*" Receipt : "has"
+AcmePlexUser "1" *-- "0..*" PaymentType : "has"
+AcmePlexUser "1" *-- "0..*" AcmePlexCredit : "has"
+AcmePlexUser "1" *-- "1" Address : "has"
+AcmePlexUser "1" *-- "0..1" AcmePlexMembership : "has"
+Notification "1" --> "1" AcmePlexUser : "belongs to"
+Ticket "1" --> "1" AcmePlexUser : "belongs to"
+Payment "1" --> "1" AcmePlexUser : "belongs to"
+Receipt "1" --> "1" AcmePlexUser : "belongs to"
+PaymentType "1" --> "1" AcmePlexUser : "belongs to"
+AcmePlexCredit "1" --> "1" AcmePlexUser : "belongs to"
+AcmePlexMembership "1" --> "1" AcmePlexUser : "belongs to"
+
+
+class Payment {
+- Long id
+- float amount
+- Date datePaid
+- String status
+- String method
+- Ticket ticket
+- Receipt receipt
+- AcmePlexCredit credit
+- AcmePlexUser acmePlexUser
++ Long getId()
++ float getAmount()
++ void setAmount(float)
++ Date getDatePaid()
++ void setDatePaid(Date)
++ String getStatus()
++ void setStatus(String)
++ String getMethod()
++ void setMethod(String)
++ Ticket getTicket()
++ void setTicket(Ticket)
++ Receipt getReceipt()
++ void setReceipt(Receipt)
++ AcmePlexCredit getAcmePlexCredit()
++ void setCredit(AcmePlexCredit)
++ AcmePlexUser getAcmePlexUser()
++ void setAcmePlexUser(AcmePlexUser)
+}
+
+Payment "1" --> "0..1" Ticket : "associated with"
+Payment "1" --> "0..1" Receipt : "generates"
+Payment "1" --> "0..1" AcmePlexCredit : "can create"
+Payment "1" --> "1" AcmePlexUser : "belongs to"
+
+
+class PaymentService {
+- PaymentStrategyFactory paymentStrategyFactory
+- PaymentRepository paymentRepository
+- TicketRepository ticketRepository
+- ReceiptRepository receiptRepository
+- SeatRepository seatRepository
+- ShowtimeRepository showtimeRepository
+- NotificationService notificationService
+- UserRepository userRepository
++ Payment savePayment(Payment)
++ PaymentResponse processUnregisteredPayment(UnregisteredUserPaymentRequest)
++ PaymentResponse processRegisteredPayment(RegisteredUserPaymentRequest)
++ Payment processAcmePlexMembershipPayment(PaymentTypeRequest,BillingAddressRequest)
++ Payment processAcmePlexMembershipRenewal(String)
+}
+
+PaymentService "1" --> "1" PaymentStrategyFactory : uses
+PaymentService "1" --> "1" PaymentRepository : uses
+PaymentService "1" --> "1" TicketRepository : uses
+PaymentService "1" --> "1" ReceiptRepository : uses
+PaymentService "1" --> "1" SeatRepository : uses
+PaymentService "1" --> "1" ShowtimeRepository : uses
+PaymentService "1" --> "1" NotificationService : uses
+PaymentService "1" --> "1" UserRepository : uses
+
+PaymentService "1" --> "1" Payment : manages
+PaymentService "1" --> "0..1" Receipt : creates
+PaymentService "1" --> "0..1" Ticket : creates
+PaymentService "1" --> "0..1" Seat : retrieves
+PaymentService "1" --> "0..1" Showtime : retrieves
+PaymentService "1" --> "1" AcmePlexUser : validates
+PaymentService "1" --> "1" PaymentResponse : returns
+PaymentService "1" --> "1" UnregisteredUserPaymentRequest : accepts
+PaymentService "1" --> "1" RegisteredUserPaymentRequest : accepts
+PaymentService "1" --> "1" PaymentTypeRequest : accepts
+PaymentService "1" --> "0..1" BillingAddressRequest : accepts
+
+
+class SeatAvailability {
+- Long id
+- boolean isAvailable
+- Showtime showtime
+- Seat seat
++ Long getId()
++ boolean isAvailable()
++ void setAvailable(boolean)
++ Showtime getShowtime()
++ void setShowtime(Showtime)
++ Seat getSeat()
++ void setSeat(Seat)
+}
+
+SeatAvailability "1" --> "1" Showtime : linked to
+SeatAvailability "1" --> "1" Seat : linked to
+
+class AuthenticationResponse {
+- String token
+- String email
++ String getToken()
++ void setToken(String)
++ String getEmail()
++ void setEmail(String)
+}
+
+
+class PaymentResponse {
+- boolean success
+- String message
+- Long paymentId
++ boolean isSuccess()
++ void setSuccess(boolean)
++ String getMessage()
++ void setMessage(String)
++ Long getTransactionId()
++ void setTransactionId(Long)
+}
+
+
+interface RetrieveActivePaymentTypeStrategy {
+~ T retrieve(Long)
+}
+
+class Ticket {
+- Long id
+- Date dateIssued
+- String status
+- boolean belongsToRegisteredUser
+- Showtime showtime
+- Seat seat
+- Payment payment
+- AcmePlexUser user
++ Long getId()
++ Date getDateIssued()
++ void setDateIssued(Date)
++ String getStatus()
++ void setStatus(String)
++ Showtime getShowtime()
++ ShowtimeDetails getShowtimeDetails()
++ void setShowtime(Showtime)
++ Seat getSeat()
++ void setSeat(Seat)
++ Payment getPayment()
++ void setPayment(Payment)
++ AcmePlexUser getUser()
++ void setUser(AcmePlexUser)
++ boolean isBelongsToRegisteredUser()
++ void setBelongsToRegisteredUser(boolean)
+}
+
+Ticket "1" --> "1" Showtime : associated with
+Ticket "1" --> "1" Seat : linked to
+Ticket "1" --> "1" Payment : has payment
+Ticket "1" --> "0..1" AcmePlexUser : belongs to
+
+class ShowtimeResponse {
+- Long id
+- LocalDateTime dateAndTime
+- String movieTitle
+- String theatreName
+- boolean isEarlyRelease
++ Long getId()
++ LocalDateTime getDateAndTime()
++ String getMovieTitle()
++ String getTheatreName()
++ boolean isEarlyRelease()
+}
+
+
+interface TheatreRepository {
+}
+class CreateUSCreditCardValidator {
++ boolean validate(PaymentTypeRequest,ConstraintValidatorContext)
+}
+TheatreRepository ..|> Theatre : manages
+
+class TicketCancellationService {
+- TicketRepository ticketRepository
+- AcmePlexCreditRepository creditRepository
+- NotificationService notificationService
+- SeatAvailabilityRepository seatAvailabilityRepository
++ Optional<Ticket> getTicketById(Long)
++ TicketCancellationResponse prepareTicketDetailsForCancellation(Ticket)
++ TicketCancellationResponse cancelTicketRegisteredUser(Ticket)
++ TicketCancellationResponse cancelTicketOrdinaryUser(Ticket,String)
+- boolean isWithinCancellableWindow(LocalDateTime)
+- String creditSecretCodeGenerator()
+}
+
+TicketCancellationService --> TicketRepository : uses (1)
+TicketCancellationService --> AcmePlexCreditRepository : uses (1)
+TicketCancellationService --> NotificationService : uses (1)
+TicketCancellationService --> SeatAvailabilityRepository : uses (1)
+TicketCancellationService --> Ticket : parameter in methods
+TicketCancellationService --> AcmePlexCredit : creates (0..*)
+TicketCancellationService --> SeatAvailability : updates (0..1)
+
+abstract class PaymentType {
+- Long id
+- String status
+- String type
+- AcmePlexUser acmePlexUser
++ Long getId()
++ String getStatus()
++ void setStatus(String)
++ String getType()
++ void setMethod(String)
++ AcmePlexUser getAcmePlexUser()
++ void setAcmePlexUser(AcmePlexUser)
+}
+
+PaymentType <-- AcmePlexUser : "0..* paymentTypes\n1..1 user (optional)"
+
+interface SeatRepository {
+~ Seat findByTheatreRoomAndRowNumberAndSeatNumber(TheatreRoom,int,int)
+~ List<Seat> findByTheatreRoom(TheatreRoom)
+~ Seat findById(Long)
+}
+
+SeatRepository --> Seat : "uses"
+SeatRepository --> TheatreRoom : "uses"
+Seat "0..*" --> "1" TheatreRoom : "theatreRoom"
+
+class CreditValidationRequest {
+- String creditSecretCode
+- float amount
++ String getCreditSecretCode()
++ void setCreditSecretCode(String)
++ float getAmount()
++ void setAmount(float)
+}
+
+
+class ValidationErrorResponse {
+- {static} Logger logger
+- List<FieldError> errors
++ List<FieldError> getErrors()
++ void setErrors(List<FieldError>)
+- void logValidationErrors()
+}
+
+
+class ValidationErrorResponse$FieldError {
+- String field
+- String message
++ String getField()
++ void setField(String)
++ String getMessage()
++ void setMessage(String)
+}
+
+
+interface MovieRepository {
+}
+
+MovieRepository --> Movie : "manages"
+
+abstract class PaymentRequest {
+- float amount
+- Long seatId
+- Long showtimeId
++ Long getSeatId()
++ float getAmount()
++ Long getShowtimeId()
+}
+
+
+class ShowtimeService {
+- ShowtimeRepository showtimeRepository
++ List<ShowtimeResponse> getShowtimesResponse(String,Long,Long)
+}
+
+ShowtimeService --> ShowtimeRepository : "uses"
+ShowtimeService --> ShowtimeResponse : "returns"
+ShowtimeRepository --> Showtime : "manages"
+
+
+class RegistrationFacade {
+- {static} Logger logger
+- AcmePlexUserProfileService userProfileService
+- AddressService addressService
+- PaymentTypeService paymentTypeService
+- PaymentService paymentService
+- RegistrationPostProcessingService postProcessingService
+- NotificationService notificationService
+- ReceiptRepository receiptRepository
++ AcmePlexUser registerUser(DefaultRegistrationRequest)
+- Payment processPayment(CreateUserRequest,PaymentTypeRequest,BillingAddressRequest)
+- AcmePlexUser registerAndFetchUser(CreateUserRequest)
+- void handlePostRegistration(AcmePlexUser,Payment)
+- void saveBillingAddress(AcmePlexUser,BillingAddressRequest)
+- void savePaymentType(AcmePlexUser,PaymentTypeRequest)
+- void finalizeRegistration(AcmePlexUser,Payment)
+}
+
+
+RegistrationFacade --> AcmePlexUserProfileService : "1 uses"
+RegistrationFacade --> AddressService : "1 uses"
+RegistrationFacade --> PaymentTypeService : "1 uses"
+RegistrationFacade --> PaymentService : "1 uses"
+RegistrationFacade --> RegistrationPostProcessingService : "1 uses"
+RegistrationFacade --> NotificationService : "1 uses"
+RegistrationFacade --> ReceiptRepository : "1 uses"
+RegistrationFacade --> DefaultRegistrationRequest : "1 parameter in registerUser()"
+RegistrationFacade --> AcmePlexUser : "1 returns from registerUser()"
+RegistrationFacade --> Payment : "1 uses for payment processing"
+RegistrationFacade --> Address : "1 manages billing address"
+RegistrationFacade --> PaymentType : "1 manages payment type"
+RegistrationFacade --> Receipt : "1 retrieves for finalization
+
+
+class AcmePlexMembershipCreationService {
+- {static} Logger logger
+- AcmePlexMembershipRepository membershipRepository
++ AcmePlexMembership createMembership(Date)
++ void activateMembership(AcmePlexMembership)
++ void deactivateMembership(AcmePlexMembership)
++ void activateRenewalStatus(AcmePlexMembership)
++ void deactivateRenewalStatus(AcmePlexMembership)
+- Date calculateExpirationDate(Date)
++ void processMembershipRenewal(AcmePlexMembership)
+}
+
+AcmePlexMembershipCreationService --> AcmePlexMembershipRepository : "1 uses"
+AcmePlexMembershipCreationService --> AcmePlexMembership : "1 creates or manages"
+
+
+class SeatAvailabilityService {
+- SeatAvailabilityRepository seatAvailabilityRepository
++ List<SeatAvailabilityResponse> getAllSeats(Long)
+}
+
+SeatAvailabilityService --> SeatAvailabilityRepository : "1 uses"
+SeatAvailabilityRepository --> SeatAvailability : "1..* finds"
+SeatAvailability --> Seat : "1 belongs to"
+SeatAvailabilityService --> SeatAvailabilityResponse : "1 creates"
+
+class AcmePlexCredit {
+- Long id
+- String creditSecretCode
+- float amount
+- Date dateCreated
+- Date expirationDate
+- Payment payment
+- AcmePlexUser acmePlexUser
++ Long getId()
++ Payment getPayment()
++ void setPayment(Payment)
++ String getCreditSecretCode()
++ void setCreditSecretCode(String)
++ float getAmount()
++ void setAmount(float)
++ Date getDateCreated()
++ void setDateCreated(Date)
++ Date getExpirationDate()
++ void setExpirationDate(Date)
++ AcmePlexUser getAcmePlexUser()
++ void setAcmePlexUser(AcmePlexUser)
+}
+
+AcmePlexCredit --> Payment : "1 references"
+AcmePlexCredit --> AcmePlexUser : "0..1 belongs to"
+
+
+interface TicketRepository {
++ Optional<Ticket> findById(Long)
+}
+
+TicketRepository --> Ticket : "manages 1..*"
+
+
+class AuthTokenUtil {
+- {static} Logger logger
+- String SECRET_KEY
++ String generateToken(String)
++ boolean validateToken(String,String)
+- boolean isTokenExpired(DecodedJWT)
++ String extractEmail(String)
+}
+
+AuthTokenUtil --> Algorithm : "uses"
+AuthTokenUtil --> JWT : "uses"
+AuthTokenUtil --> DecodedJWT : "uses"
+
+class CountryCodeValidator {
++ boolean isValid(String,ConstraintValidatorContext)
+}
+
+CountryCodeValidator --> ConstraintValidator : implements
+CountryCodeValidator --> ValidCountryCode : "annotation for"
+CountryCodeValidator --> CountryCode : "uses"
+
+class TheatreController {
+- MovieService movieService
+- TheatreService theatreService
+- ShowtimeService showtimeService
+- SeatAvailabilityService seatAvailabilityService
++ List<MovieResponse> getMovies()
++ List<TheatreResponse> getTheatres()
++ List<ShowtimeResponse> getShowtimes(String,Long,Long)
++ List<SeatAvailabilityResponse> getAllSeats(Long)
+}
+
+TheatreController --> MovieService : "1 uses"
+TheatreController --> TheatreService : "1 uses"
+TheatreController --> ShowtimeService : "1 uses"
+TheatreController --> SeatAvailabilityService : "1 uses"
+
+MovieService --> MovieResponse : "returns List"
+TheatreService --> TheatreResponse : "returns List"
+ShowtimeService --> ShowtimeResponse : "returns List"
+SeatAvailabilityService --> SeatAvailabilityResponse : "returns List"
+
+
+interface CreatePaymentTypeValidator {
+~ boolean validate(PaymentTypeRequest,ConstraintValidatorContext)
+}
+
+CreatePaymentTypeValidator <|-- CreatePaymentTypeValidatorImpl
+CreatePaymentTypeValidatorImpl --> PaymentTypeValidatorFactory : uses
+CreatePaymentTypeValidatorImpl --> AuthUserPrincipalService : uses
+CreatePaymentTypeValidatorImpl --> PaymentTypeRequest : parameter in isValid()
+CreatePaymentTypeValidatorImpl --> ConstraintValidatorContext : parameter in isValid()
+
+PaymentTypeValidatorFactory --> CreatePaymentTypeValidator : "1..* returns"
+AuthUserPrincipalService --> UserPrincipal : "1 returns"
+
+class Address {
+- Long id
+- String street
+- String city
+- String region
+- String postalCode
+- String country
++ Long getId()
++ String getStreet()
++ void setStreet(String)
++ String getCity()
++ void setCity(String)
++ String getRegion()
++ void setRegion(String)
++ String getPostalCode()
++ void setPostalCode(String)
++ String getCountry()
++ void setCountry(String)
+}
+
+AcmePlexUser --> Address : "1 savedBillingAddress"
+
+class BillingAddressRequest {
+- String street
+- String city
+- String region
+- String postalCode
+- String country
++ String getStreet()
++ void setStreet(String)
++ String getCity()
++ void setCity(String)
++ String getRegion()
++ void setRegion(String)
++ String getPostalCode()
++ void setPostalCode(String)
++ String getCountry()
++ void setCountry(String)
+}
+
+
+class AcmePlexMembership {
+- Long id
+- boolean activeMembership
+- Date renewalDate
+- Date expiryDate
+- boolean renewalStatus
+- String renewalToken
+- AcmePlexUser acmePlexUser
++ Long getId()
++ boolean isActiveMembership()
++ void setActiveMembership(boolean)
++ Date getRenewalDate()
++ void setRenewalDate(Date)
++ Date getExpiryDate()
++ void setExpiryDate(Date)
++ boolean isRenewalStatus()
++ void setRenewalStatus(boolean)
+- Date calculateDefaultExpirationDate(Date)
++ String getRenewalToken()
++ void setRenewalToken()
+}
+
+AcmePlexUser "1" --> "1" AcmePlexMembership : "membership"
+
+
+interface CreditCardRepository {
+}
+
+CreditCardRepository --> CreditCard : "Manages"
+
+class SuccessMessage {
+- {static} Logger logger
+- String message
++ String getMessage()
++ void setMessage(String)
++ void validateMessage()
+}
+
+
+class PaginationResponse {
+- {static} Logger logger
+- List<T> results
+- int currentPage
+- int totalPages
+- long totalItems
++ List<T> getResults()
++ void setResults(List<T>)
++ int getCurrentPage()
++ void setCurrentPage(int)
++ int getTotalPages()
++ void setTotalPages(int)
++ long getTotalItems()
++ void setTotalItems(long)
++ void validatePagination()
+}
+
+
+class CreditCardPayment {
+- UserRepository userRepository
+- CreditCardRepository creditCardRepository
+- RetrieveCreditCardPaymentType retrieveCreditCardPaymentType
++ boolean unregisteredUserPay(UnregisteredUserPaymentRequest)
++ boolean registeredUserPay(RegisteredUserPaymentRequest)
++ boolean registeredUserPay(Long,float)
++ boolean newAcmePlexMembershipPay(PaymentTypeRequest,BillingAddressRequest)
+}
+
+CreditCardPayment --> UserRepository : "Uses"
+CreditCardPayment --> CreditCardRepository : "Uses"
+CreditCardPayment --> RetrieveCreditCardPaymentType : "Uses"
+
+CreditCardPayment --> UnregisteredUserPaymentRequest : "Parameter in unregisteredUserPay()"
+CreditCardPayment --> RegisteredUserPaymentRequest : "Parameter in registeredUserPay()"
+CreditCardPayment --> PaymentTypeRequest : "Parameter in newAcmePlexMembershipPay()"
+CreditCardPayment --> BillingAddressRequest : "Parameter in newAcmePlexMembershipPay()"
+
+RetrieveCreditCardPaymentType --> CreditCard : "Retrieves (1)"
+
+AcmePlexUser "1" --> "*" PaymentType : "Owns"
+
+PaymentType <|-- CreditCard : "Extends"
+
+class MovieResponse {
+- Long id
+- String title
+- int length
+- Date releaseDate
+- String description
++ Long getId()
++ void setId(Long)
++ String getTitle()
++ void setTitle(String)
++ int getLength()
++ void setLength(int)
++ Date getReleaseDate()
++ void setReleaseDate(Date)
++ String getDescription()
++ void setDescription(String)
+}
+
+
+class Movie {
+- Long id
+- String title
+- int length
+- Date releaseDate
+- String description
+- List<Showtime> showtimes
++ Long getId()
++ String getTitle()
++ void setTitle(String)
++ int getLength()
++ void setLength(int)
++ Date getReleaseDate()
++ void setReleaseDate(Date)
++ String getDescription()
++ void setDescription(String)
++ List<Showtime> getShowtimes()
++ void setShowtimes(List<Showtime>)
+}
+
+Movie "1" --> "*" Showtime : "has many"
+
+
+class UnregisteredUserPaymentRequest {
+- String firstName
+- String lastName
+- String email
+- String creditCardNumber
++ String getFirstName()
++ String getLastName()
++ String getEmail()
++ String getCreditCardNumber()
+}
+
+
+class TheatreResponse {
+- Long id
+- String name
+- String location
++ Long getId()
++ void setId(Long)
++ String getName()
++ void setName(String)
++ String getLocation()
++ void setLocation(String)
+}
+
+
+class TicketCancellationResponse {
+- Ticket ticket
+- String message
++ Ticket getTicket()
++ void setTicket(Ticket)
++ String getMessage()
++ void setMessage(String)
+}
+
+
+class AuthUserPrincipalService {
+- UserRepository userRepository
++ UserPrincipal getCurrentUserPrincipal()
++ AcmePlexUser getAuthenticatedAcmePlexUser()
++ boolean isAuthenticated()
++ boolean checkAuthenticationByEmail(String)
+- boolean isUserPrincipal(Authentication)
+}
+
+AuthUserPrincipalService --> UserRepository : "uses"
+AuthUserPrincipalService --> UserPrincipal : "returns"
+AuthUserPrincipalService --> AcmePlexUser : "returns"
+AuthUserPrincipalService --> Authentication : "uses"
+AuthUserPrincipalService --> UserNotFoundException : "throws"
+Authentication --> UserPrincipal : "principal"
+
+
+class CreditValidationResponse {
+- boolean isValid
+- float newAmount
++ boolean isValid()
++ void setValid(boolean)
++ float getNewAmount()
++ void setNewAmount(float)
+}
+
+
+class TheatreRoom {
+- Long id
+- int numberOfSeats
+- Theatre theatre
+- List<Seat> seats
+- List<Showtime> showtimes
++ int getNumberOfSeats()
++ void setNumberOfSeats(int)
++ Theatre getTheatre()
++ void setTheatre(Theatre)
++ List<Seat> getSeats()
++ void setSeats(List<Seat>)
++ List<Showtime> getShowtimes()
++ void setShowtimes(List<Showtime>)
++ Long getId()
+}
+
+TheatreRoom --> Theatre : "1 *"
+TheatreRoom --> Seat : "1 *"
+TheatreRoom --> Showtime : "1 *"
+Theatre --> TheatreRoom : "1 *"
+
+
+class Receipt {
+- Long id
+- Payment payment
+- AcmePlexUser acmePlexUser
++ Long getId()
++ Payment getPayment()
++ void setPayment(Payment)
++ AcmePlexUser getAcmePlexUser()
++ void setAcmePlexUser(AcmePlexUser)
+}
+
+Receipt --> Payment : "1 1"
+Receipt --> AcmePlexUser : "0..1 *"
+Payment --> Receipt : "0..1 1"
+AcmePlexUser --> Receipt : "1 *"
+
+
+class TicketCancellationRegisteredRequest {
+- Long ticketId
++ Long getTicketId()
++ void setTicketId(Long)
+}
+
+
+class AcmePlexMembershipRenewalService {
+- AcmePlexUserProfileService userProfileService
+- AcmePlexMembershipRepository membershipRepository
+- ReceiptRepository receiptRepository
+- PaymentTypeService paymentTypeService
+- AddressService addressService
+- PaymentService paymentService
+- NotificationService notificationService
++ void renewExpiredMemberships()
++ void deactivateNonRenewingMemberships()
++ void remindMembershipsExpiringInOneWeek()
++ AcmePlexUser getUserByMembershipId(Long)
+- Payment sendPaymentRenewalRequest(AcmePlexMembership)
+- Date getLastWeekDate()
+}
+
+AcmePlexMembershipRenewalService --> AcmePlexMembershipRepository : uses
+AcmePlexMembershipRenewalService --> AcmePlexUserProfileService : uses
+AcmePlexMembershipRenewalService --> ReceiptRepository : uses
+AcmePlexMembershipRenewalService --> PaymentTypeService : uses
+AcmePlexMembershipRenewalService --> AddressService : uses
+AcmePlexMembershipRenewalService --> PaymentService : uses
+AcmePlexMembershipRenewalService --> NotificationService : uses
+AcmePlexMembership --> AcmePlexUser : "1 1"
+AcmePlexMembership --> Payment : "0..1 *"
+Payment --> AcmePlexUser : "1 *"
+Payment --> Receipt : "0..1 1"
+AcmePlexUser --> PaymentType : "1 *"
+AcmePlexUser --> Address : "1 1"
+
+
+interface ShowtimeRepository {
+~ Showtime findByTheatreRoomAndMovie(TheatreRoom,Movie)
+~ Showtime findById(Long)
+~ List<Showtime> findByDateMovieAndTheatre(LocalDateTime,LocalDateTime,Long,Long)
+}
+
+ShowtimeRepository --> Showtime : manages
+Showtime --> TheatreRoom : belongs to
+Showtime --> Movie : belongs to
+TheatreRoom --> Theatre : "1 1" belongs to
+
+class MembershipRenewalProcessingScheduler {
+- AcmePlexMembershipRenewalService renewalService
++ void renewMembershipsDaily()
++ void deactivateNonRenewingMembershipsDaily()
++ void remindMembershipsExpiringInOneWeek()
+}
+
+MembershipRenewalProcessingScheduler --> AcmePlexMembershipRenewalService : uses
+
+class AddressService {
+- {static} Logger logger
+- AddressRepository addressRepository
+- UserRepository userRepository
++ Address findBillingAddressByUserId(Long)
++ Address createBillingAddress(String,BillingAddressRequest)
++ Address updateBillingAddress(String,BillingAddressRequest)
++ void deleteBillingAddress(String)
+- AcmePlexUser findUserByEmail(String)
+- Address createAddressFromRequest(BillingAddressRequest)
+- void assignBillingAddressToUser(AcmePlexUser,Address)
+- Address getBillingAddressForUser(AcmePlexUser)
+- void updateAddressFields(Address,BillingAddressRequest)
+- void clearBillingAddressForUser(AcmePlexUser)
+- boolean isNotBlank(String)
+}
+
+AddressService --> AddressRepository : uses
+AddressService --> UserRepository : uses
+AddressService ..> BillingAddressRequest : processes
+
+
+class NotificationService {
+- List<Observer> observers
+- EmailService emailService
+- NotificationRepository notificationRepository
++ void sendTicketAndReceiptOrdinaryUser(Ticket,Receipt,String)
++ void sendTicketAndReceiptRegisteredUser(Ticket,Receipt)
++ void sendTicketCancellationOrdinaryUser(AcmePlexCredit,String)
++ void sendTicketCancellationRegisteredUser(AcmePlexCredit,AcmePlexUser)
++ void sendAnnualFeeReminder(AcmePlexUser)
++ void sendAnnualFeePaymentConfirmation(AcmePlexUser,Receipt)
++ void sendMembershipDeactivationNotice(AcmePlexUser)
++ void addObserver(Observer)
++ void removeObserver(Observer)
++ void notifyObservers(String)
++ void sendMovieNews(String)
+- String createTicketAndReceiptMessage(Ticket,Receipt,String)
+- String createTicketCancellationMessageForOrdinaryUser(AcmePlexCredit)
+- String createTicketCancellationMessageForRegisteredUser(AcmePlexCredit,AcmePlexUser)
+}
+
+NotificationService "1" *-- "1" EmailService
+NotificationService "1" *-- "1" NotificationRepository
+NotificationService "1" *-- "0..*" Observer
+NotificationService "1" ..> "0..1" Ticket : uses
+NotificationService "1" ..> "0..1" Receipt : uses
+NotificationService "1" ..> "0..1" AcmePlexCredit : uses
+NotificationService "1" ..> "0..1" AcmePlexUser : uses
+
+interface PaymentStrategy {
+~ boolean unregisteredUserPay(UnregisteredUserPaymentRequest)
+~ boolean registeredUserPay(RegisteredUserPaymentRequest)
+~ boolean registeredUserPay(Long,float)
+~ boolean newAcmePlexMembershipPay(PaymentTypeRequest,BillingAddressRequest)
+}
+
+PaymentStrategy ..> UnregisteredUserPaymentRequest : uses
+PaymentStrategy ..> RegisteredUserPaymentRequest : uses
+PaymentStrategy ..> PaymentTypeRequest : uses
+PaymentStrategy ..> BillingAddressRequest : uses
+
+
+class TicketCancellationOrdinaryRequest {
+- Long ticketId
+- String email
++ Long getTicketId()
++ void setTicketId(Long)
++ String getEmail()
++ void setEmail(String)
+}
+
+
+class PaymentTypeResponse {
+- String type
+- String method
+- String cardholderName
+- String cardNumber
+- String expirationDate
+- String email
++ String getType()
++ void setType(String)
++ String getMethod()
++ void setMethod(String)
++ String getCardholderName()
++ void setCardholderName(String)
++ String getCardNumber()
++ void setCardNumber(String)
++ String getExpirationDate()
++ void setExpirationDate(String)
++ String getEmail()
++ void setEmail(String)
+}
+
+
+class Notification {
+- Long id
+- Date dateSent
+- String emailRecipient
+- String message
+- AcmePlexUser user
++ Long getId()
++ Date getDateSent()
++ void setDateSent(Date)
++ String getEmailRecipient()
++ void setEmailRecipient(String)
++ String getMessage()
++ void setMessage(String)
++ AcmePlexUser getUser()
++ void setUser(AcmePlexUser)
+}
+
+Notification o-- AcmePlexUser : "user (nullable)"
+
+interface AcmePlexCreditRepository {
+~ Optional<AcmePlexCredit> findByCreditSecretCode(String)
+}
+
+AcmePlexCreditRepository --> AcmePlexCredit : "findByCreditSecretCode"
+
+class PaymentTypeRequest {
+- String type
+- String countryCode
+- String cardholderName
+- String cardNumber
+- String expirationDate
+- String cvv
+- String email
++ String getType()
++ void setType(String)
++ String getCountryCode()
++ void setCountryCode(String)
++ String getCardholderName()
++ void setCardholderName(String)
++ String getCardNumber()
++ void setCardNumber(String)
++ String getExpirationDate()
++ void setExpirationDate(String)
++ String getCvv()
++ void setCvv(String)
++ String getEmail()
++ void setEmail(String)
+}
+
+
+class TicketCancellationController {
+- TicketCancellationService ticketCancellationService
++ ResponseEntity<ApiResponse<TicketCancellationResponse>> getTicketDetails(Long)
++ ResponseEntity<ApiResponse<TicketCancellationResponse>> cancelTicket(TicketCancellationRegisteredRequest)
++ ResponseEntity<ApiResponse<TicketCancellationResponse>> cancelTicketForOrdinaryUser(TicketCancellationOrdinaryRequest)
+}
+
+TicketCancellationController --> TicketCancellationService : "uses"
+TicketCancellationController --> TicketCancellationRegisteredRequest : "accepts"
+TicketCancellationController --> TicketCancellationOrdinaryRequest : "accepts"
+TicketCancellationService --> Ticket : "operates on"
+TicketCancellationService --> TicketCancellationResponse : "returns"
+TicketCancellationController --> ApiResponse : "wraps response"
+
+class DefaultRegistrationRequest {
+- CreateUserRequest user
+- BillingAddressRequest billingAddress
+- PaymentTypeRequest paymentType
++ CreateUserRequest getUser()
++ void setUser(CreateUserRequest)
++ BillingAddressRequest getBillingAddress()
++ void setBillingAddress(BillingAddressRequest)
++ PaymentTypeRequest getPaymentType()
++ void setPaymentType(PaymentTypeRequest)
+}
+
+
+enum CountryCode {
++  US
++  CA
++ {static} CountryCode fromString(String)
+}
+
+
+interface AcmePlexMembershipRepository {
+~ List<AcmePlexMembership> findExpiredMembershipsUpForRenewal(Date)
+~ AcmePlexUser findUserByMembershipId(Long)
+~ List<AcmePlexMembership> findExpiredMembershipsWithoutRenewal(Date)
+~ List<AcmePlexMembership> findMembershipsExpiringInOneWeek(Date)
+}
+
+AcmePlexMembershipRepository --> AcmePlexMembership : "operates on"
+AcmePlexMembershipRepository --> AcmePlexUser : "fetches"
+AcmePlexMembership --> AcmePlexUser : "belongs to"
+
+class GlobalExceptionHandler {
+- {static} Logger logger
++ ResponseEntity<ErrorResponse> handleUserNotFoundException(UserNotFoundException,WebRequest)
++ ResponseEntity<ValidationErrorResponse> handleValidationException(Exception)
++ ResponseEntity<ErrorResponse> handleDataIntegrityViolationException(DataIntegrityViolationException,WebRequest)
++ ResponseEntity<ErrorResponse> handleAccessDeniedException(AccessDeniedException,WebRequest)
++ ResponseEntity<ErrorResponse> handleTicketNotFoundException(TicketNotFoundException,WebRequest)
++ ResponseEntity<ApiResponse<String>> handleInvalidRequestException(InvalidRequestException)
++ ResponseEntity<ErrorResponse> handleGlobalException(Exception,WebRequest)
++ ResponseEntity<ErrorResponse> handlePaymentFailedException(PaymentFailedException,WebRequest)
+}
+
+GlobalExceptionHandler --> ErrorResponse
+GlobalExceptionHandler --> ValidationErrorResponse
+GlobalExceptionHandler --> ApiResponse
+GlobalExceptionHandler <-- UserNotFoundException : "handles"
+GlobalExceptionHandler <-- DataIntegrityViolationException : "handles"
+GlobalExceptionHandler <-- AccessDeniedException : "handles"
+GlobalExceptionHandler <-- TicketNotFoundException : "handles"
+GlobalExceptionHandler <-- InvalidRequestException : "handles"
+GlobalExceptionHandler <-- PaymentFailedException : "handles"
+GlobalExceptionHandler <-- Exception : "handles (generic)"
+
+
+class PaymentTypeService {
+- {static} Logger logger
+- PaymentTypeRepository paymentTypeRepository
+- UserRepository userRepository
+- CreatePaymentTypeFactory paymentTypeFactory
+- void deactivateExistingActivePayment(Long)
++ PaymentType createPaymentType(String,PaymentTypeRequest)
++ PaymentType setActivePaymentType(String,Long)
++ List<PaymentType> getPaymentTypesByUser(String)
++ PaymentType updateOrCreateAndSetActive(String,PaymentTypeRequest)
++ PaymentType getActivePaymentTypeByEmail(String)
++ PaymentType findActivePaymentTypeByUserId(Long)
++ T getActivePaymentTypeAs(Long,Class<T>)
+}
+
+PaymentTypeService --> PaymentTypeRepository
+PaymentTypeService --> UserRepository
+PaymentTypeService --> CreatePaymentTypeFactory
+PaymentTypeService --> PaymentType : "manages"
+PaymentTypeService --> AcmePlexUser : "associates with"
+PaymentTypeService --> PaymentTypeRequest : "creates from"
+
+UserRepository --> AcmePlexUser : "retrieves"
+CreatePaymentTypeFactory --> PaymentType : "creates instances of"
+
+class ApiResponse {
+- boolean success
+- String message
+- T data
++ boolean isSuccess()
++ void setSuccess(boolean)
++ String getMessage()
++ void setMessage(String)
++ T getData()
++ void setData(T)
+}
+
+
+class Seat {
+- Long id
+- int rowNumber
+- int seatNumber
+- TheatreRoom theatreRoom
+- Ticket ticket
++ Long getId()
++ int getRowNumber()
++ void setRowNumber(int)
++ int getSeatNumber()
++ void setSeatNumber(int)
++ TheatreRoom getTheatreRoom()
++ void setTheatreRoom(TheatreRoom)
++ Ticket getTicket()
++ void setTicket(Ticket)
+}
+
+Seat --> TheatreRoom : "many to one"
+Seat --> Ticket : "one to one"
+
+
+class AuthTokenFilterUtil {
+- {static} Logger logger
+- AuthTokenUtil authTokenUtil
+- AcmePlexUserDetailsService userDetailsService
+# void doFilterInternal(HttpServletRequest,HttpServletResponse,FilterChain)
+}
+
+
+AuthTokenFilterUtil --> AuthTokenUtil : "uses"
+AuthTokenFilterUtil --> AcmePlexUserDetailsService : "uses"
+
+interface Observer {
+~ void update(String)
+}
+
+class TicketNotFoundException {
+}
+
+interface PaymentTypeRepository {
+~ Optional<PaymentType> findActivePaymentTypeByUserId(Long)
+~ Optional<PaymentType> findByUserIdAndDetails(Long,String,String)
+~ List<PaymentType> findAllByAcmePlexUserId(Long)
+~ List<PaymentType> findAllByUserId(Long)
+}
+
+PaymentTypeRepository --> PaymentType : "queries"
+
+class MakePayment {
+- PaymentService paymentService
++ ResponseEntity<PaymentResponse> processUnRegisteredPayment(UnregisteredUserPaymentRequest)
++ ResponseEntity<PaymentResponse> processRegisteredPayment(RegisteredUserPaymentRequest)
+}
+
+MakePayment -- PaymentService : "1" --> "*"
+MakePayment -- UnregisteredUserPaymentRequest : "1" --> "1"
+MakePayment -- RegisteredUserPaymentRequest : "1" --> "1"
+PaymentService -- PaymentResponse : "1" --> "1"
+UnregisteredUserPaymentRequest -- PaymentResponse : "1" --> "1"
+RegisteredUserPaymentRequest -- PaymentResponse : "1" --> "1"
+
+
+class CreateCanadaCreditCardValidator {
++ boolean validate(PaymentTypeRequest,ConstraintValidatorContext)
+}
+
+CreateCanadaCreditCardValidator -- PaymentTypeRequest : "1" --> "1"
+CreateCanadaCreditCardValidator -- ConstraintValidatorContext : "1" --> "1"
+
+
+interface AddressRepository {
+}
+
+AddressRepository ..> Address : "1" --> "0..*"
+
+class SecurityConfig {
+- {static} Logger logger
+- AcmePlexUserDetailsService userDetailsService
+- AuthTokenFilterUtil authTokenFilterUtil
++ SecurityFilterChain securityFilterChain(HttpSecurity)
++ PasswordEncoder passwordEncoder()
++ AuthenticationManager authenticationManager(AuthenticationConfiguration)
++ DaoAuthenticationProvider daoAuthenticationProvider()
+}
+
+SecurityConfig --* AcmePlexUserDetailsService : "Uses"
+SecurityConfig --* AuthTokenFilterUtil : "Uses"
+SecurityConfig "1" -- "1..*" HttpSecurity : "Configures"
+SecurityConfig "1" -- "1" PasswordEncoder : "Uses"
+SecurityConfig "1" -- "1" AuthenticationManager : "Uses"
+SecurityConfig "1" -- "1" DaoAuthenticationProvider : "Uses"
+
+class Showtime {
+- Long id
+- LocalDateTime dateAndTime
+- boolean isEarlyRelease
+- TheatreRoom theatreRoom
+- Movie movie
+- List<Ticket> tickets
++ Long getId()
++ LocalDateTime getDateAndTime()
++ void setDateAndTime(LocalDateTime)
++ boolean isEarlyRelease()
++ void setEarlyRelease(boolean)
++ TheatreRoom getTheatreRoom()
++ void setTheatreRoom(TheatreRoom)
++ Movie getMovie()
++ void setMovie(Movie)
++ List<Ticket> getTickets()
++ void setTickets(List<Ticket>)
+}
+
+Showtime "1" -- "1" TheatreRoom : "Has"
+Showtime "1" -- "1" Movie : "Has"
+Showtime "1" -- "*" Ticket : "Has"
+
+interface SeatAvailabilityRepository {
+~ Optional<SeatAvailability> findBySeatIdAndShowtimeId(Long,Long)
+~ List<SeatAvailability> findAllSeatsByShowtime(Long)
+}
+
+SeatAvailability "1" -- "1" Seat : "Has"
+SeatAvailability "1" -- "1" Showtime : "Has"
+
+class CreatePaymentTypeValidator {
+- PaymentTypeValidatorFactory factory
+- AuthUserPrincipalService authUserPrincipalService
++ boolean isValid(PaymentTypeRequest,ConstraintValidatorContext)
+- String resolveCountryCode(PaymentTypeRequest)
+}
+
+CreatePaymentTypeValidator <|-- PaymentTypeValidatorFactory : "Uses"
+CreatePaymentTypeValidator "1" -- "1" AuthUserPrincipalService : "Depends on"
+
+
+interface Subject {
++ void addObserver(Observer)
++ void removeObserver(Observer)
++ void notifyObservers(String)
+}
+
+Subject "1" -- "*" Observer : "Notifies"
+Observer "1" -- "*" Subject : "Monitors"
+
+class RegistrationPostProcessingService {
+- {static} Logger logger
+- AcmePlexMembershipCreationService membershipService
+- AcmePlexUserProfileService userProfileService
+- PaymentRepository paymentRepository
+- ReceiptRepository receiptRepository
++ void handlePostRegistration(AcmePlexUser,Payment)
+}
+
+RegistrationPostProcessingService "1" --> "1" AcmePlexUser : "Handles"
+RegistrationPostProcessingService "1" --> "1" Payment : "Handles"
+RegistrationPostProcessingService "1" --> "1" AcmePlexMembership : "Creates"
+RegistrationPostProcessingService "1" --> "1" Receipt : "Handles"
+
+AcmePlexUser "1" --> "1" AcmePlexMembership : "Has"
+AcmePlexUser "1" --> "*" Payment : "Makes"
+AcmePlexUser "1" --> "*" Receipt : "Receives"
+
+
+class EmailService {
+- JavaMailSender mailSender
++ void sendSimpleMessage(String,String,String)
+}
+
+EmailService "1" --> "1" JavaMailSender : "Uses"
+
+interface UserRepository {
+~ Optional<AcmePlexUser> findByEmail(String)
+~ Optional<AcmePlexUser> findById(Long)
+}
+
+UserRepository "1" --> "0..*" AcmePlexUser : "Finds"
+
+class InvalidRequestException {
+}
+
+interface NotificationRepository {
+}
+
+NotificationRepository "1" --> "0..*" Notification : "Manages"
+
+interface TheatreRoomRepository {
+}
+
+class SeatAvailabilityResponse {
+- Long seatId
+- boolean isAvailable
++ Long getSeatId()
++ void setSeatId(Long)
++ boolean isAvailable()
++ void setAvailable(boolean)
+}
+
+
+class PaymentFailedException {
+- String reason
++ String getReason()
+}
+
+
+class PaymentStrategyFactory {
+- PaymentStrategy creditCardPayment
+- UserRepository userRepository
++ PaymentStrategy getStrategy(UnregisteredUserPaymentRequest)
++ PaymentStrategy getStrategy(PaymentTypeRequest,BillingAddressRequest)
++ PaymentStrategy getStrategy(RegisteredUserPaymentRequest)
++ PaymentStrategy getStrategy(Long)
+}
+
+PaymentStrategyFactory "1" --> "1" PaymentStrategy : "Uses"
+
+PaymentStrategyFactory "1" --> "1" UserRepository : "Depends on"
+
+interface PaymentRepository {
+}
+
+PaymentRepository -down-> Payment : "Manages"
+
+class TheatreService {
+- TheatreRepository theatreRepository
++ List<TheatreResponse> getAllTheatres()
+}
+
+TheatreService -down-> TheatreRepository : "Uses"
+
+class AcmePlexCreditValidation {
+~ AcmePlexCreditRepository creditRepository
++ ResponseEntity<CreditValidationResponse> validateCredit(CreditValidationRequest)
+}
+
+AcmePlexCreditValidation -down-> AcmePlexCreditRepository : "Uses"
+
+
+JpaRepository <|-- ReceiptRepository
+UserDetails <|.. UserPrincipal
+RetrieveActivePaymentTypeStrategy <|.. RetrieveCreditCardPaymentType
+RuntimeException <|-- UserNotFoundException
+PaymentType <|-- CreditCard
+UserDetailsService <|.. AcmePlexUserDetailsService
+PaymentRequest <|-- RegisteredUserPaymentRequest
+CreatePaymentTypeValidator <|.. CreatePayPalValidator
+Observer <|.. AcmePlexUser
+JpaRepository <|-- TheatreRepository
+CreatePaymentTypeValidator <|.. CreateUSCreditCardValidator
+JpaRepository <|-- SeatRepository
+ValidationErrorResponse +.. ValidationErrorResponse$FieldError
+JpaRepository <|-- MovieRepository
+JpaRepository <|-- TicketRepository
+ConstraintValidator <|.. CountryCodeValidator
+JpaRepository <|-- CreditCardRepository
+PaymentStrategy <|.. CreditCardPayment
+PaymentRequest <|-- UnregisteredUserPaymentRequest
+OncePerRequestFilter <|-- RequestLoggingFilter
+JpaRepository <|-- ShowtimeRepository
+Subject <|.. NotificationService
+JpaRepository <|-- AcmePlexCreditRepository
+JpaRepository <|-- AcmePlexMembershipRepository
+OncePerRequestFilter <|-- AuthTokenFilterUtil
+RuntimeException <|-- TicketNotFoundException
+JpaRepository <|-- PaymentTypeRepository
+CreatePaymentTypeValidator <|.. CreateCanadaCreditCardValidator
+JpaRepository <|-- AddressRepository
+JpaRepository <|-- SeatAvailabilityRepository
+ConstraintValidator <|.. CreatePaymentTypeValidator
+JpaRepository <|-- UserRepository
+RuntimeException <|-- InvalidRequestException
+JpaRepository <|-- NotificationRepository
+JpaRepository <|-- TheatreRoomRepository
+RuntimeException <|-- PaymentFailedException
+Constants +.. Constants$Endpoints
+Constants +.. Constants$Errors
+Constants +.. Constants$Success
+Constants +.. Constants$Pricing
+JpaRepository <|-- PaymentRepository
+CommandLineRunner <|.. StartupLogger
+@enduml
