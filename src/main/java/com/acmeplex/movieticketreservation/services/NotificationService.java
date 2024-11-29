@@ -171,9 +171,9 @@ public void sendMovieNews(String movieNews){
     private String createTicketAndReceiptMessage(Ticket ticket, Receipt receipt, String firstName) {
         return "Hello " + (firstName != null ? firstName : "AcmePlex Customer") + ", \nThis message confirms your payment and ticket reservation for AcmePlex Theatres." +
                 " \nThe details of your ticket and receipt are included below. Enjoy the movie!" +
-                "\n\nTicket \nMovie: " + ticket.getShowtime().getMovie() +
-                "\nShowtime: " + ticket.getShowtime() +
-                "\nSeat: " + ticket.getSeat() +
+                "\n\nTicket \nMovie: " + ticket.getShowtime().getMovie().getTitle() +
+                "\nShowtime: " + ticket.getShowtime().getDateAndTime() +
+                "\nSeat: " + ticket.getSeat().getSeatNumber() +
                 "\nStatus: " + ticket.getStatus() +
                 "\nTicket id: " + ticket.getId() +
                 "\n\nReceipt \nDate Paid: " + receipt.getPayment().getDatePaid() +
