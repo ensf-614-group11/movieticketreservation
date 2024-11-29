@@ -198,61 +198,58 @@ AcmePlexUser "1" *-- "0..*" Payment : "has"
 AcmePlexUser "1" *-- "0..*" Receipt : "has"
 AcmePlexUser "1" *-- "0..*" PaymentType : "has"
 AcmePlexUser "1" *-- "0..*" AcmePlexCredit : "has"
-AcmePlexUser "1" --> "1" AcmePlexMembership : "membership"
-AcmePlexUser --> Receipt : "1 *"
-AcmePlexUser --> Address : "1 savedBillingAddress"
+AcmePlexUser "1" --> "1" AcmePlexMembership : "has"
+AcmePlexUser "1" *-- "0..*" Receipt
+AcmePlexUser "1" --> "1" Address : "savedBillingAddress"
 
 AcmePlexMembership "1" --> "1" AcmePlexUser : "belongs to"
-
-Payment "1" --> "0..1" Ticket : "associated with"
-Payment "1" --> "0..1" Receipt : "generates"
-Payment "1" --> "0..1" AcmePlexCredit : "can create"
+PaymentType "1" --> "1" AcmePlexUser : "belongs to"
 Payment "1" --> "1" AcmePlexUser : "belongs to"
+
+Payment "1" --> "0..1" Ticket : "references"
+Payment "1" --> "0..1" Receipt : "references"
+Payment "1" --> "0..1" AcmePlexCredit : "references"
 
 Observer <|.. AcmePlexUser
 Notification "0..*" --> "1" AcmePlexUser : "belongs to"
 
-PaymentType "1" --> "1" AcmePlexUser : "belongs to"
-PaymentType "1" --> "1" AcmePlexUser : "belongs to"
+
 PaymentType <-- AcmePlexUser : "0..* paymentTypes\n1..1 user (optional)"
 PaymentType <|-- CreditCard
-CreditCard --|> PaymentType : "Extends"
+CreditCard --|> PaymentType : "extends"
 
-
-Movie "1" --> "*" Showtime : "has many"
+Movie "1" --> "*" Showtime : "has"
 
 TheatreRoom --> Theatre : "1 *"
 TheatreRoom --> Seat : "1 *"
 TheatreRoom --> Showtime : "1 *"
 TheatreRoom --> "1" Theatre : belongs to
 
-Theatre --> TheatreRoom : "1 *"
 Theatre "1" *-- "0..*" TheatreRoom : composition
 
-Receipt --> Payment : "1 1"
-Receipt --> AcmePlexUser : "0..1 *"
-Receipt "1" --> "1" AcmePlexUser : "belongs to"
+Receipt "1" --> "1" Payment : "1 1"
+Receipt "1" --> "1" AcmePlexUser : "references"
 
-Seat --> TheatreRoom : "many to one"
-Seat --> Ticket : "one to one"
+Seat "1..*" --> "1" TheatreRoom : "many to one"
+Seat "1" --> "1" Ticket : "references"
 
-SeatAvailability "1" --> "1" Showtime : linked to
-SeatAvailability "1" --> "1" Seat : linked to
+SeatAvailability "1" --> "1" Showtime : "links to"
+SeatAvailability "1" --> "1" Seat : "refers to"
 
-Showtime "1" -- "1" TheatreRoom : "Has"
-Showtime "1" -- "1" Movie : "Has"
-Showtime "1" -- "*" Ticket : "Has"
-Showtime --> "0..1" Movie : may have a Movie
-Showtime --> "1" TheatreRoom : contains
+Showtime "1" -- "1" TheatreRoom : "references"
+Showtime "1" -- "1" Movie : "references"
+Showtime "1" -- "*" Ticket : "references"
+Showtime "0..*" --> "1" Movie : "shows"
+Showtime "0..*" --> "1" TheatreRoom : "links to"
 
-ShowtimeDetails --> "0..1" Movie : uses movie title
-ShowtimeDetails --> "1" Theatre : uses theatre name
-ShowtimeDetails --> "1" Showtime : extracts details from
+ShowtimeDetails "1" --> "1" Movie : "references"
+ShowtimeDetails "1" --> "1" Theatre : "references"
+ShowtimeDetails "1" --> "1" Showtime : "references"
 
-Ticket "1" --> "1" Showtime : associated with
-Ticket "1" --> "1" Seat : linked to
-Ticket "1" --> "1" Payment : has payment
-Ticket "1" --> "0..1" AcmePlexUser : belongs to
+Ticket "1" --> "1" Showtime : "associated with"
+Ticket "1" --> "1" Seat : "linked to"
+Ticket "1" --> "1" Payment : "has payment"
+Ticket "1" --> "0..1" AcmePlexUser : "belongs to"
 
 ' Repository
 
@@ -334,7 +331,7 @@ AddressRepository "1" --> "0..*" Address : "manages"
 AcmePlexCreditRepository "1" --> "0..*" AcmePlexCredit : "manages"
 AcmePlexMembershipRepository "1" --> "0..*" AcmePlexMembership : "manages"
 UserRepository "1" --> "0..*" AcmePlexUser : "manages"
-NotificationRepository "1" --> "0..*" Notification : "Manages"
+NotificationRepository "1" --> "0..*" Notification : "manages"
 MovieRepository "1" --> "0..*" Movie : "manages"
 SeatRepository "1" --> "0..*" Seat : "manages"
 SeatRepository "1" --> "0..*" TheatreRoom : "uses"
@@ -373,11 +370,10 @@ AuthUserPrincipalService --> UserRepository : "uses"
 AuthUserPrincipalService --> UserPrincipal : "returns"
 AuthUserPrincipalService --> AcmePlexUser : "returns"
 AuthUserPrincipalService --> Authentication : "uses"
-UserPrincipal ..|> UserDetails : implements
 UserPrincipal --> "1" CountryCode : uses
 AcmePlexUser --> UserPrincipal : transforms (1 to 1)
 
-UserPrincipal ..|> UserDetails : implements
+UserPrincipal ..|> UserDetails
 UserPrincipal --> "1" CountryCode : uses
 AcmePlexUserAuthentication --> "1" AuthenticationManager : uses
 AcmePlexUserAuthentication --> "1" AuthTokenUtil : uses
@@ -665,46 +661,44 @@ class TheatreService <<Service>>{
 + List<TheatreResponse> getAllTheatres()
 }
 
-AcmePlexUserDetailsService --> UserRepository : uses
-AcmePlexUserDetailsService --> UserPrincipal : creates
+AcmePlexUserDetailsService "1" --> "1" UserRepository : uses
+AcmePlexUserDetailsService "1" --> "1" UserPrincipal : creates
 
-AcmePlexUserProfileService --> UserRepository : uses
-AcmePlexUserProfileService --> PasswordEncoder : uses
-AcmePlexUserProfileService --> AuthUserPrincipalService : uses
-AcmePlexUserProfileService --> AcmePlexUser : creates and updates
-AcmePlexUserProfileService --> UserRepository : "1"
-AcmePlexUserProfileService --> PasswordEncoder : "1"
-AcmePlexUserProfileService --> AuthUserPrincipalService : "1"
-AcmePlexUserProfileService --> CreateUserRequest : "1..*" parameter
-AcmePlexUserProfileService --> UpdateProfileRequest : "1..*" parameter
-AcmePlexUserProfileService --> AcmePlexUser : "1..*" creates/updates
+AcmePlexUserProfileService "1" --> "1" UserRepository : uses
+AcmePlexUserProfileService "1" --> "1" PasswordEncoder : uses
+AcmePlexUserProfileService "1" --> "1" AuthUserPrincipalService : uses
+AcmePlexUserProfileService "1" --> "1" AcmePlexUser : uses
+AcmePlexUserProfileService "1" --> "1" UserRepository : uses
+AcmePlexUserProfileService "1" --> "1" PasswordEncoder : uses
+AcmePlexUserProfileService "1" --> "1" AuthUserPrincipalService : uses
+AcmePlexUserProfileService "1" --> "1" CreateUserRequest : uses
+AcmePlexUserProfileService "1" --> "1" UpdateProfileRequest :uses
+AcmePlexUserProfileService "1" --> "1" AcmePlexUser : uses
 
-AcmePlexMembershipRenewalService --> AcmePlexMembershipRepository : uses
-AcmePlexMembershipRenewalService --> AcmePlexUserProfileService : uses
-AcmePlexMembershipRenewalService --> ReceiptRepository : uses
-AcmePlexMembershipRenewalService --> PaymentTypeService : uses
-AcmePlexMembershipRenewalService --> AddressService : uses
-AcmePlexMembershipRenewalService --> PaymentService : uses
-AcmePlexMembershipRenewalService --> NotificationService : uses
+AcmePlexMembershipRenewalService "1" --> "1" AcmePlexMembershipRepository : uses
+AcmePlexMembershipRenewalService "1" --> "1" AcmePlexUserProfileService : uses
+AcmePlexMembershipRenewalService "1" --> "1" ReceiptRepository : uses
+AcmePlexMembershipRenewalService "1" --> "1" PaymentTypeService : uses
+AcmePlexMembershipRenewalService "1" --> "1" AddressService : uses
+AcmePlexMembershipRenewalService "1" --> "1" PaymentService : uses
+AcmePlexMembershipRenewalService "1" --> "1" NotificationService : uses
 
-AcmePlexMembershipCreationService --> AcmePlexMembershipRepository : "1 uses"
-AcmePlexMembershipCreationService --> AcmePlexMembership : "1 creates or manages"
+AcmePlexMembershipCreationService "1" --> "1" AcmePlexMembershipRepository : "uses"
+AcmePlexMembershipCreationService "1" --> "0..*" AcmePlexMembership : "manages"
 
+AddressService "1" --> "1" AddressRepository : uses
+AddressService "1" --> "1" UserRepository : uses
 
-AddressService --> AddressRepository : uses
-AddressService --> UserRepository : uses
-AddressService ..> BillingAddressRequest : processes
+TicketCancellationService "1" --> "1" TicketRepository : uses
+TicketCancellationService "1" --> "1" AcmePlexCreditRepository : uses
+TicketCancellationService "1" --> "1" NotificationService : uses
+TicketCancellationService "1" --> "1" SeatAvailabilityRepository
+TicketCancellationService "1" --> "*" AcmePlexCredit : creates
+TicketCancellationService "1" --> "1" SeatAvailability : updates
+TicketCancellationService "1" --> "*" Ticket : manages
 
-
-TicketCancellationService --> TicketRepository : uses (1)
-TicketCancellationService --> AcmePlexCreditRepository : uses (1)
-TicketCancellationService --> NotificationService : uses (1)
-TicketCancellationService --> SeatAvailabilityRepository : uses (1)
-TicketCancellationService --> Ticket : parameter in methods
-TicketCancellationService --> AcmePlexCredit : creates (0..*)
-TicketCancellationService --> SeatAvailability : updates (0..1)
-
-TheatreService -down-> TheatreRepository : "Uses"
+TheatreService "1" --> "1" TheatreRepository : "uses"
+TheatreService "1" --> "*" Theatre : "gets"
 
 PaymentService "1" --> "1" PaymentStrategyFactory : uses
 PaymentService "1" --> "1" PaymentRepository : uses
@@ -722,41 +716,42 @@ PaymentService "1" --> "0..1" Seat : retrieves
 PaymentService "1" --> "0..1" Showtime : retrieves
 PaymentService "1" --> "1" AcmePlexUser : validates
 
-MovieService --> "0..*" MovieResponse : returns
-MovieService --> MovieRepository : uses
+MovieService "1" --> "*" MovieResponse : gets
+MovieService "1" --> "1" MovieRepository : uses
 
-NotificationService "1" *-- "1" EmailService
-NotificationService "1" *-- "1" NotificationRepository
-NotificationService "1" *-- "0..*" Observer
-NotificationService "1" ..> "0..1" Ticket : uses
+NotificationService "1" --> "1" EmailService : uses
+NotificationService "1" --> "1" NotificationRepository : uses
+NotificationService ..|> Subject
+NotificationService "1" --> "*" Observer : notifies
+NotificationService "1" --> "*" Notification : manages
+NotificationService "1" --> "0..1" Ticket : uses
 NotificationService "1" ..> "0..1" Receipt : uses
 NotificationService "1" ..> "0..1" AcmePlexCredit : uses
 NotificationService "1" ..> "0..1" AcmePlexUser : uses
 
-PaymentTypeService --> PaymentTypeRepository
-PaymentTypeService --> UserRepository
-PaymentTypeService --> CreatePaymentTypeFactory
-PaymentTypeService --> PaymentType : "manages"
-PaymentTypeService --> AcmePlexUser : "associates with"
-PaymentTypeService --> PaymentTypeRequest : "creates from"
+PaymentTypeService "1" --> "1" PaymentTypeRepository
+PaymentTypeService "1" --> "1" UserRepository
+PaymentTypeService "1" --> "1" CreatePaymentTypeFactory
+PaymentTypeService "1" --> "1" PaymentType : "manages"
+PaymentTypeService "1" --> "1" AcmePlexUser : "associates with"
+PaymentTypeService "1" --> "1" PaymentTypeRequest : "creates from"
 PaymentTypeService "1" --> "0..1" CreditCard : returns
 
-RetrieveCreditCardPaymentType --> PaymentTypeService : uses
-RetrieveCreditCardPaymentType --> CreditCard : returns
+RetrieveCreditCardPaymentType "1" --> "1" PaymentTypeService : uses
+RetrieveCreditCardPaymentType "1" --> "1" CreditCard : returns
 
-RegistrationPostProcessingService "1" --> "1" AcmePlexUser : "Handles"
-RegistrationPostProcessingService "1" --> "1" Payment : "Handles"
+RegistrationPostProcessingService "1" --> "1" AcmePlexUser : "handles"
+RegistrationPostProcessingService "1" --> "1" Payment : "handles"
 RegistrationPostProcessingService "1" --> "1" AcmePlexMembership : "Creates"
-RegistrationPostProcessingService "1" --> "1" Receipt : "Handles"
+RegistrationPostProcessingService "1" --> "1" Receipt : "handles"
 
-SeatAvailabilityService --> SeatAvailabilityRepository : "1 uses"
-SeatAvailabilityRepository --> SeatAvailability : "1..* finds"
-SeatAvailability --> Seat : "1 belongs to"
+SeatAvailabilityService "1" --> "1" SeatAvailabilityRepository : "uses"
+SeatAvailabilityService "1" --> "*" SeatAvailability : "gets"
+SeatAvailabilityRepository "1" --> "1" SeatAvailability : "manages"
+SeatAvailability "1" --> "1" Seat : "references"
 
-ShowtimeService --> ShowtimeRepository : "uses"
-
-UserRepository --> AcmePlexUser : retrieves (1)
-UserRepository --> AcmePlexUser : "retrieves"
+ShowtimeService "1" --> "1" ShowtimeRepository : "uses"
+ShowtimeService "1" --> "1" Showtime : "gets"
 
 UserDetailsService <|.. AcmePlexUserDetailsService
 
@@ -827,7 +822,7 @@ CreatePaymentTypeFactory --> PaymentType : "creates instances of"
 PaymentStrategyFactory "1" --> "1" PaymentStrategy : "Uses"
 PaymentStrategyFactory "1" --> "1" UserRepository : "Depends on"
 
-PaymentTypeValidatorFactory --> AuthUserPrincipalService : uses
+PaymentTypeValidatorFactory "1" --> "1" AuthUserPrincipalService : uses
 PaymentTypeValidatorFactory --> CountryCode : resolves
 PaymentTypeValidatorFactory --> CreatePaymentTypeValidator : "1..*" uses
 PaymentTypeValidatorFactory --> UserPrincipal : interacts
@@ -855,7 +850,7 @@ Subject <|.. NotificationService
 ' Scheduler
 
 
-class MembershipRenewalProcessingScheduler <<Schedueler>>{
+class MembershipRenewalProcessingScheduler <<Scheduler>>{
 - AcmePlexMembershipRenewalService renewalService
 --
 + void renewMembershipsDaily()
@@ -936,18 +931,18 @@ class RegistrationFacade <<Facade>> {
 }
 
 
-RegistrationFacade --> AcmePlexUserProfileService : "1 uses"
-RegistrationFacade --> AddressService : "1 uses"
-RegistrationFacade --> PaymentTypeService : "1 uses"
-RegistrationFacade --> PaymentService : "1 uses"
-RegistrationFacade --> RegistrationPostProcessingService : "1 uses"
-RegistrationFacade --> NotificationService : "1 uses"
-RegistrationFacade --> ReceiptRepository : "1 uses"
-RegistrationFacade --> AcmePlexUser : "1 returns from registerUser()"
-RegistrationFacade --> Payment : "1 uses for payment processing"
-RegistrationFacade --> Address : "1 manages billing address"
-RegistrationFacade --> PaymentType : "1 manages payment type"
-RegistrationFacade --> Receipt : "1 retrieves for finalization
+RegistrationFacade "1" --> "1" AcmePlexUserProfileService : uses
+RegistrationFacade "1" --> "1" AddressService : uses
+RegistrationFacade "1" --> "1" PaymentTypeService : uses
+RegistrationFacade "1" --> "1" PaymentService : uses
+RegistrationFacade "1" --> "1" RegistrationPostProcessingService : uses
+RegistrationFacade "1" --> "1" NotificationService : uses
+RegistrationFacade "1" --> "1" ReceiptRepository : uses
+RegistrationFacade "1" --> "1" AcmePlexUser : uses
+RegistrationFacade "1" --> "1" Payment : uses
+RegistrationFacade "1" --> "1" Address : uses
+RegistrationFacade "1" --> "1" PaymentType : uses
+RegistrationFacade "1" --> "1" Receipt : uses
 
 'Util
 class AuthTokenUtil <<Util>> {
@@ -959,8 +954,8 @@ class AuthTokenUtil <<Util>> {
 + String extractEmail(String)
 }
 
-AuthTokenUtil --> Algorithm : "uses"
-AuthTokenUtil --> JWT : "uses"
-AuthTokenUtil --> DecodedJWT : "uses"
+AuthTokenUtil "1" --> "1" Algorithm : "uses"
+AuthTokenUtil "1" --> "1" JWT : "uses"
+AuthTokenUtil "1" --> "1" DecodedJWT : "uses"
 
 @enduml
