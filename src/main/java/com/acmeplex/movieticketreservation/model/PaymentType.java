@@ -46,8 +46,8 @@ public abstract class PaymentType {
         return type;
     }
 
-    public void setMethod(String method) {
-        this.type = method;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public AcmePlexUser getAcmePlexUser() {
