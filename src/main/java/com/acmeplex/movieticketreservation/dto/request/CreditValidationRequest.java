@@ -1,4 +1,4 @@
-package com.acmeplex.movieticketreservation.dto.response;
+package com.acmeplex.movieticketreservation.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 

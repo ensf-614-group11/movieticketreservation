@@ -19,6 +19,7 @@ public class AcmePlexCredit {
     private float amount;
     private Date dateCreated;
     private Date expirationDate;
+    private boolean isActive;
 
     @OneToOne
     @JoinColumn(name = "payment_id")  // Foreign key to the payment table
@@ -33,6 +34,7 @@ public class AcmePlexCredit {
         this.amount = amount;
         this.payment = payment;
         this.dateCreated = dateCreated;
+        this.isActive = true;
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(dateCreated);
@@ -78,5 +80,13 @@ public class AcmePlexCredit {
 
     public void setAcmePlexUser(AcmePlexUser acmePlexUser) {
         this.acmePlexUser = acmePlexUser;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 }

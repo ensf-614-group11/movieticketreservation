@@ -1,4 +1,4 @@
-package com.acmeplex.movieticketreservation.dto.request;
+package com.acmeplex.movieticketreservation.dto.response;
 
 public class CreditValidationResponse {
 

@@ -29,6 +29,7 @@ public class MakePayment {
         }
     }
 
+
     @PostMapping("/registered")
     public ResponseEntity<PaymentResponse> processRegisteredPayment(@RequestBody @Valid RegisteredUserPaymentRequest request) {
         PaymentResponse response = paymentService.processRegisteredPayment(request);

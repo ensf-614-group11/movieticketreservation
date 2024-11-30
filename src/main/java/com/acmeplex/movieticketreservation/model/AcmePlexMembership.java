@@ -83,4 +83,8 @@ public class AcmePlexMembership {
     public String getRenewalToken() { return renewalToken; }
 
     public void setRenewalToken() { this.renewalToken = renewalToken; }
+
+    public void setAcmePlexUser(AcmePlexUser user1) {
+        this.acmePlexUser = user1;
+    }
 }

@@ -61,15 +61,15 @@ public class SecurityConfig {
                 "api/validate-credit",
                 "/api/cancel-ticket/get",
                 "/api/cancel-ticket/post/registered",
-                "/api/cancel-ticket/post/ordinary"
+                "/api/cancel-ticket/post/ordinary",
+                "/api/payment/registered"
         );
 
         List<String> protectedEndpoints = List.of(
                 "/api/user/profile/**",
                 "/api/user/profile/billing-address/**",
                 "/api/user/profile/payment-type/**",
-                "/api/user/profile/payment-type/manage/**",
-                "/api/payment/registered"
+                "/api/user/profile/payment-type/manage/**"
         );
 
         http

@@ -4,7 +4,7 @@ public class PaymentResponse {
 
     private boolean success;
     private String message;
-    private Long paymentId; // Optional: Transaction ID or reference
+    private Long paymentId;
 
     public PaymentResponse(boolean success, String message, Long paymentId) {
         this.success = success;
