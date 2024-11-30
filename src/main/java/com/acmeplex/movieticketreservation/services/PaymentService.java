@@ -27,6 +27,7 @@ public class PaymentService {
     private final ShowtimeRepository showtimeRepository;
     private final NotificationService notificationService;
     private final UserRepository userRepository;
+    private final SeatAvailabilityRepository seatAvailabilityRepository;
 
     public PaymentService(
             PaymentStrategyFactory paymentStrategyFactory,
@@ -36,7 +37,8 @@ public class PaymentService {
             SeatRepository seatRepository,
             ShowtimeRepository showtimeRepository,
             UserRepository userRepository,
-            NotificationService notificationService
+            NotificationService notificationService,
+            SeatAvailabilityRepository seatAvailabilityRepository
     ) {
         this.paymentStrategyFactory = paymentStrategyFactory;
         this.paymentRepository = paymentRepository;
@@ -46,6 +48,7 @@ public class PaymentService {
         this.showtimeRepository = showtimeRepository;
         this.notificationService = notificationService;
         this.userRepository = userRepository;
+        this.seatAvailabilityRepository = seatAvailabilityRepository;
     }
 
     /**
@@ -107,6 +110,14 @@ public class PaymentService {
 
         // Send Ticket and Receipt via email
         notificationService.sendTicketAndReceiptOrdinaryUser(ticket, receipt, paymentRequest.getEmail());
+
+        // Mark Seat Availability as Not Available
+        Optional<SeatAvailability> seatAvailabilityOptional = seatAvailabilityRepository.findBySeatIdAndShowtimeId(paymentRequest.getSeatId(), paymentRequest.getShowtimeId());
+        if(seatAvailabilityOptional.isEmpty()){
+            throw new IllegalArgumentException("Invalid seat provided.");
+        }
+        SeatAvailability seatAvailability = seatAvailabilityOptional.get();
+        seatAvailability.setAvailable(false);
 
         // Return the PaymentResponse
         return new PaymentResponse(
@@ -171,6 +182,14 @@ public class PaymentService {
 
         // Send Ticket and Receipt via email
         notificationService.sendTicketAndReceiptRegisteredUser(ticket, receipt);
+
+        // Mark Seat Availability as Not Available
+        Optional<SeatAvailability> seatAvailabilityOptional = seatAvailabilityRepository.findBySeatIdAndShowtimeId(paymentRequest.getSeatId(), paymentRequest.getShowtimeId());
+        if(seatAvailabilityOptional.isEmpty()){
+            throw new IllegalArgumentException("Invalid seat provided.");
+        }
+        SeatAvailability seatAvailability = seatAvailabilityOptional.get();
+        seatAvailability.setAvailable(false);
 
         // Return the PaymentResponse
         return new PaymentResponse(

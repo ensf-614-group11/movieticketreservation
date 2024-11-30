@@ -22,4 +22,6 @@ public abstract class PaymentRequest {
         return showtimeId;
     }
 
+
+
 }
