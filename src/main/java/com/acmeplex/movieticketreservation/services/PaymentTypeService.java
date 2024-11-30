@@ -79,7 +79,7 @@ public class PaymentTypeService {
         PaymentType paymentType = paymentTypeFactory.createPaymentType(request);
         paymentType.setAcmePlexUser(user);
         paymentType.setStatus("Inactive");
-        paymentType.setMethod(request.getType());
+        paymentType.setType(request.getType());
 
         PaymentType savedPaymentType = paymentTypeRepository.save(paymentType);
         logger.info("Created payment type {} for user with email: {}", savedPaymentType.getId(), email);

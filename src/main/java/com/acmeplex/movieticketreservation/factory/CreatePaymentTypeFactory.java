@@ -9,13 +9,19 @@ import org.springframework.stereotype.Component;
 public class CreatePaymentTypeFactory {
 
     public PaymentType createPaymentType(PaymentTypeRequest request) {
+        PaymentType paymentType;
+
         switch (request.getType().toUpperCase()) {
             case "CREDIT_CARD":
-                return createCreditCardPayment(request);
-            // Add more payment types here
+                paymentType = createCreditCardPayment(request);
+                break;
+
             default:
                 throw new IllegalArgumentException("Unsupported payment type: " + request.getType());
         }
+
+        paymentType.setType(request.getType());
+        return paymentType;
     }
 
     private CreditCard createCreditCardPayment(PaymentTypeRequest request) {
