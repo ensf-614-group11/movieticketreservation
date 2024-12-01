@@ -73,20 +73,28 @@ public class PaymentService {
             return new PaymentResponse(false, "Invalid payment method provided.", null);
         }
 
-        boolean paymentSuccess = strategy.unregisteredUserPay(paymentRequest);
-        if (!paymentSuccess) {
-            return new PaymentResponse(false, "Payment processing failed.", null);
-        }
-
         // Create and save the Payment entity
         Payment payment = new Payment(
                 paymentRequest.getAmount(),
                 new Date(),
-                "completed",
+                "pending",
                 "credit card",
-                null// Ticket will be linked later)
+                null// Ticket will be linked later
         );
         paymentRepository.save(payment);
+
+        boolean paymentSuccess = strategy.unregisteredUserPay(paymentRequest);
+        if (!paymentSuccess) {
+            // Set payment status to failed on a failed response.
+            payment.setStatus("failed");
+            paymentRepository.save(payment);
+            return new PaymentResponse(false, "Payment processing failed.", null);
+        }
+
+        // Set payment status to completed on a successful response.
+        payment.setStatus("completed");
+        paymentRepository.save(payment);
+
 
         // Fetch the Seat and Showtime
         Seat seat = seatRepository.findById(paymentRequest.getSeatId());
@@ -121,6 +129,7 @@ public class PaymentService {
         // Send Ticket and Receipt via email
         notificationService.sendTicketAndReceiptOrdinaryUser(ticket, receipt, paymentRequest.getEmail());
 
+        // Set seat availability to unavailable
         seatAvailability.setAvailable(false);
         seatAvailabilityRepository.save(seatAvailability);
 
