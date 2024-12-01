@@ -25,7 +25,6 @@ public class AcmePlexCreditValidation {
 
     @PostMapping
     public ResponseEntity<CreditValidationResponse> validateCredit(@RequestBody @Valid CreditValidationRequest creditValidationRequest){
-        boolean isValid = false;
         Optional<AcmePlexCredit> credit = creditRepository.findByCreditSecretCode(creditValidationRequest.getCreditSecretCode());
         if(credit.isEmpty()){
             return ResponseEntity.ok(new CreditValidationResponse(false, creditValidationRequest.getAmount()));
@@ -33,7 +32,9 @@ public class AcmePlexCreditValidation {
         if(!credit.get().isActive()){
             return ResponseEntity.ok(new CreditValidationResponse(false, creditValidationRequest.getAmount()));
         }
-        credit.get().setActive(false);
+        AcmePlexCredit acmePlexCredit = credit.get();
+        acmePlexCredit.setActive(false);
+        creditRepository.save(acmePlexCredit);
         float newAmount = creditValidationRequest.getAmount() - credit.get().getAmount();
         return ResponseEntity.ok(new CreditValidationResponse(true, newAmount));
     }
