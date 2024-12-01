@@ -45,26 +45,11 @@ public class PaymentTypeService {
         PaymentType activePayment = activePaymentOpt.get();
         var allPayments = paymentTypeRepository.findAllByUserId(userId);
 
-        if (allPayments.size() <= 1) {
-            logger.info("Only one payment method exists for userId: {}, no action needed.", userId);
-            return;
-        }
-
-        PaymentType alternativePayment = allPayments.stream()
-                .filter(payment -> !payment.equals(activePayment))
-                .findFirst()
-                .orElseThrow(() -> {
-                    logger.error("No alternative payment types available for activation for userId: {}", userId);
-                    return new IllegalStateException("No alternative payment types available for activation.");
-                });
-
         activePayment.setStatus("Inactive");
-        alternativePayment.setStatus("Active");
 
         paymentTypeRepository.save(activePayment);
-        paymentTypeRepository.save(alternativePayment);
 
-        logger.info("Deactivated payment {} and activated payment {} for userId: {}", activePayment.getId(), alternativePayment.getId(), userId);
+        logger.info("Deactivated payment {} for userId: {}", activePayment.getId(), userId);
     }
 
     @Transactional
