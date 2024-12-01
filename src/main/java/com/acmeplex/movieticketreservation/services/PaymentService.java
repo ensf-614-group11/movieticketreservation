@@ -11,6 +11,8 @@ import com.acmeplex.movieticketreservation.dto.response.PaymentResponse;
 import com.acmeplex.movieticketreservation.factory.PaymentStrategyFactory;
 import com.acmeplex.movieticketreservation.model.*;
 import com.acmeplex.movieticketreservation.repository.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -61,7 +63,8 @@ public class PaymentService {
         if (payment == null) {
             throw new IllegalArgumentException("Payment cannot be null.");
         }
-        return paymentRepository.save(payment);
+        Payment savedPayment = paymentRepository.save(payment);
+        return savedPayment;
     }
 
     public PaymentResponse processUnregisteredPayment(UnregisteredUserPaymentRequest paymentRequest) {
@@ -88,12 +91,20 @@ public class PaymentService {
         // Fetch the Seat and Showtime
         Seat seat = seatRepository.findById(paymentRequest.getSeatId());
         if(seat == null){
-            throw new IllegalArgumentException("Invalid seat provided.");
+            return new PaymentResponse(false, "Payment processing failed. Invalid seat.", null);
         }
+
         Showtime showtime = showtimeRepository.findById(paymentRequest.getShowtimeId());
         if(showtime == null){
+            return new PaymentResponse(false, "Payment processing failed. Invalid showtime.", null);
+        }
+
+        // Mark Seat Availability as Not Available
+        Optional<SeatAvailability> seatAvailabilityOptional = seatAvailabilityRepository.findBySeatIdAndShowtimeId(paymentRequest.getSeatId(), paymentRequest.getShowtimeId());
+        if(seatAvailabilityOptional.isEmpty()){
             throw new IllegalArgumentException("Invalid seat provided.");
         }
+        SeatAvailability seatAvailability = seatAvailabilityOptional.get();
 
         // Create and save the Ticket entity
         Ticket ticket = new Ticket("confirmed", new Date(), showtime, seat, null);
@@ -106,18 +117,12 @@ public class PaymentService {
 
         // Create and save the Receipt entity
         Receipt receipt = new Receipt(payment);
-        receiptRepository.save(receipt);
 
         // Send Ticket and Receipt via email
         notificationService.sendTicketAndReceiptOrdinaryUser(ticket, receipt, paymentRequest.getEmail());
 
-        // Mark Seat Availability as Not Available
-        Optional<SeatAvailability> seatAvailabilityOptional = seatAvailabilityRepository.findBySeatIdAndShowtimeId(paymentRequest.getSeatId(), paymentRequest.getShowtimeId());
-        if(seatAvailabilityOptional.isEmpty()){
-            throw new IllegalArgumentException("Invalid seat provided.");
-        }
-        SeatAvailability seatAvailability = seatAvailabilityOptional.get();
         seatAvailability.setAvailable(false);
+        seatAvailabilityRepository.save(seatAvailability);
 
         // Return the PaymentResponse
         return new PaymentResponse(
@@ -167,6 +172,13 @@ public class PaymentService {
             throw new IllegalArgumentException("Invalid seat provided.");
         }
 
+        // Mark Seat Availability as Not Available
+        Optional<SeatAvailability> seatAvailabilityOptional = seatAvailabilityRepository.findBySeatIdAndShowtimeId(paymentRequest.getSeatId(), paymentRequest.getShowtimeId());
+        if(seatAvailabilityOptional.isEmpty()){
+            throw new IllegalArgumentException("Invalid seat provided.");
+        }
+        SeatAvailability seatAvailability = seatAvailabilityOptional.get();
+
         // Create and save the Ticket entity
         Ticket ticket = new Ticket("confirmed", new Date(), showtime, seat, user.get());
         ticket.setPayment(payment);
@@ -183,13 +195,8 @@ public class PaymentService {
         // Send Ticket and Receipt via email
         notificationService.sendTicketAndReceiptRegisteredUser(ticket, receipt);
 
-        // Mark Seat Availability as Not Available
-        Optional<SeatAvailability> seatAvailabilityOptional = seatAvailabilityRepository.findBySeatIdAndShowtimeId(paymentRequest.getSeatId(), paymentRequest.getShowtimeId());
-        if(seatAvailabilityOptional.isEmpty()){
-            throw new IllegalArgumentException("Invalid seat provided.");
-        }
-        SeatAvailability seatAvailability = seatAvailabilityOptional.get();
         seatAvailability.setAvailable(false);
+        seatAvailabilityRepository.save(seatAvailability);
 
         // Return the PaymentResponse
         return new PaymentResponse(
