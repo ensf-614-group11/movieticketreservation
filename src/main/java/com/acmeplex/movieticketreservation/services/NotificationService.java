@@ -173,7 +173,8 @@ public void sendMovieNews(String movieNews){
                 " \nThe details of your ticket and receipt are included below. Enjoy the movie!" +
                 "\n\nTicket \nMovie: " + ticket.getShowtime().getMovie().getTitle() +
                 "\nShowtime: " + ticket.getShowtime().getDateAndTime() +
-                "\nSeat: " + ticket.getSeat().getSeatNumber() +
+                "\nSeat Row Number: " + ticket.getSeat().getRowNumber() +
+                "\nSeat Number: " + ticket.getSeat().getSeatNumber() +
                 "\nStatus: " + ticket.getStatus() +
                 "\nTicket id: " + ticket.getId() +
                 "\n\nReceipt \nDate Paid: " + receipt.getPayment().getDatePaid() +
