@@ -76,7 +76,7 @@ The MVC design pattern results in modularity and allows each element to be modif
 
 # **Instructions for running `movieticketreservation.jar`**
 
-### System requirements:
+## System requirements:
 - **Java Development Kit (JDK) 21**: [Install JDK 21](https://www.oracle.com/java/technologies/javase/jdk21-archive-downloads.html)
     - For Windows environments, [ensure that your PATH points to the JavaJDK directory](https://www.java.com/en/download/help/path.html)
     - For macOS environments, [ensure that your Environment Variables point to the JavaJDK directory](https://mkyong.com/java/how-to-set-java_home-environment-variable-on-mac-os-x/)
@@ -160,7 +160,7 @@ java -jar movieticketreservation.jar
 
 # **Instructions for setting up a development environment for Github repository**
 
-### **System Requirements**
+## **System Requirements**
 The following requirements **must** be installed and configured on your system.
 
 - **Java Development Kit (JDK) 21**: [Install JDK 21](https://www.oracle.com/java/technologies/javase/jdk21-archive-downloads.html)
@@ -177,7 +177,7 @@ The following requirements **must** be installed and configured on your system.
 
 ## **Setup Instructions**
 
-### Clone the repository
+## 1. Clone the repository
 
 Clone the repository using your bash terminal, command prompt, or using the Github GUI application.
 
@@ -190,7 +190,7 @@ git clone https://github.com/ensf-614-group11/AcmePlex.git
 
 ---
 
-## Setup React Front-End 
+## 2. Setup React Front-End 
 
 Before you begin, ensure you have the following installed:
 1. **Node.js and npm**:
@@ -255,7 +255,7 @@ The application uses React Router for navigation. You should be able to navigate
 2. **API Issues:**
 Ensure the backend API is running and accessible at at http://localhost:8080/.
 
-## Setup Maven Project
+## 3. Setup Maven Project 
 
 1. Ensure you are in your project directory and that all system requirements have been installed properly.
 2. Ensure you have an `application.properties` file in your root directory.
@@ -288,7 +288,7 @@ To stop the application:
 
 The **Maven Wrapper** (`mvnw` and `mvnw.cmd` files) is included to simplify setup. Using the wrapper ensures consistency across different environments without requiring Maven to be installed globally. Commands like `./mvnw spring-boot:run` (macOS) or `mvnw.cmd spring-boot:run` (Windows) allow you to build and run the application without additional configuration.
 
-## Troubleshooting
+# Troubleshooting
 
 ### Application Won't Start Due to Missing Database Configuration
 If you see errors about missing database configurations, ensure `application.properties` has the following line:
