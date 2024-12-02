@@ -38,7 +38,58 @@ INSTRUCTIONS HERE. Should we have them create the schema, or provide instruction
 
 ### **2. Setup React user interface for `movieticketreservation.jar`**
 
-WHAT SHOULD I ADD HERE?
+Before you begin, ensure you have the following installed:
+1. **Node.js and npm**:
+   - Download and install Node.js from [Node.js Official Website](https://nodejs.org/).
+   - Verify installation by running the following commands in your terminal:
+     ```bash
+     node -v
+     npm -v
+     ```
+
+2. **Git**:
+   - Download and install Git from [Git Official Website](https://git-scm.com/).
+   - Verify installation by running:
+     ```bash
+     git --version
+     ```
+
+3. **ESLine VSCode Extension**
+   - Install the [ESLint VSCode Extension](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+  
+Steps to run the application:
+1. **Download the Group11#Web.zip file**
+
+2. **Naviagate to the project directory:**
+```bash
+cd frontend
+```
+3. **Install Dependencies**
+Run the following command to install all required dependencies:
+```bash
+npm install
+```
+
+4. **Start the development server**
+To start the application in development mode, run:
+```bash
+npm run dev
+```
+This will launch the application in your default browser at http://localhost:5173/
+
+If the browser does not open automatically, manually navigate to the above URL.
+
+5. **Verify React Router Functionality**
+The application uses React Router for navigation. You should be able to navigate between the different pages. Ensure routing works seamlessly.
+
+## Troubleshooting React Front-End
+1. If you encounter an error, try clearing the cache and reinstalling dependencies:
+```bash
+     npm cache clean --force
+     npm install
+```
+2. **API Issues:**
+Ensure the backend API is running and accessible at at http://localhost:8080/.
 
 ### **3. Run `movieticketreservation.jar`**
 
@@ -113,7 +164,11 @@ Before you begin, ensure you have the following installed:
    - Install the [ESLint VSCode Extension](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
   
 Steps to run the application:
-1. **Download the Group11#Web.zip file**
+1. **Clone the Repository**
+Use the following command to clone the repository to your local machine:
+```bash
+git clone https://github.com/ensf-614-group11/frontend.git
+```
 
 2. **Naviagate to the project directory:**
 ```bash
