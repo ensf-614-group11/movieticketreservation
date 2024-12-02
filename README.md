@@ -18,7 +18,7 @@ Welcome to the AcmePlex Movie Ticket Reservation System! This project is a syste
 
 ## Project Overview
 
-This system is developed in **Java** using **Spring Boot** and **Maven** as a build tool. The application is configured to run on **localhost:8000**. It includes basic authentication for secure access and an embedded server (Tomcat) to handle requests.
+This system is developed in **Java** using **Spring Boot** and **Maven** as a build tool. The application is configured to run on **localhost:8080**. It includes basic authentication for secure access and an embedded server (Tomcat) to handle requests.
 
 ---
 
