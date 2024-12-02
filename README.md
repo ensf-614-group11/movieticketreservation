@@ -38,7 +38,7 @@ Before you begin, ensure you have MySQL installed:
 1. You can install MySQL from the following link:
   https://dev.mysql.com/downloads/installer/
 
-Once you have MySQL Server and MySQL Workbench, go over to your application.properties file. In this file there will be a section regarding MySQL database connection:
+2. Once you have MySQL Server and MySQL Workbench, go over to your application.properties file. In this file there will be a section regarding MySQL database connection that looks like the below:
 
 ```
 # MySQL Database Configuration (update the values to your MySQL instance)
@@ -53,10 +53,17 @@ hibernate.hbm2ddl.auto=update
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
 ```
 
-In this section, change the spring.datasource.password from your_password_here to the password to your MySQL root.
+In this section, change the spring.datasource.password to the password to your MySQL local instance.
 
+3. Next, in MySQL, create the acmeplex_db database with the following SQL command:
+```
+CREATE DATABASE acmeplex_db;
+```
 
-INSTRUCTIONS HERE. Should we have them create the schema, or provide instructions to import dump file?
+4. Once this is complete, running the springboot application should automatically create tables in your MySQL acmeplex_db database. The DataInitializer java class will also populate the database with initial entries for movie/theatres/showtimes/etc.
+
+5. Alternatively, you can initiate the database with the SQL dump file that has been submitted. If you would prefer to do it this way, skip steps 3 and 4 and just run the SQL dump file in MySQL.
+
 
 ### **2. Setup React user interface for `movieticketreservation.jar`**
 
