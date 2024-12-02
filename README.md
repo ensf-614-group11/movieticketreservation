@@ -62,7 +62,7 @@ CREATE DATABASE acmeplex_db;
 
 4. Once this is complete, running the springboot application should automatically create tables in your MySQL acmeplex_db database. The DataInitializer java class will also populate the database with initial entries for movie/theatres/showtimes/etc.
 
-5. Alternatively, an SQL dump file has been included in the submission that will be able to populate the database by running it in MySQL.
+5. Alternatively, an SQL dump file has been included in the submission that will be able to populate the database by running it in MySQL. However, this will conflict with the DataInitializer class in the java application, so we recommend not using this unless you are able to disable the DataInitializer class.
 
 
 ### **2. Setup React user interface for `movieticketreservation.jar`**
