@@ -173,12 +173,13 @@ Before running the `.jar`:
 - Confirm that the MySQL database is setup and configured properly. Refer to the **Setup MySQL for running `movieticketreservation.jar`**
 - Confirm that you have started the React front-end application
 
-1. In your terminal or command prompt, navigate to the directory your `.jar` file is located. 
+1. In your terminal or command prompt, navigate to the directory your `.jar` file is located.
 - You can do this by executing the following command, and replacing `/path/to/movieticketreservation.jar` with the correct path.
 ```bash
 cd /path/to/movieticketreservation.jar
-```
-2. Run the application.
+````
+2. Ensure the `applications.properties` file is located in the same directory as the `.jar` file. 
+3. Run the application.
 ```bash
 java -jar movieticketreservation.jar
 ```
