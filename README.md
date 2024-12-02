@@ -58,7 +58,7 @@ Before you begin, ensure you have the following installed:
    - Install the [ESLint VSCode Extension](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
   
 Steps to run the application:
-1. **Download the Group11#Web.zip file**
+1. **Download the Group11#Web.zip file**  
 Unzip the file (Note: Unzipping may take some time, see instructions below to clone the repository if you would prefer)
 
 2. **Naviagate to the project directory:**
