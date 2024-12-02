@@ -59,10 +59,12 @@ Before you begin, ensure you have the following installed:
   
 Steps to run the application:
 1. **Download the Group11#Web.zip file**
+Unzip the file (Note: Unzipping may take some time, see instructions below to clone the repository if you would prefer)
 
 2. **Naviagate to the project directory:**
 ```bash
 cd frontend
+cd acmeplex
 ```
 3. **Install Dependencies**
 Run the following command to install all required dependencies:
@@ -75,6 +77,12 @@ To start the application in development mode, run:
 ```bash
 npm run dev
 ```
+NOTE: If you receive the error:
+```bash
+Error: EPERM: operation not permitted, rmdir 'C:\Users\rhysw\OneDrive\Documents\UofC Masters\Fall\ENSF 614\Final Project\Test\frontend\frontend\AcmePlex\node_modules\.vite\deps'
+```
+Delete the 'deps' folder from the path shown.
+
 This will launch the application in your default browser at http://localhost:5173/
 
 If the browser does not open automatically, manually navigate to the above URL.
