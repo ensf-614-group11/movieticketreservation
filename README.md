@@ -51,6 +51,7 @@ The view elements consist of the components/pages included in the frontend code.
 The controller elements are part of the backend code, and they manage inputs from the user and update the models and the views based on these inputs. The system includes controllers for user profile authentication, user profile management, making a payment, browsing/selecting movies and seats, cancelling tickets, and validating a credit. Each controller includes logic to deal with the relevant operations for the system, which include creating, reading, updating, or deleting objects of the model classes. The backend code also includes API routes, which provide the system connection to allow information to flow between the controller and the view.
 
 The MVC design pattern results in modularity and allows each element to be modified independently of the other elements in the system. This enhances the maintainability and scalability of the system.
+
 ---
 
 ## **Instructions for running `movieticketreservation.jar`**
