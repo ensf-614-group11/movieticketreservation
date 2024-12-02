@@ -90,27 +90,15 @@ INSTRUCTIONS HERE. Should we have them create the schema, or provide instruction
 
 ### **2. Setup React user interface for `movieticketreservation.jar`**
 
-Before you begin, ensure you have the following installed:
-1. **Node.js and npm**:
-   - Download and install Node.js from [Node.js Official Website](https://nodejs.org/).
-   - Verify installation by running the following commands in your terminal:
-     ```bash
-     node -v
-     npm -v
-     ```
+Before you begin, verify that you have the correct version of Node.js installed.
+- Verify installation by running the following commands in your terminal:
+```bash
+node -v
+npm -v
+```
 
-2. **Git**:
-   - Download and install Git from [Git Official Website](https://git-scm.com/).
-   - Verify installation by running:
-     ```bash
-     git --version
-     ```
-
-3. **ESLine VSCode Extension**
-   - Install the [ESLint VSCode Extension](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
-  
 Steps to run the application:
-1. **Download the Group11#Web.zip file**  
+1. **Download the Group11Web.zip file**  
 Unzip the file (Note: Unzipping may take some time, see instructions below to clone the repository if you would prefer)
 
 2. **Naviagate to the project directory:**
@@ -142,8 +130,8 @@ If the browser does not open automatically, manually navigate to the above URL.
 5. **Verify React Router Functionality**  
 The application uses React Router for navigation. You should be able to navigate between the different pages. Ensure routing works seamlessly.
 
-### Troubleshooting React Front-End
-1. If you encounter an error, try clearing the cache and reinstalling dependencies:
+#### Troubleshooting React Front-End
+- If you encounter an error, try clearing the cache and reinstalling dependencies:
 ```bash
      npm cache clean --force
      npm install
