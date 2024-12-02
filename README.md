@@ -143,7 +143,7 @@ The application uses React Router for navigation. You should be able to navigate
      npm cache clean --force
      npm install
 ```
-2. **API Issues**
+2. **API Issues:**
 Ensure the backend API is running and accessible at at http://localhost:8080/.
 
 ## Setup Maven Project
