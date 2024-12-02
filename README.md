@@ -38,7 +38,24 @@ INSTRUCTIONS HERE. Should we have them create the schema, or provide instruction
 
 ### **2. Setup React user interface for `movieticketreservation.jar`**
 
-INSTRUCTIONS HERE
+Before you begin, ensure you have the following installed:
+1. **Node.js and npm**:
+   - Download and install Node.js from [Node.js Official Website](https://nodejs.org/).
+   - Verify installation by running the following commands in your terminal:
+     ```bash
+     node -v
+     npm -v
+     ```
+
+2. **Git**:
+   - Download and install Git from [Git Official Website](https://git-scm.com/).
+   - Verify installation by running:
+     ```bash
+     git --version
+     ```
+
+3. **ESLine VSCode Extension**
+   - Install the [ESLint VSCode Extension](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
 
 ### **3. Run `movieticketreservation.jar`**
 
