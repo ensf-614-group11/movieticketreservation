@@ -42,7 +42,7 @@ public class TicketCancellationService {
         if (isWithinCancellableWindow(ticket.getShowtime().getDateAndTime())) {
             return new TicketCancellationResponse(ticket, "Ticket can be cancelled.");
         } else {
-            throw new InvalidRequestException("Ticket cannot be cancelled as the showtime is within 72 hours.");
+            return new TicketCancellationResponse(ticket, "Ticket cannot be cancelled as the showtime is within 72 hours.");
         }
     }
 
@@ -50,66 +50,67 @@ public class TicketCancellationService {
     // Cancel the ticket (for the POST request)
     public TicketCancellationResponse cancelTicketRegisteredUser(Ticket ticket) {
         if (!isWithinCancellableWindow(ticket.getShowtime().getDateAndTime())) {
-            throw new InvalidRequestException("Ticket cannot be cancelled as the showtime is within 72 hours.");
+            return new TicketCancellationResponse(ticket, "Ticket cannot be cancelled as the showtime is within 72 hours.");
         }
+        else {
+            // Mark the ticket as cancelled
+            ticket.setStatus("Cancelled");
+            ticketRepository.save(ticket);
 
-        // Mark the ticket as cancelled
-        ticket.setStatus("Cancelled");
-        ticketRepository.save(ticket);
+            // Update the seat availability
+            Optional<SeatAvailability> seatAvailabilityOpt = seatAvailabilityRepository.findBySeatIdAndShowtimeId(ticket.getSeat().getId(), ticket.getShowtime().getId());
+            if (seatAvailabilityOpt.isPresent()) {
+                SeatAvailability seatAvailability = seatAvailabilityOpt.get();
+                seatAvailability.setAvailable(true);
+                seatAvailabilityRepository.save(seatAvailability);
+            }
 
-        // Update the seat availability
-        Optional<SeatAvailability> seatAvailabilityOpt = seatAvailabilityRepository.findBySeatIdAndShowtimeId(ticket.getSeat().getId(), ticket.getShowtime().getId());
-        if (seatAvailabilityOpt.isPresent()) {
-            SeatAvailability seatAvailability = seatAvailabilityOpt.get();
-            seatAvailability.setAvailable(true);
-            seatAvailabilityRepository.save(seatAvailability);
+            // Create a new credit
+            Date currentDate = new Date();
+            AcmePlexCredit acmePlexCredit = new AcmePlexCredit(creditSecretCodeGenerator(), ticket.getPayment().getAmount(), ticket.getPayment(), currentDate);
+            acmePlexCredit.setAcmePlexUser(ticket.getUser());
+            ticket.getUser().addCredit(acmePlexCredit);
+            creditRepository.save(acmePlexCredit);
+
+
+            // Send notification to confirm cancellation
+            notificationService.sendTicketCancellationRegisteredUser(acmePlexCredit, ticket.getUser());
+
+
+            return new TicketCancellationResponse(ticket, "Ticket successfully cancelled.");
         }
-
-        // Create a new credit
-        Date currentDate = new Date();
-        AcmePlexCredit acmePlexCredit = new AcmePlexCredit(creditSecretCodeGenerator(), ticket.getPayment().getAmount(), ticket.getPayment(), currentDate);
-        acmePlexCredit.setAcmePlexUser(ticket.getUser());
-        ticket.getUser().addCredit(acmePlexCredit);
-        creditRepository.save(acmePlexCredit);
-
-
-        // Send notification to confirm cancellation
-        notificationService.sendTicketCancellationRegisteredUser(acmePlexCredit, ticket.getUser());
-
-
-       return new TicketCancellationResponse(ticket, "Ticket successfully cancelled.");
-
     }
 
     // ORDINARY USER
     // Cancel the ticket (for the POST request)
     public TicketCancellationResponse cancelTicketOrdinaryUser(Ticket ticket, String email) {
+
         if (!isWithinCancellableWindow(ticket.getShowtime().getDateAndTime())) {
-            throw new InvalidRequestException("Ticket cannot be cancelled as the showtime is within 72 hours.");
+            return new TicketCancellationResponse(ticket, "Ticket cannot be cancelled as the showtime is within 72 hours.");
         }
+        else {
+            // Mark the ticket as cancelled
+            ticket.setStatus("Cancelled");
+            ticketRepository.save(ticket);
 
-        // Mark the ticket as cancelled
-        ticket.setStatus("Cancelled");
-        ticketRepository.save(ticket);
+            // Update the seat availability
+            Optional<SeatAvailability> seatAvailabilityOpt = seatAvailabilityRepository.findBySeatIdAndShowtimeId(ticket.getSeat().getId(), ticket.getShowtime().getId());
+            if (seatAvailabilityOpt.isPresent()) {
+                SeatAvailability seatAvailability = seatAvailabilityOpt.get();
+                seatAvailability.setAvailable(true);
+                seatAvailabilityRepository.save(seatAvailability);
+            }
 
-        // Update the seat availability
-        Optional<SeatAvailability> seatAvailabilityOpt = seatAvailabilityRepository.findBySeatIdAndShowtimeId(ticket.getSeat().getId(), ticket.getShowtime().getId());
-        if (seatAvailabilityOpt.isPresent()) {
-            SeatAvailability seatAvailability = seatAvailabilityOpt.get();
-            seatAvailability.setAvailable(true);
-            seatAvailabilityRepository.save(seatAvailability);
+            // Create a new credit
+            Date currentDate = new Date();
+            AcmePlexCredit acmePlexCredit = new AcmePlexCredit(creditSecretCodeGenerator(), (float) ((ticket.getPayment().getAmount()) * 0.85), ticket.getPayment(), currentDate);
+            creditRepository.save(acmePlexCredit);
+
+            // Send notification to confirm cancellation
+            notificationService.sendTicketCancellationOrdinaryUser(acmePlexCredit, email);
+
+            return new TicketCancellationResponse(ticket, "Ticket successfully cancelled.");
         }
-
-        // Create a new credit
-        Date currentDate = new Date();
-        AcmePlexCredit acmePlexCredit = new AcmePlexCredit(creditSecretCodeGenerator(), (float) ((ticket.getPayment().getAmount())*0.85), ticket.getPayment(), currentDate);
-        creditRepository.save(acmePlexCredit);
-
-        // Send notification to confirm cancellation
-        notificationService.sendTicketCancellationOrdinaryUser(acmePlexCredit, email);
-
-        return new TicketCancellationResponse(ticket, "Ticket successfully cancelled.");
-
     }
 
 
