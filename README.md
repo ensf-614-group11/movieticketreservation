@@ -34,6 +34,28 @@ This system is developed in **Java** using **Spring Boot** and **Maven** as a bu
 
 ### **1. Setup MySQL database for `movieticketreservation.jar`**
 
+Before you begin, ensure you have MySQL installed:
+1. You can install MySQL from the following link:
+  https://dev.mysql.com/downloads/installer/
+
+Once you have MySQL Server and MySQL Workbench, go over to your application.properties file. In this file there will be a section regarding MySQL database connection:
+
+```
+# MySQL Database Configuration (update the values to your MySQL instance)
+spring.datasource.url=jdbc:mysql://localhost:3306/acmeplex_db
+spring.datasource.username=root
+spring.datasource.password= your_password_here
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.jpa.database-platform=org.hibernate.dialect.MySQL8Dialect
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+hibernate.hbm2ddl.auto=update
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
+```
+
+In this section, change the spring.datasource.password from your_password_here to the password to your MySQL root.
+
+
 INSTRUCTIONS HERE. Should we have them create the schema, or provide instructions to import dump file?
 
 ### **2. Setup React user interface for `movieticketreservation.jar`**
@@ -139,6 +161,8 @@ git clone https://github.com/ensf-614-group11/AcmePlex.git
 ---
 
 ## Setup MySQL Database for development
+
+
 
 ---
 
