@@ -181,6 +181,7 @@ git clone https://github.com/ensf-614-group11/frontend.git
 2. **Naviagate to the project directory:**
 ```bash
 cd frontend
+cd acmeplex
 ```
 3. **Install Dependencies**
 Run the following command to install all required dependencies:
@@ -193,6 +194,11 @@ To start the application in development mode, run:
 ```bash
 npm run dev
 ```
+NOTE: If you receive the error:
+```bash
+Error: EPERM: operation not permitted, rmdir 'C:\Users\rhysw\OneDrive\Documents\UofC Masters\Fall\ENSF 614\Final Project\Test\frontend\frontend\AcmePlex\node_modules\.vite\deps'
+```
+Delete the 'deps' folder from the path shown.
 This will launch the application in your default browser at http://localhost:5173/
 
 If the browser does not open automatically, manually navigate to the above URL.
