@@ -42,7 +42,7 @@ Technical Requirements
 - Backend: Java Spring Boot 
 - Database: MySQL 
 
-#### Architecture
+### Architecture
 The system has a layered architecture, consisting of presentation layer, control layer, business layer, and data source layer. The Model View Controller (MVC) Architectural Design Pattern was also used in the system to separate the data management, user interface and application logic.
 The backend code in the system includes models for entities such as user, movie, notification, payment, receipt, seat, showtime, theatre, theatre room, credit, and ticket. These models specify the data that is included in the system or entered by the user and the business logic, or rules related to each of the data fields. 
 
