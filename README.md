@@ -28,9 +28,7 @@ Welcome to the AcmePlex Movie Ticket Reservation System! This project is a syste
 
 4. [Shutting Down the Application](#shutting-down-the-application)  
 
-5. [Maven Wrapper](#maven-wrapper)  
-
-6. [Troubleshooting](#troubleshooting)  
+5. [Troubleshooting](#troubleshooting)  
    - [Application Won't Start Due to Missing Database Configuration](#application-wont-start-due-to-missing-database-configuration)  
    - [Unable to Stop the Application](#unable-to-stop-the-application)  
 
@@ -282,11 +280,6 @@ mvn spring-boot:run
 To stop the application:
 - Press **Ctrl + C** in the terminal where it’s running.
   - If this does not work, refer to the **Troubleshooting** section.
-
-### Maven Wrapper
-**Maven** is a project management and build tool for Java applications. Maven handles dependencies, builds, and other project tasks through a central configuration file called `pom.xml`. This project uses Maven to manage dependencies like Spring Boot and database drivers, to compile code, run tests, and package the application into a deployable `.jar` file.
-
-The **Maven Wrapper** (`mvnw` and `mvnw.cmd` files) is included to simplify setup. Using the wrapper ensures consistency across different environments without requiring Maven to be installed globally. Commands like `./mvnw spring-boot:run` (macOS) or `mvnw.cmd spring-boot:run` (Windows) allow you to build and run the application without additional configuration.
 
 # Troubleshooting
 
