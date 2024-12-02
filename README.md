@@ -66,13 +66,13 @@ Unzip the file (Note: Unzipping may take some time, see instructions below to cl
 cd frontend
 cd acmeplex
 ```
-3. **Install Dependencies**
+3. **Install Dependencies**  
 Run the following command to install all required dependencies:
 ```bash
 npm install
 ```
 
-4. **Start the development server**
+4. **Start the development server**  
 To start the application in development mode, run:
 ```bash
 npm run dev
@@ -87,7 +87,7 @@ This will launch the application in your default browser at http://localhost:517
 
 If the browser does not open automatically, manually navigate to the above URL.
 
-5. **Verify React Router Functionality**
+5. **Verify React Router Functionality**  
 The application uses React Router for navigation. You should be able to navigate between the different pages. Ensure routing works seamlessly.
 
 ## Troubleshooting React Front-End
@@ -96,7 +96,7 @@ The application uses React Router for navigation. You should be able to navigate
      npm cache clean --force
      npm install
 ```
-2. **API Issues:**
+2. **API Issues:**  
 Ensure the backend API is running and accessible at at http://localhost:8080/.
 
 ### **3. Run `movieticketreservation.jar`**
