@@ -142,7 +142,7 @@ If the browser does not open automatically, manually navigate to the above URL.
 5. **Verify React Router Functionality**  
 The application uses React Router for navigation. You should be able to navigate between the different pages. Ensure routing works seamlessly.
 
-## Troubleshooting React Front-End
+### Troubleshooting React Front-End
 1. If you encounter an error, try clearing the cache and reinstalling dependencies:
 ```bash
      npm cache clean --force
