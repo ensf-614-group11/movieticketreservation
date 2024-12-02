@@ -1,4 +1,4 @@
-package com.acmeplex.movieticketreservation.services.strategy;
+package com.acmeplex.movieticketreservation.strategy;
 
 public interface RetrieveActivePaymentTypeStrategy<T> {
     T retrieve(Long userId);

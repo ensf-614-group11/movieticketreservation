@@ -4,15 +4,13 @@ import com.acmeplex.movieticketreservation.config.constants.Constants;
 import com.acmeplex.movieticketreservation.dto.request.BillingAddressRequest;
 import com.acmeplex.movieticketreservation.dto.request.PaymentTypeRequest;
 import com.acmeplex.movieticketreservation.services.exceptions.PaymentFailedException;
-import com.acmeplex.movieticketreservation.services.strategy.PaymentStrategy;
+import com.acmeplex.movieticketreservation.strategy.PaymentStrategy;
 import com.acmeplex.movieticketreservation.dto.request.RegisteredUserPaymentRequest;
 import com.acmeplex.movieticketreservation.dto.request.UnregisteredUserPaymentRequest;
 import com.acmeplex.movieticketreservation.dto.response.PaymentResponse;
 import com.acmeplex.movieticketreservation.factory.PaymentStrategyFactory;
 import com.acmeplex.movieticketreservation.model.*;
 import com.acmeplex.movieticketreservation.repository.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;

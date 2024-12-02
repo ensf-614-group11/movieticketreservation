@@ -1,9 +1,8 @@
-package com.acmeplex.movieticketreservation.services.strategy;
+package com.acmeplex.movieticketreservation.strategy;
 
 import com.acmeplex.movieticketreservation.config.constants.Constants;
 import com.acmeplex.movieticketreservation.controller.SendPaymentToThirdParty;
 import com.acmeplex.movieticketreservation.dto.request.*;
-import com.acmeplex.movieticketreservation.dto.response.ThirdPartyPaymentResponse;
 import com.acmeplex.movieticketreservation.model.AcmePlexUser;
 import com.acmeplex.movieticketreservation.model.Address;
 import com.acmeplex.movieticketreservation.model.CreditCard;
@@ -11,7 +10,6 @@ import com.acmeplex.movieticketreservation.model.PaymentType;
 import com.acmeplex.movieticketreservation.repository.CreditCardRepository;
 import com.acmeplex.movieticketreservation.repository.UserRepository;
 import com.acmeplex.movieticketreservation.services.PaymentTypeService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

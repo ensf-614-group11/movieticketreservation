@@ -1,4 +1,4 @@
-package com.acmeplex.movieticketreservation.services.strategy;
+package com.acmeplex.movieticketreservation.strategy;
 
 import com.acmeplex.movieticketreservation.dto.request.BillingAddressRequest;
 import com.acmeplex.movieticketreservation.dto.request.PaymentTypeRequest;

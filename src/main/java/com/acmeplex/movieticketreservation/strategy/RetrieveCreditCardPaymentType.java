@@ -1,4 +1,4 @@
-package com.acmeplex.movieticketreservation.services.strategy;
+package com.acmeplex.movieticketreservation.strategy;
 import com.acmeplex.movieticketreservation.model.CreditCard;
 import com.acmeplex.movieticketreservation.services.PaymentTypeService;
 import org.springframework.stereotype.Component;
