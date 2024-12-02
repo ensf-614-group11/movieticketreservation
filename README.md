@@ -1,7 +1,7 @@
 
 # AcmePlex Movie Ticket Reservation System
 
-Welcome to the AcmePlex Movie Ticket Reservation System! This project is a system to provide movie theater ticket reservations. The application allows users to search for movies, select theaters and showtimes, choose seats, and complete ticket purchases online.
+Welcome to the AcmePlex Movie Ticket Reservation System! This project is a system to provide movie theater ticket reservations. The application allows users to search for movies, select theaters and showtimes, choose seats, and complete ticket purchases.
 
 ## Table of Contents
 1. [Project Overview](#project-overview)
@@ -18,8 +18,39 @@ Welcome to the AcmePlex Movie Ticket Reservation System! This project is a syste
 
 ## Project Overview
 
-This system is developed in **Java** using **Spring Boot** and **Maven** as a build tool. The application is configured to run on **localhost:8080**. It includes basic authentication for secure access and an embedded server (Tomcat) to handle requests.
+### Requirements
+The AcmePlex movie theatre ticket reservation application incorporates the following functional, non-functional and technical requirements. 
 
+#### Functional Requirements
+- Ordinary users can navigate the application without creating an account. 
+- Ordinary users have the capability to search for movies, select a theatre, view available movies and showtimes, view available seats for a selected movie, select seats, make payments with credit card, and receive a copy of ticket and receipt via email. 
+- Registered users create an account by providing their name, address, and credit card information. 
+- Registered users can log in to their account with a username and password. 
+- Registered users must pay a $20.00 annual fee. 
+- Registered users receive news about upcoming movies before public announcements. 
+- 10% of the seats for new movies are available for registered users to reserve on a first come first serve basis before the public accountment is made. 
+- Both ordinary and registered users can cancel tickets up to 72 hours prior to the showtime. 
+- After cancelling tickets, ordinary users receive a credit for a future purchase worth 85% the value of the purchase (a 15% administration fee is applied) that is valid for 1 year. 
+- After cancelling tickets, registered users receive a credit for a future purchase worth 100% of the value of the purchase (no administration fee) that is valid for 1 year.
+  
+#### Non-Functional Requirements 
+- Scalability/Reliability/Maintainability: The system is designed with a layered architecture, enabling modularity and flexibility. Design patterns are implemented for scalability of the application. 
+- Usability: The application user interface is intuitive and responsive. 
+- Security: The system includes authentication for secure access to user data. 
+Technical Requirements
+- Frontend: React framework 
+- Backend: Java Spring Boot 
+- Database: MySQL 
+
+#### Architecture
+The system has a layered architecture, consisting of presentation layer, control layer, business layer, and data source layer. The Model View Controller (MVC) Architectural Design Pattern was also used in the system to separate the data management, user interface and application logic.
+The backend code in the system includes models for entities such as user, movie, notification, payment, receipt, seat, showtime, theatre, theatre room, credit, and ticket. These models specify the data that is included in the system or entered by the user and the business logic, or rules related to each of the data fields. 
+
+The view elements consist of the components/pages included in the frontend code. These specify how the data is displayed to the user. Examples of the views include the home page, login/register page, showtimes page, available seats page, payment page, confirmation page, cancel tickets page, and the profile page. 
+
+The controller elements are part of the backend code, and they manage inputs from the user and update the models and the views based on these inputs. The system includes controllers for user profile authentication, user profile management, making a payment, browsing/selecting movies and seats, cancelling tickets, and validating a credit. Each controller includes logic to deal with the relevant operations for the system, which include creating, reading, updating, or deleting objects of the model classes. The backend code also includes API routes, which provide the system connection to allow information to flow between the controller and the view.
+
+The MVC design pattern results in modularity and allows each element to be modified independently of the other elements in the system. This enhances the maintainability and scalability of the system.
 ---
 
 ## **Instructions for running `movieticketreservation.jar`**
