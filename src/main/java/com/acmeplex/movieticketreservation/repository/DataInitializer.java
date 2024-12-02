@@ -32,12 +32,12 @@ public class DataInitializer {
     private final PasswordEncoder passwordEncoder;
 
     public DataInitializer(MovieRepository movieRepository, AcmePlexCreditRepository creditRepository,
-                           UserRepository userRepository, NotificationRepository notificationRepository,
-                           PaymentRepository paymentRepository, ReceiptRepository receiptRepository,
-                           SeatRepository seatRepository, SeatAvailabilityRepository seatAvailabilityRepository,
-                           ShowtimeRepository showtimeRepository, TheatreRepository theatreRepository,
-                           TheatreRoomRepository theatreRoomRepository, TicketRepository ticketRepository,
-                           PasswordEncoder passwordEncoder) {
+            UserRepository userRepository, NotificationRepository notificationRepository,
+            PaymentRepository paymentRepository, ReceiptRepository receiptRepository,
+            SeatRepository seatRepository, SeatAvailabilityRepository seatAvailabilityRepository,
+            ShowtimeRepository showtimeRepository, TheatreRepository theatreRepository,
+            TheatreRoomRepository theatreRoomRepository, TicketRepository ticketRepository,
+            PasswordEncoder passwordEncoder) {
         this.movieRepository = movieRepository;
         this.creditRepository = creditRepository;
         this.userRepository = userRepository;
@@ -62,7 +62,7 @@ public class DataInitializer {
             initializeTheatresAndSeats();
             initializeShowtimes();
             initializeSeatAvailabilities();
-            //initializeTicketsPaymentsAndReceipts();
+            // initializeTicketsPaymentsAndReceipts();
         } catch (Exception e) {
             logger.error("Error occurred while initializing the database: {}", e.getMessage(), e);
         }
@@ -79,24 +79,24 @@ public class DataInitializer {
                 "New York",
                 "NY",
                 "10001",
-                "US"
-        );
+                "US");
 
         Address address2 = new Address(
                 "456 Maple Avenue",
                 "Toronto",
                 "ON",
                 "M4B 1B3",
-                "CA"
-        );
+                "CA");
 
         // Create users
-        AcmePlexUser user1 = new AcmePlexUser("admin@example.com", passwordEncoder.encode("admin123"), "Admin", "User", CountryCode.US);
+        AcmePlexUser user1 = new AcmePlexUser("admin@example.com", passwordEncoder.encode("admin123"), "Admin", "User",
+                CountryCode.US);
         user1.setMembership(membership1);
         user1.setSavedBillingAddress(address1); // Associate billing address
         membership1.setAcmePlexUser(user1);
 
-        AcmePlexUser user2 = new AcmePlexUser("user@example.com", passwordEncoder.encode("user123"), "Regular", "User", CountryCode.CA);
+        AcmePlexUser user2 = new AcmePlexUser("user@example.com", passwordEncoder.encode("user123"), "Regular", "User",
+                CountryCode.CA);
         user2.setMembership(membership2);
         user2.setSavedBillingAddress(address2); // Associate billing address
         membership2.setAcmePlexUser(user2);
@@ -105,7 +105,6 @@ public class DataInitializer {
         userRepository.saveAll(List.of(user1, user2));
         logger.info("Users, memberships, and billing addresses have been initialized.");
     }
-
 
     private void initializePaymentTypes() {
         List<AcmePlexUser> users = userRepository.findAll();
@@ -132,11 +131,48 @@ public class DataInitializer {
 
     private void initializeMovies() {
         Movie avengers = new Movie("Avengers", 138, Date.valueOf("2012-04-25"), "Tony Stark woops butt.");
-        Movie ultron = new Movie("Avengers: Age of Ultron", 150, Date.valueOf("2015-04-23"), "Ultron and Vision duke it out.");
-        Movie infinityWar = new Movie("Avengers: Infinity War", 180, Date.valueOf("2018-04-27"), "Thanos' Guide to the Galaxy.");
+        Movie ultron = new Movie("Avengers: Age of Ultron", 150, Date.valueOf("2015-04-23"),
+                "Ultron and Vision duke it out.");
+        Movie infinityWar = new Movie("Avengers: Infinity War", 180, Date.valueOf("2018-04-27"),
+                "Thanos' Guide to the Galaxy.");
         Movie endgame = new Movie("Avengers: Endgame", 192, Date.valueOf("2019-04-26"), "Time Travelies.");
+        Movie ironMan = new Movie("Iron Man", 126, Date.valueOf("2008-05-02"),
+                "Tony Stark builds the first Iron Man suit.");
+        Movie ironMan2 = new Movie("Iron Man 2", 124, Date.valueOf("2010-05-07"),
+                "Tony faces Whiplash and builds a new core.");
+        Movie thor = new Movie("Thor", 115, Date.valueOf("2011-05-06"), "The God of Thunder learns humility.");
+        Movie captainAmerica = new Movie("Captain America: The First Avenger", 124, Date.valueOf("2011-07-22"),
+                "Steve Rogers becomes Captain America.");
+        Movie guardians = new Movie("Guardians of the Galaxy", 121, Date.valueOf("2014-08-01"),
+                "A group of misfits save the galaxy.");
+        Movie guardians2 = new Movie("Guardians of the Galaxy Vol. 2", 136, Date.valueOf("2017-05-05"),
+                "Star-Lord finds his father.");
+        Movie blackPanther = new Movie("Black Panther", 134, Date.valueOf("2018-02-16"),
+                "T'Challa returns to Wakanda as king.");
+        Movie doctorStrange = new Movie("Doctor Strange", 115, Date.valueOf("2016-11-04"),
+                "A surgeon learns the mystic arts.");
+        Movie antMan = new Movie("Ant-Man", 117, Date.valueOf("2015-07-17"), "Scott Lang dons the Ant-Man suit.");
+        Movie antManAndWasp = new Movie("Ant-Man and the Wasp", 118, Date.valueOf("2018-07-06"),
+                "Scott teams up with Hope.");
+        Movie captainMarvel = new Movie("Captain Marvel", 123, Date.valueOf("2019-03-08"),
+                "Carol Danvers discovers her powers.");
+        Movie spiderManHomecoming = new Movie("Spider-Man: Homecoming", 133, Date.valueOf("2017-07-07"),
+                "Peter Parker balances life and heroism.");
+        Movie spiderManFarFromHome = new Movie("Spider-Man: Far From Home", 129, Date.valueOf("2019-07-02"),
+                "Peter faces Mysterio in Europe.");
+        Movie shangChi = new Movie("Shang-Chi and the Legend of the Ten Rings", 132, Date.valueOf("2021-09-03"),
+                "Shang-Chi confronts his past.");
+        Movie eternals = new Movie("Eternals", 157, Date.valueOf("2021-11-05"),
+                "Immortals protect Earth over millennia.");
 
-        movieRepository.saveAll(List.of(avengers, ultron, infinityWar, endgame));
+        movieRepository.saveAll(List.of(
+                avengers, ultron, infinityWar, endgame,
+                ironMan, ironMan2, thor, captainAmerica,
+                guardians, guardians2, blackPanther, doctorStrange,
+                antMan, antManAndWasp, captainMarvel,
+                spiderManHomecoming, spiderManFarFromHome,
+                shangChi, eternals));
+
         logger.info("Movies have been initialized.");
     }
 
@@ -144,20 +180,24 @@ public class DataInitializer {
         Theatre crowfootTheatre = new Theatre("Crowfoot Theatre", "800 Crowfoot Street SE Edmonton AB");
         theatreRepository.save(crowfootTheatre);
 
-        TheatreRoom room1 = new TheatreRoom(108, crowfootTheatre);
-        TheatreRoom room2 = new TheatreRoom(150, crowfootTheatre);
+        TheatreRoom room1 = new TheatreRoom(80, crowfootTheatre);
+        TheatreRoom room2 = new TheatreRoom(80, crowfootTheatre);
 
         theatreRoomRepository.saveAll(List.of(room1, room2));
 
-        for (int i = 1; i <= 108; i++) {
-            Seat seat = new Seat(i / 12 + 1, i % 12 == 0 ? 12 : i % 12, room1);
+        // Initialize Seats for Theatre Rooms
+        for (int i = 1; i <= 80; i++) {
+            int row = (i - 1) / 8 + 1;
+            int column = (i - 1) % 8 + 1;
+            Seat seat = new Seat(row, column, room1);
             seatRepository.save(seat);
         }
-        for (int i = 1; i <= 150; i++) {
-            Seat seat = new Seat(i / 15 + 1, i % 15 == 0 ? 15 : i % 15, room2);
+        for (int i = 1; i <= 80; i++) {
+            int row = (i - 1) / 8 + 1;
+            int column = (i - 1) % 8 + 1;
+            Seat seat = new Seat(row, column, room2);
             seatRepository.save(seat);
         }
-
         logger.info("Theatres, rooms, and seats have been initialized.");
     }
 
@@ -165,10 +205,19 @@ public class DataInitializer {
         List<Movie> movies = movieRepository.findAll();
         List<TheatreRoom> rooms = theatreRoomRepository.findAll();
 
-        Showtime showtime1 = new Showtime(LocalDateTime.of(2024, 11, 26, 11, 30), false, rooms.get(0), movies.get(0));
-        Showtime showtime2 = new Showtime(LocalDateTime.of(2024, 12, 1, 14, 0), true, rooms.get(1), movies.get(1));
+        Showtime showtime1 = new Showtime(LocalDateTime.of(2024, 12, 2, 11, 30), false, rooms.get(0), movies.get(0));
+        Showtime showtime2 = new Showtime(LocalDateTime.of(2024, 12, 3, 14, 0), true, rooms.get(1), movies.get(1));
+        Showtime showtime3 = new Showtime(LocalDateTime.of(2024, 12, 4, 16, 30), false, rooms.get(0), movies.get(0));
+        Showtime showtime4 = new Showtime(LocalDateTime.of(2024, 12, 4, 11, 0), true, rooms.get(1), movies.get(3));
+        Showtime showtime5 = new Showtime(LocalDateTime.of(2024, 12, 5, 18, 15), false, rooms.get(0), movies.get(2));
+        Showtime showtime6 = new Showtime(LocalDateTime.of(2024, 12, 6, 17, 30), true, rooms.get(1), movies.get(1));
+        Showtime showtime7 = new Showtime(LocalDateTime.of(2024, 12, 7, 12, 0), false, rooms.get(0), movies.get(3));
+        Showtime showtime8 = new Showtime(LocalDateTime.of(2024, 12, 5, 14, 0), false, rooms.get(1), movies.get(2));
+        Showtime showtime9 = new Showtime(LocalDateTime.of(2024, 12, 6, 14, 30), false, rooms.get(0), movies.get(0));
+        Showtime showtime10 = new Showtime(LocalDateTime.of(2024, 12, 7, 18, 30), false, rooms.get(1), movies.get(1));
 
-        showtimeRepository.saveAll(List.of(showtime1, showtime2));
+        showtimeRepository.saveAll(List.of(showtime1, showtime2, showtime3, showtime4, showtime5, showtime6, showtime7,
+                showtime8, showtime9, showtime10));
         logger.info("Showtimes have been initialized.");
     }
 
@@ -177,14 +226,23 @@ public class DataInitializer {
 
         for (Showtime showtime : showtimes) {
             List<Seat> seats = seatRepository.findByTheatreRoom(showtime.getTheatreRoom());
+            int seatCounter = 0;
             for (Seat seat : seats) {
                 SeatAvailability seatAvailability = new SeatAvailability();
-                seatAvailability.setAvailable(true);
+                if (showtime.getId() >= 5) {
+                    seatAvailability.setAvailable(!(seatCounter >= 70));
+                } else {
+                    seatAvailability.setAvailable(true);
+                }
+                // seatAvailability.setAvailable(!(seatCounter >= 70));
                 seatAvailability.setShowtime(showtime);
                 seatAvailability.setSeat(seat);
                 seatAvailabilityRepository.save(seatAvailability);
+                seatCounter++;
             }
+
         }
+
         logger.info("Seat availabilities have been initialized.");
     }
 

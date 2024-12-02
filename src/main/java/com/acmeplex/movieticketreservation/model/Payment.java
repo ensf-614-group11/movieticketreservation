@@ -16,7 +16,7 @@ public class Payment {
     private Long id;
     private float amount;
     private Date datePaid;
-    private String status;
+    private String status; // "pending", "failed", or "completed"
     private String method;
 
     @OneToOne
