@@ -4,15 +4,33 @@
 Welcome to the AcmePlex Movie Ticket Reservation System! This project is a system to provide movie theater ticket reservations. The application allows users to search for movies, select theaters and showtimes, choose seats, and complete ticket purchases.
 
 ## Table of Contents
-1. [Project Overview](#project-overview)
-2. [Prerequisites](#prerequisites)
-3. [Setup Instructions](#setup-instructions)
-   - [Windows](#setup-on-windows)
-   - [macOS](#setup-on-macos)
-4. [Starting the Application](#starting-the-application)
-5. [Shutting Down the Application](#shutting-down-the-application)
-6. [Introduction to Spring and Maven](#introduction-to-spring-and-maven)
-7. [Troubleshooting](#troubleshooting)
+
+1. [Project Overview](#project-overview)  
+   - [Requirements](#requirements)  
+     - [Functional Requirements](#functional-requirements)  
+     - [Non-Functional Requirements](#non-functional-requirements)  
+   - [Architecture](#architecture)  
+
+2. [Instructions for Running `movieticketreservation.jar`](#instructions-for-running-movieticketreservationjar)  
+   - [System Requirements](#system-requirements)  
+   - [Setup MySQL Database for `movieticketreservation.jar`](#setup-mysql-database-for-movieticketreservationjar)  
+   - [Setup React User Interface for `movieticketreservation.jar`](#setup-react-user-interface-for-movieticketreservationjar)  
+   - [Run `movieticketreservation.jar`](#run-movieticketreservationjar)  
+
+3. [Instructions for Setting Up a Development Environment for GitHub Repository](#instructions-for-setting-up-a-development-environment-for-github-repository)  
+   - [System Requirements](#system-requirements)  
+   - [Clone the Repository](#clone-the-repository)  
+   - [Setup MySQL Database for Development](#setup-mysql-database-for-development)  
+   - [Setup React Front-End](#setup-react-front-end)  
+   - [Setup Maven Project](#setup-maven-project)  
+
+4. [Shutting Down the Application](#shutting-down-the-application)  
+
+5. [Maven Wrapper](#maven-wrapper)  
+
+6. [Troubleshooting](#troubleshooting)  
+   - [Application Won't Start Due to Missing Database Configuration](#application-wont-start-due-to-missing-database-configuration)  
+   - [Unable to Stop the Application](#unable-to-stop-the-application)  
 
 ---
 
