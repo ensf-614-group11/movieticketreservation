@@ -3,6 +3,8 @@
 
 Welcome to the AcmePlex Movie Ticket Reservation System! This project is a system to provide movie theater ticket reservations. The application allows users to search for movies, select theaters and showtimes, choose seats, and complete ticket purchases.
 
+---
+
 ## Table of Contents
 
 1. [Project Overview](#project-overview)  
@@ -72,7 +74,7 @@ The MVC design pattern results in modularity and allows each element to be modif
 
 ---
 
-## **Instructions for running `movieticketreservation.jar`**
+# **Instructions for running `movieticketreservation.jar`**
 
 ### System requirements:
 - **Java Development Kit (JDK) 21**: [Install JDK 21](https://www.oracle.com/java/technologies/javase/jdk21-archive-downloads.html)
@@ -168,7 +170,7 @@ java -jar movieticketreservation.jar
 
 ---
 
-## **Instructions for setting up a development environment for Github repository**
+# **Instructions for setting up a development environment for Github repository**
 
 ### **System Requirements**
 The following requirements **must** be installed and configured on your system.
