@@ -62,7 +62,7 @@ CREATE DATABASE acmeplex_db;
 
 4. Once this is complete, running the springboot application should automatically create tables in your MySQL acmeplex_db database. The DataInitializer java class will also populate the database with initial entries for movie/theatres/showtimes/etc.
 
-5. Alternatively, you can initiate the database with the SQL dump file that has been submitted. If you would prefer to do it this way, skip steps 3 and 4 and just run the SQL dump file in MySQL.
+5. Alternatively, an SQL dump file has been included in the submission that will be able to populate the database by running it in MySQL.
 
 
 ### **2. Setup React user interface for `movieticketreservation.jar`**
@@ -169,7 +169,26 @@ git clone https://github.com/ensf-614-group11/AcmePlex.git
 
 ## Setup MySQL Database for development
 
+Before you begin, ensure you have MySQL installed:
+1. You can install MySQL from the following link:
+  https://dev.mysql.com/downloads/installer/
 
+2. Once you have MySQL Server and MySQL Workbench, go over to your application.properties file. In this file there will be a section regarding MySQL database connection that looks like the below:
+
+```
+# MySQL Database Configuration (update the values to your MySQL instance)
+spring.datasource.url=jdbc:mysql://localhost:3306/acmeplex_db
+spring.datasource.username=root
+spring.datasource.password= your_password_here
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.jpa.database-platform=org.hibernate.dialect.MySQL8Dialect
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+hibernate.hbm2ddl.auto=update
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
+```
+
+In this section, change the spring.datasource.password to the password to your MySQL local instance.
 
 ---
 
