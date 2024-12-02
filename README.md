@@ -84,11 +84,11 @@ The MVC design pattern results in modularity and allows each element to be modif
 - **MySQL Community Server 9.1.0 Innovation**: [Install MySQL Server](https://dev.mysql.com/downloads/mysql/8.0.html)
 - **MySQL Workbench**: [MySQL Workbench](https://www.mysql.com/products/workbench/)
 
-### **1. Setup MySQL database for `movieticketreservation.jar`**
+## **1. Setup MySQL database for `movieticketreservation.jar`**
 
 INSTRUCTIONS HERE. Should we have them create the schema, or provide instructions to import dump file?
 
-### **2. Setup React user interface for `movieticketreservation.jar`**
+## **2. Setup React user interface for `movieticketreservation.jar`**
 
 Before you begin, verify that you have the correct version of Node.js installed.
 - Verify installation by running the following commands in your terminal:
@@ -130,7 +130,7 @@ If the browser does not open automatically, manually navigate to the above URL.
 5. **Verify React Router Functionality**  
 The application uses React Router for navigation. You should be able to navigate between the different pages. Ensure routing works seamlessly.
 
-#### Troubleshooting React Front-End
+### Troubleshooting React Front-End
 - If you encounter an error, try clearing the cache and reinstalling dependencies:
 ```bash
      npm cache clean --force
@@ -139,7 +139,7 @@ The application uses React Router for navigation. You should be able to navigate
 2. **API Issues:**  
 Ensure the backend API is running and accessible at at http://localhost:8080/.
 
-### **3. Run `movieticketreservation.jar`**
+## **3. Run `movieticketreservation.jar`**
 
 Before running the `.jar`: 
 - Confirm that you have JDK21 installed and configured properly. 
